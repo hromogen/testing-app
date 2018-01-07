@@ -1,0 +1,29 @@
+const VIDEO_REGISTER = [{
+    videoSrc:'assets/video-slider/video-slider__videos/Molecular-Biology-Review-Video.mp4' 
+    ,avatarSrc:'assets/video-slider/video-slider__images/01-Main-molecule--avatar.png'
+    ,name:'Molecular-Biology-Review-Video.mp4'
+},{
+    videoSrc:'assets/video-slider/video-slider__videos/Molecular-Biology-Review-Video.mp4' 
+    ,avatarSrc:'assets/video-slider/video-slider__images/02-DNA-structure--avatar.png'
+    ,name:'Molecular-Biology-Review-Video.mp4'
+},{
+    videoSrc:'assets/video-slider/video-slider__videos/Molecular-Biology-Review-Video.mp4' 
+    ,avatarSrc:'assets/video-slider/video-slider__images/03-Mankind-origin--avatar.png'
+    ,name:'Molecular-Biology-Review-Video.mp4'
+},{
+    videoSrc:'assets/video-slider/video-slider__videos/Molecular-Biology-Review-Video.mp4' 
+    ,avatarSrc:'assets/video-slider/video-slider__images/04-Place-in-classificarion--avatar.png'
+    ,name:'Molecular-Biology-Review-Video.mp4'
+},{
+    videoSrc:'assets/video-slider/video-slider__videos/Molecular-Biology-Review-Video.mp4' 
+    ,avatarSrc:'assets/video-slider/video-slider__images/05-Galaxies--avatar.png'
+    ,name:'Molecular-Biology-Review-Video.mp4'
+},{
+    videoSrc:'assets/video-slider/video-slider__videos/Molecular-Biology-Review-Video.mp4' 
+    ,avatarSrc:'assets/video-slider/video-slider__images/06-Stars--avatar.png'
+    ,name:'Molecular-Biology-Review-Video.mp4'
+},{
+    videoSrc:'assets/video-slider/video-slider__videos/Molecular-Biology-Review-Video.mp4' 
+    ,avatarSrc:'assets/video-slider/video-slider__images/07-Earth-birth--avatar.png'
+    ,name:'Molecular-Biology-Review-Video.mp4'
+}]

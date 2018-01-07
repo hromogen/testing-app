@@ -1,0 +1,43 @@
+<form action="" class="upload-setup-form">
+    <fieldset class="upload-setup-form__topics">
+    <legend class="upload-setup-form__legend">Назва </legend>
+        <input type="text" name="upload-testing-name" 
+        placeholder="Назва тестування (не обов’язково)">
+    </fieldset> 
+    <fieldset class="upload-setup-form__topics">
+        <legend class="upload-setup-form__legend">Складність</legend>
+        <select name="difficulty" id="upload-setup-form__difficulty">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </fieldset>  
+    <fieldset class="upload-setup-form__topics">
+        <legend class="upload-setup-form__legend">Тематики </legend>
+        <input  name="topics" type="checkbox" id="topic0" value=0>
+        <label for="topic0">Біологія</label>
+        <input  name="topics" type="checkbox" id="topic1" value=1>
+        <label for="topic1">Географія</label>
+        <input  name="topics" type="checkbox" id="topic2" value=2>
+        <label for="topic2">Інформатика</label>
+        <input  name="topics" type="checkbox" id="topic3" value=3>
+        <label for="topic3">Історія</label>
+        <input  name="topics" type="checkbox" id="topic4" value=4>
+        <label for="topic4">Математика</label>
+        <input  name="topics" type="checkbox" id="topic5" value=5>
+        <label for="topic5">Хімія</label>
+    </fieldset>
+    <fieldset class="filter-option-form__size">
+        <legend>Кількість питань</legend>
+        <select name="size" id="upload-setup-form__size">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+        </select>
+    </fieldset>
+      <input type="submit" class="upload-setup-form__submit" 
+      name="submit" value="Почати створення тестування">
+</form>

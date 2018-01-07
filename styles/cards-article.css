@@ -1,0 +1,29 @@
+.cards-section__cards{
+    flex-basis: auto;
+    background-color: rgb(238, 221, 144);
+    padding: 20px;
+    flex-wrap: wrap;
+    height: 80%;
+    overflow: hidden;
+}
+.cards-article__card{
+    border: 1px double  rgb(72, 119, 103);
+    background-color:  rgb(30, 235, 166);
+    width: 300px;
+    height: 100px;
+    border-radius: 5px;
+    margin: 30px;
+    background-color: rgb(182, 224, 134);
+}
+.card-info{
+    display: inline-block;
+    border: 1px solid white;
+    border-radius: 3px;
+    background-color: rgb(134, 224, 209);
+    margin: 2px 4px;
+}
+
+.cards-article__card--filtered,
+.on-other-page{
+    display: none;
+}

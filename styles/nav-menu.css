@@ -1,0 +1,49 @@
+.nav-menu,
+.nav-menu__submenu{
+    list-style-type: none;
+}
+
+.nav-menu__item{
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    z-index: 2;
+    padding: 0px;
+    position: relative;
+}
+.menu__button{
+    color: white;
+    width: 100%;
+    padding: 2px 10px;
+    background-color: rgb(108, 107, 133);
+    border-top: 1px solid rgb(69, 66, 146);
+    border-bottom: 1px solid rgb(69, 66, 146);
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    user-select: none;
+}
+.submenu__link{
+    color: white;
+    width: 100%;
+    padding: 2px 10px;
+    background-color: rgb(189, 202, 221);
+    border-top: 1px solid rgb(69, 66, 146);
+    border-bottom: 1px solid rgb(69, 66, 146);
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    user-select: none;
+}
+.nav-menu__submenu{
+    position: absolute;
+    padding: 0px;
+    top: 30px;
+    width:100%;
+    z-index: 1;
+    list-style-type: none;
+    background-color: azure;
+    display: none;
+}
+.nav-menu__submenu--open{
+    display: block;
+}

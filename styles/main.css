@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+
+.flexbox{
+    display: flex;
+    flex-basis: auto;
+}
+
+.view{
+    display: none
+}
+.view--active{
+    display: flex;
+}
+.header{
+    width: 100%;
+    height: 60px;
+    background-color: rgb(200,200,200);
+}

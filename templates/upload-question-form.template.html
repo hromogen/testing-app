@@ -1,0 +1,26 @@
+<form class="upload-form">
+    <formfield class="upload-form__formfield">
+        <legend class="upload-form__legend"> 
+            Введіть, будь ласка, питання
+        </legend>
+        <input type="text" name="option" class="upload-form__question"
+         placeholder="Текст питання" required>
+        <legend class="upload-form__legend"> 
+            Варіанти відповіді
+        </legend>
+        <input type="text" name="upload-form__option" class="upload-form__option" 
+        placeholder="Опція 1" required>
+        <input type="text" name="upload-form__option" class="upload-form__option"
+        placeholder="Опція 2" required>
+        <input type="text" name="upload-form__option" class="upload-form__option"
+        placeholder="Опція 3" required>
+        <input type="text" name="upload-form__option" class="testing-form__option"
+        placeholder="Опція 4" required>
+        <legend class="upload-form__legend"> 
+            Номер правильної відповіді
+        </legend>
+        <input type="number" name="correct-answer-num" class="upload-form__correct-answer"
+        min="1" max="4" required>
+    </formfield>   
+    <input type="submit" class="upload-form__submit" value="Submit">
+</form>

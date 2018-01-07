@@ -1,0 +1,15 @@
+.cards-section__controllers{
+    flex-basis: auto;
+    width: 300px;
+    height: 80%;
+    margin-right: 5px;
+    border: 1px solid rgb(185, 218, 209);
+    background-color: rgb(101, 112, 145);
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.controller-form{
+    width: 400px;
+    margin: 5px 5px 10px 5px;
+}

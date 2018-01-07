@@ -1,0 +1,37 @@
+<form action="" class="filter-form controller-form">
+  <fieldset class="filter-option-form__difficulty invisible-on-erudith">
+      <legend>складність питань </legend>
+      <label for="difficultyFrom">від</label>
+      <input type="number" name="difficulty" id="difficultyFrom" max="5" min="1" placeholder="1">
+      <label for="difficultyTo">до</label>
+      <input type="number" name="difficulty" id="difficultyTo" max="5" min="1" placeholder="5">
+    </fieldset>
+    <fieldset class="filter-option-form__topics">
+      <legend>тематики </legend>
+        <input  name="topics" type="checkbox" id="topic0" value=0>
+        <label for="topic0">Біологія</label>
+        <input  name="topics" type="checkbox" id="topic1" value=1>
+        <label for="topic1">Географія</label>
+        <input  name="topics" type="checkbox" id="topic2" value=2>
+        <label for="topic2">Інформатика</label>
+        <input  name="topics" type="checkbox" id="topic3" value=3>
+        <label for="topic3">Історія</label>
+        <input  name="topics" type="checkbox" id="topic4" value=4>
+        <label for="topic4">Математика</label>
+        <input  name="topics" type="checkbox" id="topic5" value=5>
+        <label for="topic5">Хімія</label>
+    </fieldset>
+    <fieldset class="filter-option-form__size">
+        <legend>кількість питань</legend>
+        <input  name="size" type="checkbox" class="invisible-on-quiz" id="size_5" value=5>
+        <label for="size_5">5</label>
+        <input  name="size" type="checkbox" id="size_10" value=10>
+        <label for="size_10">10</label>
+        <input  name="size" type="checkbox" id="size_15" value=15>
+        <label for="size_15">15</label>
+        <input  name="size" type="checkbox" class="invisible-on-erudith" id="size_20" value=20>
+        <label for="size_20">20</label>
+        
+    </fieldset>
+    <input type="submit" class="options-form__submit" name="submit" value="Фільтрувати">
+</form>

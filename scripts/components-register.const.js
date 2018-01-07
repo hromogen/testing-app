@@ -24,13 +24,13 @@ const COMPONENTS_REGISTER = {
         ,templateUri: './templates/sorter-form.template.html'
     }
     ,quizCardsArticle: {
-        sSelector: '.cards__cards--quiz'   
+        sSelector: '.cards__quiz'   
         ,templateUri: './templates/testing-card.template.html' 
         ,attachedDataUri:'./assets/mock-server/quiz-cards-register.json'
         ,modeName:'quiz'
     }
     ,erudithCardsArticle:{
-        sSelector: '.cards__cards--erudith'   
+        sSelector: '.cards__erudith'   
         ,templateUri: './templates/testing-card.template.html' 
         ,attachedDataUri:'./assets/mock-server/erudith-cards-register.json'
         ,modeName:'erudith'
