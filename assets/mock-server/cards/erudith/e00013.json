@@ -1,0 +1,19 @@
+{
+    "id": "e00013"
+    ,"raiting": 1
+    ,"topics":[2]
+    ,"statistics": {
+        "performings": 0
+        ,"log":[]
+        ,"success-rate": 1
+        ,"most-answered-question": 0
+        ,"list-answered-question": 0
+    }
+    ,"questions_uris":[
+        "assets/mock-server/questions/q3-1-0006.json"
+        ,"assets/mock-server/questions/q3-2-0006.json"
+        ,"assets/mock-server/questions/q3-3-0006.json"
+        ,"assets/mock-server/questions/q3-4-0006.json"
+        ,"assets/mock-server/questions/q3-5-0006.json"
+    ]
+}

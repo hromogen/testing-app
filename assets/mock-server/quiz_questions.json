@@ -1,0 +1,155 @@
+[
+    {
+        "question":"The Earth' radius is..."
+        , "options":
+        [ "the distance from the outer side of the disc to it's center"
+         , "about 3959 mi"
+         , "about 6371 mi"
+         , "about 3968 mi"
+        ], "correct": 1
+    }
+    ,{
+        "question":"The largest star in known Universe is called..."
+        , "options": 
+        [ "UY Scuti"
+        , "Sun"
+        , "RW Cephei"
+        , "Betelgeuse"
+        ], "correct": 0
+    }
+    ,{
+        "question":"The second stage of the Meiosis Prophase is called..."
+        , "options": 
+        [ "Zygotene"
+        , "Metaphase"
+        , "Pachytene"
+        , "Gastrulation"
+        ], "correct": 0
+    }
+    ,{ "question":"According to 'Netcraft February 2017 Web Server Survey' the most popular server is..."
+        , "options": 
+        [ "Apache"
+        , "nginx"
+        , "GWM"
+        , "Internet Information Services"
+        ], "correct": 3 
+       }
+       ,{ "question":"The first Emperor of China was of the dynasty..."
+        , "options": 
+        [ "Han"
+        , "Ming"
+        , "Qin"
+        , "Jin"
+        ], "correct": 2 
+       }
+    ,{ "question":"The author of the 'Waiting for Godot' poem is..."
+        , "options": 
+        ["William Shakespeare"
+        ,"Eugen Ionescu"
+        ,"Samuel Beckett"
+        ,"Tom Stoppard"
+        ], "correct": 2 
+       }
+    ,    {
+        "question":"The Earth' radius is..."
+        , "options":
+        [ "the distance from the outer side of the disc to it's center"
+         , "about 3959 mi"
+         , "about 6371 mi"
+         , "about 3968 mi"
+        ], "correct": 1
+    }
+    ,{
+        "question":"The largest star in known Universe is called..."
+        , "options": 
+        [ "UY Scuti"
+        , "Sun"
+        , "RW Cephei"
+        , "Betelgeuse"
+        ], "correct": 0
+    }
+    ,{
+        "question":"The second stage of the Meiosis Prophase is called..."
+        , "options": 
+        [ "Zygotene"
+        , "Metaphase"
+        , "Pachytene"
+        , "Gastrulation"
+        ], "correct": 0
+    }
+    ,{ "question":"According to 'Netcraft February 2017 Web Server Survey' the most popular server is..."
+        , "options": 
+        [ "Apache"
+        , "nginx"
+        , "GWM"
+        , "Internet Information Services"
+        ], "correct": 3 
+       }
+       ,{ "question":"The first Emperor of China was of the dynasty..."
+        , "options": 
+        [ "Han"
+        , "Ming"
+        , "Qin"
+        , "Jin"
+        ], "correct": 2 
+       }
+    ,{ "question":"The author of the 'Waiting for Godot' poem is..."
+        , "options": 
+        ["William Shakespeare"
+        ,"Eugen Ionescu"
+        ,"Samuel Beckett"
+        ,"Tom Stoppard"
+        ], "correct": 2 
+       }
+    ,   {
+        "question":"The Earth' radius is..."
+        , "options":
+        [ "the distance from the outer side of the disc to it's center"
+         , "about 3959 mi"
+         , "about 6371 mi"
+         , "about 3968 mi"
+        ], "correct": 1
+    }
+    ,{
+        "question":"The largest star in known Universe is called..."
+        , "options": 
+        [ "UY Scuti"
+        , "Sun"
+        , "RW Cephei"
+        , "Betelgeuse"
+        ], "correct": 0
+    }
+    ,{
+        "question":"The second stage of the Meiosis Prophase is called..."
+        , "options": 
+        [ "Zygotene"
+        , "Metaphase"
+        , "Pachytene"
+        , "Gastrulation"
+        ], "correct": 0
+    }
+    ,{ "question":"According to 'Netcraft February 2017 Web Server Survey' the most popular server is..."
+        , "options": 
+        [ "Apache"
+        , "nginx"
+        , "GWM"
+        , "Internet Information Services"
+        ], "correct": 3 
+       }
+       ,{ "question":"The first Emperor of China was of the dynasty..."
+        , "options": 
+        [ "Han"
+        , "Ming"
+        , "Qin"
+        , "Jin"
+        ], "correct": 2 
+       }
+    ,{ "question":"The author of the 'Waiting for Godot' poem is..."
+        , "options": 
+        ["William Shakespeare"
+        ,"Eugen Ionescu"
+        ,"Samuel Beckett"
+        ,"Tom Stoppard"
+        ], "correct": 2 
+       }
+     ]

@@ -1,0 +1,9 @@
+{
+        "question":"The Earth' radius is..."
+        , "options":
+        [ "the distance from the outer side of the disc to it's center"
+         , "about 3959 mi"
+         , "about 6371 mi"
+         , "about 3968 mi"
+        ], "correct": 1
+}

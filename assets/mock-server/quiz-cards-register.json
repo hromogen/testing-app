@@ -1,0 +1,32 @@
+[
+    {"id":"q00001", "uri":"./assets/mock-server/cards/quiz/q00001.json"}
+    ,{"id":"q00002", "uri":"./assets/mock-server/cards/quiz/q00002.json"}
+    ,{"id":"q00003", "uri":"./assets/mock-server/cards/quiz/q00003.json"}
+    ,{"id":"q00004", "uri":"./assets/mock-server/cards/quiz/q00004.json"}
+    ,{"id":"q00005", "uri":"./assets/mock-server/cards/quiz/q00005.json"}
+    ,{"id":"q00006", "uri":"./assets/mock-server/cards/quiz/q00006.json"}
+    ,{"id":"q00007", "uri":"./assets/mock-server/cards/quiz/q00007.json"}
+    ,{"id":"q00008", "uri":"./assets/mock-server/cards/quiz/q00008.json"}
+    ,{"id":"q00009", "uri":"./assets/mock-server/cards/quiz/q00009.json"}
+    ,{"id":"q00010", "uri":"./assets/mock-server/cards/quiz/q00010.json"}
+    ,{"id":"q00011", "uri":"./assets/mock-server/cards/quiz/q00011.json"}
+    ,{"id":"q00012", "uri":"./assets/mock-server/cards/quiz/q00012.json"}
+    ,{"id":"q00013", "uri":"./assets/mock-server/cards/quiz/q00013.json"}
+    ,{"id":"q00014", "uri":"./assets/mock-server/cards/quiz/q00014.json"}
+    ,{"id":"q00015", "uri":"./assets/mock-server/cards/quiz/q00015.json"}
+    ,{"id":"q00016", "uri":"./assets/mock-server/cards/quiz/q00016.json"}
+    ,{"id":"q00017", "uri":"./assets/mock-server/cards/quiz/q00017.json"}
+    ,{"id":"q00018", "uri":"./assets/mock-server/cards/quiz/q00018.json"}
+    ,{"id":"q00019", "uri":"./assets/mock-server/cards/quiz/q00019.json"}
+    ,{"id":"q00020", "uri":"./assets/mock-server/cards/quiz/q00020.json"}
+    ,{"id":"q00021", "uri":"./assets/mock-server/cards/quiz/q00021.json"}
+    ,{"id":"q00022", "uri":"./assets/mock-server/cards/quiz/q00022.json"}
+    ,{"id":"q00023", "uri":"./assets/mock-server/cards/quiz/q00023.json"}
+    ,{"id":"q00024", "uri":"./assets/mock-server/cards/quiz/q00024.json"}
+    ,{"id":"q00025", "uri":"./assets/mock-server/cards/quiz/q00025.json"}
+    ,{"id":"q00026", "uri":"./assets/mock-server/cards/quiz/q00026.json"}
+    ,{"id":"q00027", "uri":"./assets/mock-server/cards/quiz/q00027.json"}
+    ,{"id":"q00028", "uri":"./assets/mock-server/cards/quiz/q00028.json"}
+    ,{"id":"q00029", "uri":"./assets/mock-server/cards/quiz/q00029.json"}
+    ,{"id":"q00030", "uri":"./assets/mock-server/cards/quiz/q00030.json"}  
+]

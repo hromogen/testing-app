@@ -1,0 +1,24 @@
+{
+    "id": "e00018"
+    ,"raiting": 1
+    ,"topics":[3]
+    ,"statistics": {
+        "performings": 0
+        ,"log":[]
+        ,"success-rate": 1
+        ,"most-answered-question": 0
+        ,"list-answered-question": 0
+    }
+    ,"questions_uris":[
+        "assets/mock-server/questions/q4-1-0005.json"
+        ,"assets/mock-server/questions/q4-2-0005.json"
+        ,"assets/mock-server/questions/q4-3-0005.json"
+        ,"assets/mock-server/questions/q4-4-0005.json"
+        ,"assets/mock-server/questions/q4-5-0005.json"
+        ,"assets/mock-server/questions/q4-1-0006.json"
+        ,"assets/mock-server/questions/q4-2-0006.json"
+        ,"assets/mock-server/questions/q4-3-0006.json"
+        ,"assets/mock-server/questions/q4-4-0006.json"
+        ,"assets/mock-server/questions/q4-5-0006.json"
+    ]
+}

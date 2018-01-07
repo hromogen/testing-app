@@ -1,0 +1,35 @@
+{
+    "id": "q00004"
+    ,"difficulty": 4
+    ,"raiting": 1
+    ,"topics":[0]
+    ,"statistics": {
+        "performings": 0
+        ,"log":[]
+        ,"success-rate": 1
+        ,"most-answered-question": 0
+        ,"list-answered-question": 0
+    }
+    ,"questions_uris":[
+        "assets/mock-server/questions/q1-4-0001.json"
+        ,"assets/mock-server/questions/q1-4-0002.json"
+        ,"assets/mock-server/questions/q1-4-0003.json"
+        ,"assets/mock-server/questions/q1-4-0004.json"
+        ,"assets/mock-server/questions/q1-4-0005.json"
+        ,"assets/mock-server/questions/q1-4-0006.json"
+        ,"assets/mock-server/questions/q1-4-0007.json"
+        ,"assets/mock-server/questions/q1-4-0008.json"
+        ,"assets/mock-server/questions/q1-4-0009.json"
+        ,"assets/mock-server/questions/q1-4-0010.json"
+        ,"assets/mock-server/questions/q1-4-0011.json"
+        ,"assets/mock-server/questions/q1-4-0012.json"
+        ,"assets/mock-server/questions/q1-4-0013.json"
+        ,"assets/mock-server/questions/q1-4-0014.json"
+        ,"assets/mock-server/questions/q1-4-0015.json"
+        ,"assets/mock-server/questions/q1-4-0016.json"
+        ,"assets/mock-server/questions/q1-4-0017.json"
+        ,"assets/mock-server/questions/q1-4-0018.json"
+        ,"assets/mock-server/questions/q1-4-0019.json"
+        ,"assets/mock-server/questions/q1-4-0020.json"
+    ]
+}
