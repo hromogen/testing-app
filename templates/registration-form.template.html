@@ -1,0 +1,42 @@
+<form class="registration__form">
+    <formfield class="registration__formfield--required">
+        <input type="text" name="nickname" 
+        class="registration-input" id="registration__nickname" required>
+        <label class="registration__label" for="registration__nickname" >
+            Введіть відображуване ім’я
+        </label>
+        <input type="password" name="password" 
+        class="registration-input" id="registration__password" required 
+        placeholder="****">
+        <label class="registration__label" for="registation-password">
+            Введіть пароль
+        </label>
+        <input type="password" name="password-rep" 
+        class="registration-input" id="registration__password--rep" required 
+        placeholder="****">
+        <label class="registration__label" for="registration__password--rep" >
+            Повторіть пароль
+        </label>
+    </formfield>
+    <formfield class="registration__formfield--optional">
+        <input type="email" name="email" 
+        class="registration-input" id="registration__email">
+        <label class="registration__label" for="registration__email" 
+        placeholder="example@mail.com" >
+            Введіть e-mail, якщо хочете отримувати свої результати та новини 
+            про оновлення сайту
+        </label>
+        <input type="text" name="name" 
+        class="registration-input" id="registration__name">
+        <label class="registration__label" for="registration__name">
+            Введіть ім’я
+        </label>
+        <input type="text" name="surname" 
+        class="registration-input" id="registration__surname">
+        <label class="registration__label" for="registration__surname">
+            Введіть прізвище
+        </label>
+    </formfield>
+    <input type="submit" name="registration-submit" 
+    class="registration-input--submit" value="Завершити реєстрацію">
+</form>
