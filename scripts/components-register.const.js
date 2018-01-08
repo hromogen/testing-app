@@ -1,19 +1,27 @@
 const COMPONENTS_REGISTER = {
-    navMenu: {
+    cabinetEntryPoint: {
+        sSelector:'.header'
+        ,templateUri: './templates/cabinet-entry-point.template.html'
+    }
+    ,navMenu: {
         sSelector: '.nav'     
         ,templateUri: './templates/nav-menu.template.html'
     }
+    , searchForm: {
+        sSelector: '.nav'     
+        ,templateUri: './templates/search-form.template.html'
+    }
     , generalRulesArticle: {
         sSelector: '.rules__article--general'     
-        ,templateUri: './templates/rules--general.template.html'
+        ,templateUri: './templates/rules-section--general.template.html'
     } 
     , quizRulesArticle: {
         sSelector: '.rules__article--quiz'     
-        ,templateUri: './templates/rules--quiz.template.html' 
+        ,templateUri: './templates/rules-section--quiz.template.html' 
     }
     ,erudithRulesArticle: {
         sSelector: '.rules__article--erudith'    
-        ,templateUri: './templates/rules--erudith.template.html'
+        ,templateUri: './templates/rules-section--erudith.template.html'
     }
     ,filterForm: {
         sSelector: '.cards__controllers'   
@@ -35,6 +43,12 @@ const COMPONENTS_REGISTER = {
         ,attachedDataUri:'./assets/mock-server/erudith-cards-register.json'
         ,modeName:'erudith'
     }
+    ,quizCardsPaginateBox: {
+        sSelector:'.cards__links--quiz'
+    }
+    ,erudithCardsPaginateBox: {
+        sSelector:'.cards__links--erudith'
+    }
     ,testingOptionsForm: {
         sSelector: '.testing-options-form'   
         ,templateUri: './templates/testing-options-form.template.html'
@@ -55,10 +69,18 @@ const COMPONENTS_REGISTER = {
         sSelector:'.upload__create'
         ,templateUri: './templates/upload-question-form.template.html'
     }
-    ,quizCardsPaginateBox: {
-        sSelector:'.cards__links--quiz'
+    ,registrationForm: {
+        sSelector:'.registration'
+        ,templateUri: './templates/registration-form.template.html'
     }
-    ,erudithCardsPaginateBox: {
-        sSelector:'.cards__links--erudith'
+
+    ,personalCabinet: {
+        sSelector: '.personal-cabinet'
+        ,templateUri: './templates/personal-cabinet.template.html'
+    }
+    ,searchResults: {
+        sSelector: '.search-result'
+        ,templateUri: './templates/search-result.template.html'
     }
 }
+

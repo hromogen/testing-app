@@ -1,6 +1,7 @@
 function NavMenuComponent(){
     const n = this;
     Component.apply(n, arguments);
+    n._clearContainer  = false;
     
 
     function toggleSubmenu(){

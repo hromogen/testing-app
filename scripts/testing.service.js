@@ -8,12 +8,13 @@ function TestingService(options, session, formsService, timerService, informServ
     ts._options       = options;
     ts._questionsSet  = ts._formsService.form.querySelectorAll('.testing-form__formfield');
     ts._finalLog      = {
-                    answers                  : []
-                    ,anweredCorrectlyNums    : []
-                    ,anweredIncorrectlyNums  : []
-                    ,anweredIncorrectly      : []
-                    ,correctAnswersUDontKnow : []
-                    ,score                   : ''
+                    answers                      : []
+                    ,correct_answers_u_dont_know : []
+                    ,anwered_incorrectly_nums    : []
+                    ,anwered_incorrectly         : []
+                    ,anwered_correctly_nums      : []
+                    ,score                       : 0
+                    ,date                        : null
                 };
     ts._log = [];
     ts._aCorrectAnswers  = ts._questionary.map(function(field){
@@ -69,24 +70,25 @@ function TestingService(options, session, formsService, timerService, informServ
     }
      
     ts._finishTesting = function(){
+        const fLog = ts._finalLog;
         let finalQuestion = ts._questionsSet[ts._currQuestionNum];
         finalQuestion.classList.remove('testing-form__formfield--current');
         ts._timerService.stop();
-        ts._finalLog.answers = ts._log;
-        ts._aCorrectAnswers.map(function(correctAnsweNum, index){
-            if (correctAnsweNum == ts._log[index]){
-                ts._finalLog.anweredCorrectlyNums.push(index)
+        fLog.answers = ts._log;
+        ts._aCorrectAnswers.map(function(correctAnswerNum, index){
+            if (correctAnswerNum == ts._log[index]){
+                fLog.answered_correctly_nums.push(index)
             }else{
-                ts._finalLog.anweredIncorrectlyNums.push(index)
+                fLog.anwered_incorrectly_nums.push(index)
             }
         });
-        ts._finalLog.anweredIncorrectlyNums.map(function(value){
+        fLog.anwered_incorrectly_nums.map(function(value){
             let oTargQuestion = ts._questionary[value]
             ,correctAnswer = oTargQuestion.options[oTargQuestion.correct]
-            ts._finalLog.anweredIncorrectly.push(oTargQuestion.question);
-            ts._finalLog.correctAnswersUDontKnow.push(correctAnswer)
+            fLog.anwered_incorrectly_nums.push(oTargQuestion.question);
+            fLog.correct_answers_u_dont_know.push(correctAnswer)
         });
-        ts._finalLog.score = (100*ts._finalLog.anweredCorrectlyNums.length/ts._questionary.length)
+        ts._finalLog.score = (100*fLog.anwered_correctly_nums.length/ts._questionary.length)
         .toPrecision(4);
         ts._messageService.displayTestingResults(ts._finalLog)
     }

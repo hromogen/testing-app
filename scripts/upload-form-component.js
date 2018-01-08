@@ -1,21 +1,25 @@
 function UploadFormComponent(){
     const u = this;
     Component.apply(u, arguments);
-    u._getAttachedData = function(){
-        return Promise.resolve([u._attachedData]);
-    }
+
     u._modifyTemplate = function(template, fetchedData){
         const form = template.querySelector('.upload-form')
-            ,templateFormfield = form.querySelector('.upload-form__formfield')
-            ,submitInput = form.querySelector('.upload-form__submit');
+            ,templateFormfields = form.querySelectorAll('.upload-form__formfield')
+            ,submitInput = form.querySelector('.upload-form__submit')
+            ,templateFormfield = templateFormfields[0];
 
-            u._session.setUploadedInfo(fetchedData[0]);
-        if(u._session.getUploadParam() != 'question'){
-            for(let i = 1; i <= +fetchedData[0].size; i++){
+        if(templateFormfields.length > 1){
+            for(let i = 1; i < templateFormfields.length; i++){
+                form.removeChild(templateFormfields[i])
+            }
+        }
+        if(u._session.getCurrentMode() != 'question' && fetchedData){
+            for(let i = 1; i <= +fetchedData.size; i++){
                 let formfieldCopy = templateFormfield.cloneNode(true)
                 ,uploadQuestion = formfieldCopy.querySelector('.upload-form__question')
                 ,uploadOptions = formfieldCopy.querySelectorAll('.upload-form__option')
-                ,correctAnswer =  formfieldCopy.querySelector('.upload-form__correct-answer');
+                ,correctAnswer =  formfieldCopy.querySelector('.upload-form__correct-answer')
+                ,aInserteFormfields = [];
 
                 uploadQuestion.name += ('00'+ i).slice(-2);
                 correctAnswer.name += ('00'+ i).slice(-2);
@@ -26,37 +30,38 @@ function UploadFormComponent(){
             }
             form.removeChild(templateFormfield);
         }
+        u._session.uploadFormPaginator.init({
+            eItems: form.querySelectorAll('.upload-form__formfield')
+            ,numPerPage: 1
+        });
+        u._session.uploadFormPaginator.paginate();
         return template;
     }
 
     u._setEventListeners = function(DOMtree){
         const form = DOMtree.querySelector('.upload-form')
         ,formService = new FormsService(form)
-        ,paginateOpts = {}
         ,questionSet = []
-        ,paginator = s.uploadFormPaginator
-
-        paginateOpts.eItems = form.querySelectorAll('.upload-form__formfield');
-        paginateOpts.numPerPage = 1;
-        paginator.init(paginateOpts);
+        ,paginator = s.uploadFormPaginator;
 
         form.addEventListener('submit', function(event){
             event.preventDefault();
-            questionSet[paginator.currentPage - 1] = formService.processUploadForm(paginator.currentPage);
-            if(questionSet.filter(Boolean).length == paginateOpts.eItems.length){
+            const currentPage = paginator.currentPage
+            questionSet[currentPage - 1] = formService.processUploadForm(currentPage);
+            if(questionSet.filter(Boolean).length == paginator.numOfPages){
                 let timeStamp = new Date();
-                session.setUploadedQuestions(timeStamp, questionSet);
+                u._session.setUploadedQuestions(timeStamp, questionSet);
             }else{
-                paginator.goToNext()
+                u._router.navigate(/*path=*/ '/upload/' + 
+                u._session.getCurrentMode()             + 
+                '?question#='                           +
+                currentPage
+                , /*absolute=*/false);
             }
-        })
-        return DOMtree; 
+        });
+    return DOMtree; 
     }
-    u.createComponent().then(function(){
-        u._session.addComponent(u, '_uploadForm');
-        u._router.navigate(/*path=*/ '/upload/' + u._session.getUploadParam() + '/1'
-        , /*absolute=*/false);
-    });
+    u.createComponent();
     return u;
 }
 UploadFormComponent.prototype = Object.create(Component.prototype);

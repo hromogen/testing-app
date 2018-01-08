@@ -1,29 +1,49 @@
-'use strict';
-function Component(options){ //  <-- options for a component generation
-    const c = this;
-    c._container       = options && options.sSelector &&               // the component
-                  document.querySelector(options.sSelector) || null;   // container
-    c._templateUri     = options && options.templateUri     || ''  ;   // html or other html-parseable file URI 
-    c._attachedDataUri = options && options.attachedDataUri || ''  ;   // *optional* URI of data to fetch and use for template modification 
-    c._attachedData    = options && options.attachedData    || ''  ;   // 
-    c._modeName        = options && options.modeName        || ''  ;
-    c._router          = options && options.router          || null;
-    c._session         = options && options.session         || null;
-    c._http            = new HttpService();
-    c._parser          = new DOMParser();
-    c._clearContainer  = true;  
 
-    
+/*
+* Базовий клас, від якого наслідують майже всі об’єкти інтерфейсу користувача. Повинен отримати
+* при створенні об’єкт _options_ у якого обов’язковим є поле options.sSelector, де міститься css-селектор
+* компонентна (контейнера) у існуючій DOM структурі, куди після модифікацій буде вставлено екземпляр
+* нащадків цього класу. Також усі представники нащадків цього класу за замовчуванням отримують
+* екземпляр базового роутер-модуля та поточної сесії  
+*/
+'use strict';
+function Component(options){                                         // <-- опції для створення 
+    const c = this;                                                  //     компонента <object>
+    c._container       = options && options.sSelector &&             // <-- контейнерний елемент компоненту,
+                  document.querySelector(options.sSelector) || null; //     куди вставляється темплейт після 
+                                                                     //     модернізації, <DOMElement>
+    c._templateUri     = options && options.templateUri     || ''  ; // <-- *опціональна* адреса темплейту, 
+                                                                     //     <string>
+    c._attachedDataUri = options && options.attachedDataUri || ''  ; // <-- *опціональна* адреса, звідки  
+                                                                     //      завантажуються додаткові дані,
+                                                                     //     <string>
+    c._attachedData    = options && options.attachedData    || ''  ; // <-- *опціонально* додаткові дані,  
+                                                                     //     <JSON || object>
+    c._modeName        = options && options.modeName        || ''  ; // <-- *опціонально* назва поточного 
+                                                                     //     режиму (quiz чи erudith, <string>) 
+    c._router          = options && options.router          || null; // <-- екземпляр роутера, створений у 
+                                                                     //     файлі _session.js_, <routerModule>
+    c._session         = options && options.session         || null; // <-- екземпляр поточної сесії, 
+                                                                     //     <sessionModule>
+    c._http            = new HttpService();                          // <-- екземпляр http-сервіса, <httpService>
+    c._parser          = new DOMParser();                            // <-- екземпляр DOM-парсера, <DOMParse>
+    c._clearContainer  = true;                                       // <-- вказує на те, чи слід очищати 
+                                                                     //     container перед вставкою 
+                                                                     //     темплейту, <boolean>
+    c._routeToView = '';
+    c._active = false;
 }
 Component.prototype = {
-    _getTemplate : function(){
-        return this._templateUri ? this._http.get(this._templateUri) : '';  
+    _getTemplate : function(){                                       // стандартна функція завантаження
+        return this._templateUri ?                                   // темплейту
+        this._http.get(this._templateUri) : '';                      // --> Promise<String>, де міститься 
+                                                                     //     інформація про темплейт  
     }
-    ,_getAttachedData : function(){
-        const c = this;
-        let result;
-        if(c._attachedDataUri){
-            result = c._http.get(c._attachedDataUri) 
+    ,_getAttachedData : function(){                                  // стандартна функція завантаження
+        const c = this;                                              // додатковий даних
+        let result;                                                  // -->  Promise<string[]||Object[]||
+        if(c._attachedDataUri){                                      //      null>, де містяться заватнажені  
+            result = c._http.get(c._attachedDataUri)                 //      дані                          
         }else if(c._attachedData){
             result = Promise.resolve(c._attachedData)
         }else{
@@ -31,35 +51,46 @@ Component.prototype = {
         }
         return result;
     }
-    ,_parseTemplate : function(sTemplate){
-        return sTemplate ? this._parser.parseFromString(sTemplate, "text/html") : '';
+    ,_parseTemplate : function(sTemplate){                          // функція-"заглушка"; за замовчуванням
+        return sTemplate ?                                          // у випадку наявності проводить парсинг                                      
+        this._parser.parseFromString(sTemplate, "text/html") :      // рядку завантаженого темплейту
+        '';                                                         // --> Promise<DOMElement || null> 
     }
-    ,_modifyTemplate : function(template /*optional*/, fetchedData){
-        return template;
-    }
-    ,_setEventListeners : function(DOMtree){
-        return DOMtree; 
-    }
-    ,_inject : function(DOMtree){
+    ,_modifyTemplate : function(template /*optional*/               // фунція-"заглушка", модифікується у разі  
+        , fetchedData){                                             // необхідності у нащадках класу для  
+        return template;                                            // модифікації темплейту відповідно до 
+                                                                    // завантажених даних
+    }                                                               // --> Promise<DOMElement>
+    
+    ,_setEventListeners : function(DOMtree){                        // фунція-"заглушка", модифікується у разі 
+        return DOMtree                                              // необхідності у нащадках класу; 
+    }                                                               // додаються обробники подій для взаємодії 
+                                                                    // з користувачем
+                                                                    // --> Promise<DOMElement>
+
+    ,_inject : function(DOMtree){                                   // точка вставки модифікованого темплейту                                  
         const c = this;
         if(c._clearContainer){
-            c._container.innerHTML = '';
-        }
-        c._container.append.apply(c._container, DOMtree.body.children);
-        return c._container;
+            c._container.innerHTML = '';                            // у випадку необхідності знищуємо 
+        }                                                           // попередній зміст
+        c._container.append.apply(c._container
+            , DOMtree.body.children);
+        return c._container;                                        // --> Promise<DOMElement>
     }
 
-    ,createComponent : function (){
-        const c = this;
-        return Promise.all([c._getTemplate(), c._getAttachedData()])
-        .then(
-            function(success){
-                const parsedTmpl = c._parseTemplate(success[0])
-                let parsedData;
+    ,createComponent : function (){                                 // функція комбінування стадій створення
+        const c = this;                                             // елементу за замовчуванням;
+        return Promise.all([c._getTemplate()                        // включати у конструктор нащадків 
+            , c._getAttachedData()])                                // класу для того, щоб вони вставлялись 
+        .then(                                                      // у DOM-дерево зразу після створення
+            function(success){                                      // або викликати в момент, коли це 
+                const parsedTmpl = c._parseTemplate(success[0]);    // є доцільним
+                let parsedFetchedData;
                 if(success[1]){
                     if(Array.isArray(success[1])){
-                        parsedData = success[1].map(function(dataItem){
-                            let result;
+                        parsedFetchedData = success[1].map(         // Тут відбувається додатковий парсинг
+                            function(dataItem){                     // завантажених даних, якщо вони є 
+                            let result;                             // <string> чи <string[]> 
                             if(typeof dataItem === 'string'){
                                 result = JSON.parse(dataItem);
                             }else{
@@ -68,12 +99,13 @@ Component.prototype = {
                             return result;
                         });
                     }else if(typeof success[1] === 'string'){
-                        parsedData = JSON.parse(success[1])
+                        parsedFetchedData = JSON.parse(success[1])
                     }else if(typeof success[1] === 'object'){
-                        parsedData = success[1]
+                        parsedFetchedData = success[1]
                     }
                 }
-            return c._modifyTemplate(parsedTmpl, parsedData);
+            return c._modifyTemplate(parsedTmpl
+                , parsedFetchedData);
             }).then(
                 function(success){
                     return c._setEventListeners(success);
@@ -81,20 +113,40 @@ Component.prototype = {
                 function(success){
                     return c._inject(success);
             }).then(
-                function(success){
-                    c._router.updatePageLinks();
-                    return success;
+                function(success){                                  // тут відбувається оновлення шляхів
+                    c._router.updatePageLinks();                    // роутера про всяк випадок
+                    return success;                                 // --> <void>
             });
     }
-    ,getContainer : function(){
-        return this._container;
+    ,getContainer : function(){                                     // --> Доступ до контейнерного елементу,
+        return this._container;                                     //     <DOMElement>  
     }
 
-    ,display : function(){
-        this._container.classList.add('view--active');
-    }
+    ,display : function(){                                          // Функція для додавання css-класу
+        this._container.classList.add('view--active');              // видимості до контейнерних елементів
+    }                                                               // представників нащадків цього класу
+                                                                    // --> <void>
 
-    ,hide : function(){
-        this._container.classList.remove('view--active');
+    ,hide : function(){                                             // Функція для додавання css-класу
+        this._container.classList.remove('view--active');           // видимості до контейнерних елементів
+    }                                                               // представників нащадків цього класу
+                                                                    // // --> <void>
+    ,modifyAfterParsing : function(attachedData){
+        this._modifyTemplate(this._container, attachedData)
     }
-}
+    ,setRouteToView : function(sRoute){
+        c._routeToView = sRoute;
+    }
+    ,getRouteToView : function(){
+        return c._routeToView
+    }
+    ,activate : function(){
+        this._active = true;
+    }
+    ,deactivate : function(){
+        this._active = false;
+    }
+    ,isActive : function(){
+        return this._active;
+    }
+}                                                                   

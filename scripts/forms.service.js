@@ -28,7 +28,9 @@ function FormsService(form, clearInputs){
     }
 
     f._evalReadableInputs = function(opts){
-        const iterableInputs = f.form.querySelectorAll('[name='+opts.inputsName+']')
+        const iterableInputs = (opts && opts.inputsName) ? 
+        f.form.querySelectorAll('[name='+opts.inputsName+']') : 
+        f.form.querySelectorAll('input');
         let result;
         if(opts.toSimpleArray){
             result = Array.from(iterableInputs, function(input, index){
@@ -38,10 +40,19 @@ function FormsService(form, clearInputs){
             })
         }else if(opts.toNamedArray){
             result = Array.from(iterableInputs, function(input){
-                const oResult = {name: input.name, value: input.value};
+                const oResult = {
+                    name: f._camelizeString(input.name)
+                    , value: input.value
+                };
                 input.value = (f._clearInputs) ? input.value : '';
                 return oResult;
             })
+        }else if(opts.toMap){
+            result = Array.from(iterableInputs).reduce(function(interimResult, input){
+                interimResult[f._camelizeString(input.name)] = input.value;
+                input.value = (f._clearInputs) ? input.value : '';
+                return interimResult;
+            }, {});
         }
         return result;
     }
@@ -89,17 +100,18 @@ function FormsService(form, clearInputs){
             ,toNamedArray: true
         })[0];
         return Object.assign(oTestingName, oCheckedInputs, oSelectVals)
-
     }
     f.processUploadForm = function(fieldNum){
         const currFormField = f.form.querySelector('[data-page=' + fieldNum + ']')
-        result = {};
-
+        result = [];
         return  {
             question:""
             , options:[]
             , correct: 0
         }
+    }
+    f.processRegistrationForm = function(){
+        return f._evalReadableInputs( { toMap: true } ) 
     }
 }
 
