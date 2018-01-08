@@ -1,0 +1,18 @@
+{
+    "nickname": "JohnDoe"
+    ,"name": "John"
+    ,"surname": "Doe"
+    ,"password": "12345"
+    ,"avatar_src": ""
+    ,"email": "johndoe@sample.com"
+    ,"testings_log": [{
+        "date": ""
+        ,"questionary_id": ""
+        ,"score":""
+        ,"correct_answers_u_dont_know": []
+        ,"anwered_incorrectly":[]
+        ,"anwered_incorrectly_nums":[]
+        ,"anwered_correctly_nums":[]
+        ,"answered_correctly_nums": []
+    }] 
+}
