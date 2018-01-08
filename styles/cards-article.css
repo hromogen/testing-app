@@ -1,9 +1,10 @@
-.cards-section__cards{
+.cards__quiz,
+.cards__erudith{
     flex-basis: auto;
     background-color: rgb(238, 221, 144);
     padding: 20px;
     flex-wrap: wrap;
-    height: 80%;
+    height: 90%;
     overflow: hidden;
 }
 .cards-article__card{

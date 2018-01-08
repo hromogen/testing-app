@@ -1,7 +1,7 @@
-.cards-section__controllers{
+.cards__controllers{
     flex-basis: auto;
     width: 300px;
-    height: 80%;
+    height: 95%;
     margin-right: 5px;
     border: 1px solid rgb(185, 218, 209);
     background-color: rgb(101, 112, 145);
