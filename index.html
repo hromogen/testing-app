@@ -8,12 +8,13 @@
         <link rel="stylesheet" type="text/css" href="styles/controller-article.css">
         <link rel="stylesheet" type="text/css" href="styles/cards-article.css">
         <link rel="stylesheet" type="text/css" href="styles/testing-article.css">
+        <link rel="stylesheet" type="text/css" href="styles/video-slider.css">
     </head>
-    <body>
+    <body class="body">
         <header class="header flexbox">
         </header>
         <nav class="nav flexbox"></nav>
-        <main flexbox>
+        <main class="main flexbox">
 			<section class="section flexbox rules">
                 <article class="view rules__article rules__article--general">
                 </article>
@@ -41,12 +42,14 @@
 			</section>
     		<section class="section view videomaterials">
             </section>
+            <section class="section view feedback">
+            </section>
+            <section class="section view registration">
+            </section>
             <section class="section view personal-cabinet">
             </section>
             <section class="section view search-result">
             </section>
-    		<section class="section view feedback">
-			</section>
     		<section class="section view about-project">
 			</section>
 			<section class="section view testing-options-form"></section>
@@ -70,9 +73,13 @@
         <script type="text/javascript" src="./scripts/forms.service.js">			     </script>
         <script type="text/javascript" src="./scripts/timer.service.js">		         </script>
         <script type="text/javascript" src="./scripts/testing.service.js">		 	     </script>
+        <script type="text/javascript" src="./scripts/search.service.js">	    	 	 </script>
         <script type="text/javascript" src="./scripts/user.service.js">	    	 	     </script>
         <script type="text/javascript" src="./scripts/component.js">			  	     </script>
-        <script type="text/javascript" src="./scripts/rules-section.component.js">       </script>
+        <script type="text/javascript" src="./scripts/cabinet-entry.component.js">	     </script>
+        <script type="text/javascript" src="./scripts/nav-menu.component.js">	         </script>
+        <script type="text/javascript" src="./scripts/search-form.component.js">	     </script>
+        <script type="text/javascript" src="./scripts/basic-section.component.js">       </script>
         <script type="text/javascript" src="./scripts/filter-form.component.js">         </script>
         <script type="text/javascript" src="./scripts/sorter-form.component.js">         </script>
         <script type="text/javascript" src="./scripts/paginate-box.component.js">        </script>
@@ -83,10 +90,11 @@
         <script type="text/javascript" src="./scripts/upload-form-component.js">         </script>
         <script type="text/javascript" src="./scripts/upload-setup-form.component.js">   </script>
         <script type="text/javascript" src="./scripts/card-article.component.js">        </script>
-        <script type="text/javascript" src="./scripts/nav-menu.component.js">	         </script>
+        <script type="text/javascript" src="./scripts/personal-cabinet.component.js">    </script>
+        <script type="text/javascript" src="./scripts/registration-form.component.js">   </script>
         <script type="text/javascript" src="./scripts/router.module.IE11.js">		  	 </script>
         <script type="text/javascript" src="./scripts/session.module.js">		  	     </script>
-        
+            
     <script>
             s = new SessionModule();
     </script>
