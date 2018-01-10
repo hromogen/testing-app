@@ -25,12 +25,12 @@ function PaginateService(options){
         aPaginatedItems = p._aPaginatedItems.filter(function(item){
             return !/filtered/.test(item.className)
         });
-        aPaginatedItems = aPaginatedItems.sort(function(itemA, itemB){
-            return (+itemA.style.order || 1) - (+itemB.style.order || 0)
+        aPaginatedItemsSorted = aPaginatedItems.sort(function(itemA, itemB){
+            return (+itemA.style.order || 0) - (+itemB.style.order || 1)
         });
 
         while(p._firstPageCriterium(n)){
-            aPaginatedItems[n].dataset.page = 1;
+            aPaginatedItemsSorted[n].dataset.page = 1;
             n++;
         }
         p.numPerPage = n;
@@ -87,6 +87,7 @@ function PaginateService(options){
         }
     }
     p.generatePageLinks = function(container, sBasicRef){
+        const aAnchors = [];
         for(let i = 1; i <= p.numOfPages; i++){
             let anchor = document.createElement('a');
             anchor.href = sBasicRef + i;

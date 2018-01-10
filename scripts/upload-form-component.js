@@ -17,7 +17,7 @@ function UploadFormComponent(){
             }
         }
         if(u._session.getCurrentMode() != 'question' && fetchedData){
-            for(let i = 1; i <= +fetchedData.size; i++){
+            for(let i = +fetchedData.size; i > 0;  i--){
                 let fieldsetCopy = templateFieldset.cloneNode(true)
                 ,uploadQuestion = fieldsetCopy.querySelector('.upload-form__question')
                 ,uploadOptions = fieldsetCopy.querySelectorAll('.upload-form__option')
@@ -56,18 +56,20 @@ function UploadFormComponent(){
             button.addEventListener('click', function(){
                 questionSet[index] = formService.processUploadForm(index);
                 u.lockFieldset(fieldsets[index])
-                if(form.querySelectorAll('input').length == 1){
-                    u.deactivate();
-                    submitButton.classList.add('upload-form__submit--activated')
-                    submitButton.disabled = false;
-                    
-                }else{
-                    u._router.navigate(/*path=*/ '/upload/' + 
-                    u._session.getCurrentMode()             + 
-                    '?question#='                           +
-                    (index + 2)
-                    , /*absolute=*/false);
-                } 
+                setTimeout(function(){
+                    if(form.querySelectorAll('input').length == 1){
+                        u.deactivate();
+                        submitButton.classList.add('upload-form__submit--activated')
+                        submitButton.disabled = false;
+
+                    }else{
+                        u._router.navigate(/*path=*/ '/upload/' + 
+                        u._session.getCurrentMode()             + 
+                        '?question#='                           +
+                        (index + 2)
+                        , /*absolute=*/false);
+                    }
+                },2000)
             })
         });
         aUnlockButtons.map(function(button, index){

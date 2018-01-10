@@ -49,10 +49,8 @@ function CardArticleComponent(){
                 let cardQuestionsData = referenceCardSet.find(function(cardData){
                     return cardData.id == elCard.dataset.id;
                 })
-                ,testingArticleData = c._session.getRegister().testingArticle
-
-                testingArticleData.attachedDataUri = [
-                    './assets/mock-server/questions/test-q-01.json'
+                c._session._testingArticleComponent.modifyInline([
+                    ' ./assets/mock-server/questions/test-q-01.json'
                     ,'./assets/mock-server/questions/test-q-02.json'
                     ,'./assets/mock-server/questions/test-q-03.json'
                     ,'./assets/mock-server/questions/test-q-04.json'
@@ -62,11 +60,7 @@ function CardArticleComponent(){
                     ,'./assets/mock-server/questions/test-q-08.json'
                     ,'./assets/mock-server/questions/test-q-09.json'
                     ,'./assets/mock-server/questions/test-q-10.json'
-                ];
-                testingArticleData.session = c._session;
-                const testingArticleComponent = new TestingArticleComponent(testingArticleData);
-
-                c._session.setTestingArticle(testingArticleComponent);
+                ]);
             })   
         })
         return DOMElement; 

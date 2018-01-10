@@ -64,7 +64,7 @@ function SessionModule(){
     s._uploadForm = new UploadFormComponent(s._reg.uploadForm);
     s._videoSlider = new VideoSliderComponent(s._reg.videoSlider);
     s._testingOptionsForm = new TestingOptionsFormComponent(s._reg.testingOptionsForm);
-    //s._testingArticle = new TestingArticleComponent(s._reg.testingArticle);
+    s._testingArticle = new TestingArticleComponent(s._reg.testingArticle);
     s._searchResults = new BasicSectionComponent(s._reg.searchResult);
     s._registrationForm = new RegistrationFormComponent(s._reg.registrationForm);
     s._personalCabinet = new PersonalCabinetComponent (s._reg.personalCabinet);
@@ -119,8 +119,8 @@ function SessionModule(){
                     });
                     currPaginator.paginate();
                     s.searchService.addToViews('/cards/'+ mode, s._cardsArticles[mode]);
-                    currPaginator.generatePagelinks(currPaginateBox,'#/cards/'+ mode + '?' + query.slice(0,-1));
-                    s.viewComponents(s._filterForm, s._sorterForm, s._cardsArticles[mode], currPaginateBox);
+                    currPaginator.generatePageLinks(currPaginateBox,'#/cards/'+ mode + '?' + query.slice(0,-1));
+                    s.viewComponents(s._filterForm, s._sorterForm, s._cardsArticles[mode]);
                     currPaginator.goToPage(targetPage);
                     s.cardsPaginators[mode] = currPaginator;
                 })
