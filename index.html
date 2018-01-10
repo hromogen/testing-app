@@ -1,8 +1,9 @@
-<!DOCKTYPE html>
+<!DOCTYPE html>
 <html lang="ua">
     <head>
         <title>Testing application</title>
         <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="styles/reset.css">
         <link rel="stylesheet" type="text/css" href="styles/main.css">
         <link rel="stylesheet" type="text/css" href="styles/nav-menu.css">
         <link rel="stylesheet" type="text/css" href="styles/controller-article.css">
@@ -10,7 +11,7 @@
         <link rel="stylesheet" type="text/css" href="styles/testing-article.css">
         <link rel="stylesheet" type="text/css" href="styles/video-slider.css">
     </head>
-    <body class="body">
+    <body class="body flexbox">
         <header class="header flexbox">
         </header>
         <nav class="nav flexbox"></nav>
@@ -27,11 +28,11 @@
                 <article class="view cards__controllers"></article>
                 <article class="view cards__quiz">
                 </article>
-                <article class="view cards__links cards__links--quiz paginate-links">
+                <article class="cards__links--quiz view cards__links">
                 </article>
        			<article class="view cards__erudith">
                 </article>
-                <article class="view cards__links cards__links--erudith paginate-links">
+                <article class="cards__links--erudith view cards__links">
                 </article>
 			</section>
       		<section class="section upload">
@@ -56,9 +57,26 @@
      		<section class="section view testing">
             </section>
             <section class="section view testing-summary"></section>
+            <section class="view error-section">
+                <span class="error-section__standard-message">{{error.name}}</span>
+                <button class="error-section__detail-button">Показати деталі</button>
+                <ul class="error-section__error-detail">
+                    <li><strong>Повідомлення:</strong>
+                        <br>{{error.message}}
+                    </li>
+                    <li><strong>Стек:</strong>
+                        <br>{{error.stack}}
+                    </li>
+                    <li><strong>Номер рядка::</strong>
+                        <br>{{error.lineNumber}}
+                    </li>
+                </ul>
+                <button class="error-section__go-on-button">OK</button>
+            </section>
         </main>
         <script type="text/javascript" src="./scripts/video-register.const.js">          </script>
         <script type="text/javascript" src="./scripts/components-register.const.js">     </script>
+        <script type="text/javascript" src="./scripts/mustache.min.js">                  </script>
         <script type="text/javascript" src="./polyfills/append.js">				         </script>
         <script type="text/javascript" src="./polyfills/array-from.js">			         </script>
         <script type="text/javascript" src="./polyfills/closest.js">			         </script>
@@ -82,7 +100,6 @@
         <script type="text/javascript" src="./scripts/basic-section.component.js">       </script>
         <script type="text/javascript" src="./scripts/filter-form.component.js">         </script>
         <script type="text/javascript" src="./scripts/sorter-form.component.js">         </script>
-        <script type="text/javascript" src="./scripts/paginate-box.component.js">        </script>
         <script type="text/javascript" src="./scripts/card-article.component.js">        </script>
         <script type="text/javascript" src="./scripts/testing-article.component.js">     </script>
         <script type="text/javascript" src="./scripts/testing-options-form.component.js"></script>
@@ -93,8 +110,7 @@
         <script type="text/javascript" src="./scripts/personal-cabinet.component.js">    </script>
         <script type="text/javascript" src="./scripts/registration-form.component.js">   </script>
         <script type="text/javascript" src="./scripts/router.module.IE11.js">		  	 </script>
-        <script type="text/javascript" src="./scripts/session.module.js">		  	     </script>
-            
+        <script type="text/javascript" src="./scripts/session.module.js">		  	     </script>       
     <script>
             s = new SessionModule();
     </script>

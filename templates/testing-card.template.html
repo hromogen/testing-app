@@ -1,9 +1,16 @@
-<a href="" class="cards-article__card" data-navigo>
+<a href="" class="cards-article__card" 
+data-id="{{id}}" 
+data-difficulty="{{difficulty}}"
+data-topics ="[{{topics}}]"
+data-navigo>
   <p class="card-info card-difficulty-info inline"><strong>Складність: </strong>
+  <span class="sorting-parameter">{{difficulty}}</span>
   </p>
   <p class="card-info card-size-info inline"><strong>Кількість питань: </strong>
+  <span class="sorting-parameter">{{questions_uris.length}}</span>
   </p>
   <p class="card-info card-topics-info">
     <strong>Тема:</strong>
+    <span class="sorting-parameter"></span>
   </p>
 </a>

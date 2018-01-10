@@ -43,12 +43,6 @@ const COMPONENTS_REGISTER = {
         ,attachedDataUri:'./assets/mock-server/erudith-cards-register.json'
         ,modeName:'erudith'
     }
-    ,quizCardsPaginateBox: {
-        sSelector:'.cards__links--quiz'
-    }
-    ,erudithCardsPaginateBox: {
-        sSelector:'.cards__links--erudith'
-    }
     ,testingOptionsForm: {
         sSelector: '.testing-options-form'   
         ,templateUri: './templates/testing-options-form.template.html'
@@ -78,9 +72,13 @@ const COMPONENTS_REGISTER = {
         sSelector: '.personal-cabinet'
         ,templateUri: './templates/personal-cabinet.template.html'
     }
-    ,searchResults: {
+    ,searchResult: {
         sSelector: '.search-result'
         ,templateUri: './templates/search-result.template.html'
+    }
+    ,testingSummary: {
+        sSelector: '.testing-summary'
+        ,templateUri: './templates/testing-summary.template.html'
     }
 }
 

@@ -4,7 +4,22 @@ function UserService(fUserGetter, fUserSetter){
     u._userSetter = fUserSetter;
     u._userReg = null;
     u._http = new HttpService();
-    u._logined = false
+    u._logined = false;
+    u._testingLog = [];
+    u.testingResults = {
+        catch : function(oTestingResult){
+            u._testingLog.push({timeStamp: new Date()
+                , testingResult: oTestingResult
+            });
+        }
+        ,getLast : function(){
+            const len = u._testingLog.length;
+            return u._testingLog[len-1].testingResult;
+        }
+        ,getAll : function(){
+            return u._testingLog;
+        }
+    }
 
     u._http.get('./assets/mock-server/users-reg.json')
     .then(function(succes){
@@ -57,5 +72,4 @@ UserService.prototype = {
         user.testings_log.push(oLog)
         this._userSetter(user)
     }
-
 }

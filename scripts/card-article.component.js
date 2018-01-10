@@ -1,6 +1,7 @@
 function CardArticleComponent(){
     const c = this;
     Component.apply(c, arguments);
+    const _parentRenerer = c._renderTemplate;
     c._cardService = new CardsDisplayService(c._session); 
 
     c._getAttachedData = function(){
@@ -11,7 +12,9 @@ function CardArticleComponent(){
         , pCardsData = Promise.resolve(pCardsInfo)
         .then(function(success){
             const aCardsInfo = success.map(function(cardInfo){
-                return c._http.get(cardInfo.uri);
+                return c._http.get(cardInfo.uri).then(function(success){
+                    return JSON.parse(success)
+                })
             });
             return aCardsInfo;
         }).then(function(success){
@@ -19,24 +22,28 @@ function CardArticleComponent(){
         });
         return pCardsData;
     }
+    
+    c._renderTemplate = function(template, fetchedData){
+        const renderedTemplate = _parentRenerer(template, fetchedData)
+        ,eCardCollection = renderedTemplate.querySelectorAll('.cards-article__card')
+        ,aElCards = Array.from(eCardCollection, function(eCard, index){
+            eCard.href = '/cards/' + c._modeName + '/set_testing';
+            eTopics = eCard.querySelector('.card-topics-info .sorting-parameter');
+            eTopics.innerHTML = fetchedData[index].topics.map(
+                function(val){
+                    return CardsDisplayService._TOPICNAMES[val];
+                });
+            return eCard;
+        });
 
-    c._modifyTemplate = function(template, fetchedData){
-        const originalCardBox = template.querySelector('.cards-article__card');
-        resultingCards = fetchedData.map(function (oItem){
-            let eCardBox = originalCardBox.cloneNode(true);
-            c._cardService.setCardFields(eCardBox, oItem);
-            c._cardService.setCardDataset(eCardBox, oItem);
-            eCardBox.href = '#/cards/' + c._modeName + '/set_testing';
-            return eCardBox;
-        }); 
-
+        c._session.setParsedCards(aElCards, c._modeName);
         c._session.setLoadedCardsData(fetchedData, c._modeName); 
-
-        return resultingCards;
+        return renderedTemplate;
     }
-
-    c._setEventListeners = function(aElCards){
-        let referenceCardSet = c._session.getLoadedCardsData(c._modeName);
+    
+    c._setEventListeners = function(DOMElement){
+        const aElCards = Array.from(DOMElement.querySelectorAll('.cards-article__card'))
+        , referenceCardSet = c._session.getLoadedCardsData(c._modeName);
         aElCards.map(function(elCard){
             elCard.addEventListener('click', function(){ 
                 let cardQuestionsData = referenceCardSet.find(function(cardData){
@@ -62,17 +69,9 @@ function CardArticleComponent(){
                 c._session.setTestingArticle(testingArticleComponent);
             })   
         })
-        return aElCards; 
+        return DOMElement; 
     }
-
-    c._inject = function(aCards){
-        const mode = c._modeName
-        ,s = c._session
-        c._container.innerHTML = '';
-        c._container.append.apply(c._container, aCards);
-        s.setParsedCards(aCards, mode);
-        return c._container;
-    }
+    c.createComponent();
     return c;
 }
 

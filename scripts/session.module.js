@@ -12,7 +12,9 @@ function SessionModule(){
     s.cardsDisplayService = new CardsDisplayService();
     s.searchService = new SearchService();
     s.userService = new UserService(s.getCurrentUser.bind(s)
-    , s.setCurrentUser.bind(s));
+                                   ,s.setCurrentUser.bind(s));
+    s.informService = new InformService();
+
 
     s._parsedCards = {
         quiz: s.cacheService.loadDOMElementsArray('parsedCards.quiz') || []
@@ -33,15 +35,14 @@ function SessionModule(){
     s._currentlyUploadedInfo = {};
     s._currentUser = null;
 
+    s.informService.initErrorHandler(s._routerModule);
+
 
     for(componentName in s._reg){
         s._reg[componentName].session = s;
         s._reg[componentName].router = s._routerModule;
     }
     s._cardsArticles = {
-        quiz:{}, erudith:{}
-    }
-    s._cardsPaginateBoxes = {
         quiz:{}, erudith:{}
     }
     s._rulesArticles = {
@@ -59,15 +60,15 @@ function SessionModule(){
     s._sorterForm = new SorterFormComponent(s._reg.sorterForm);
     s._cardsArticles.quiz = new CardArticleComponent(s._reg.quizCardsArticle);
     s._cardsArticles.erudith = new CardArticleComponent(s._reg.erudithCardsArticle);
-    s._cardsPaginateBoxes.quiz = new PaginateBoxComponent(s._reg.quizCardsPaginateBox);
-    s._cardsPaginateBoxes.erudith = new PaginateBoxComponent(s._reg.erudithCardsPaginateBox);
     s._uploadSetupForm = new UploadSetupFormComponent(s._reg.uploadSetupForm);
     s._uploadForm = new UploadFormComponent(s._reg.uploadForm);
     s._videoSlider = new VideoSliderComponent(s._reg.videoSlider);
     s._testingOptionsForm = new TestingOptionsFormComponent(s._reg.testingOptionsForm);
-    s._searchResults = new BasicSectionComponent(s._reg.searchResults);
+    //s._testingArticle = new TestingArticleComponent(s._reg.testingArticle);
+    s._searchResults = new BasicSectionComponent(s._reg.searchResult);
     s._registrationForm = new RegistrationFormComponent(s._reg.registrationForm);
     s._personalCabinet = new PersonalCabinetComponent (s._reg.personalCabinet);
+    s._testingSummary = new BasicSectionComponent(s._reg.testingSummary)
     
 
     s._routerModule.on({
@@ -95,13 +96,15 @@ function SessionModule(){
             ,sFilterParamsDirty = query.split('filtered_by=')[1]
             ,sSortingParamClean = sSortingParamDirty && sSortingParamDirty.split('&')[0] || ''
             ,sFilterParamsClean = sFilterParamsDirty && sFilterParamsDirty.split('&')[0] || ''
-            ,currPaginateBox    = s._cardsPaginateBoxes[mode];
-
+            
+            
             if(targetPage == 1 || !s.cardsPaginators[mode]){
                 s._cardsArticles[mode].createComponent().then(function(){
                     const aCards = s._parsedCards[mode]
                     ,oFilterParams = sFilterParamsClean && 
-                        JSON.parse(sFilterParamsClean);
+                        JSON.parse(sFilterParamsClean)
+                    ,currPaginateBox = s._cardsArticles[mode].getContainer()
+                        .closest('.cards').querySelector('.cards__links--' + mode);
                     let currPaginator;
                     if(sSortingParamClean){
                         s.cardsDisplayService.sort(aCards, sSortingParamClean)
@@ -116,15 +119,9 @@ function SessionModule(){
                     });
                     currPaginator.paginate();
                     s.searchService.addToViews('/cards/'+ mode, s._cardsArticles[mode]);
-                    currPaginateBox.setBasicRef('#/cards/'+ mode + '?' + query.slice(0,-1));
-                    currPaginateBox.setPaginateService(currPaginator);
-                    currPaginateBox.createComponent().then(function(){
-                        s.viewComponents(s._filterForm
-                            ,s._sorterForm
-                            ,s._cardsArticles[mode]
-                            ,currPaginateBox);
-                        currPaginator.goToPage(targetPage);
-                    });
+                    currPaginator.generatePagelinks(currPaginateBox,'#/cards/'+ mode + '?' + query.slice(0,-1));
+                    s.viewComponents(s._filterForm, s._sorterForm, s._cardsArticles[mode], currPaginateBox);
+                    currPaginator.goToPage(targetPage);
                     s.cardsPaginators[mode] = currPaginator;
                 })
             }else{
@@ -134,7 +131,6 @@ function SessionModule(){
         
         ,'/setup-upload/:parameter': function(uploadOpts){
             s.setCurrentMode(uploadOpts.parameter);
-            
             s.viewComponents(s._uploadSetupForm);   
         }
         ,'/upload/:parameter': function(uploadOpts, query){
@@ -168,6 +164,14 @@ function SessionModule(){
         }
         ,'/testingON': function(){
             s.viewComponents(s._testingArticle);
+        }
+        ,'/testing_result' : function(){
+            const testingResult = s.userService.testingResult.getLast()
+            ,template = s._testingArticle.getTemplate()
+            ,container = s._testingArticle.getContainer();
+            container.innerHTML = Mustache.render(testingResult, template);
+            s.viewComponents(s._testingArticle);
+
         }
         ,'/search_result': function(options, query){
             if(query){

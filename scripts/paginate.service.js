@@ -7,8 +7,14 @@ function PaginateService(options){
         p._displayingClassName = opts && opts.displayingClassName || '';
         p.numPerPage = opts && opts.numPerPage || null;
         p.autoPaginate = opts && opts.autoPaginate || false;
-        p.numOfPages;
+        p.numOfPages = (p.numPerPage) ? Math.ceil(p._eItems.length/p.numPerPage) : null;
         p.currentPage = 1;
+        p._aPaginatedItems = Array.from(p._eItems,function(item, index){
+            if(p.numPerPage && index > p.numPerPage - 1){
+                p._hide(item)
+            }
+            return item;
+        });
     }
 
     p.paginate = function(){
@@ -16,7 +22,7 @@ function PaginateService(options){
         ,pageNum = 1
         ,aPaginatedItems;
 
-        aPaginatedItems = Array.from(p._eItems).filter(function(item){
+        aPaginatedItems = p._aPaginatedItems.filter(function(item){
             return !/filtered/.test(item.className)
         });
         aPaginatedItems = aPaginatedItems.sort(function(itemA, itemB){
@@ -36,30 +42,59 @@ function PaginateService(options){
             }
     }
     p.goToPage = function(pageNum){
-        const aPaginatedItems = Array.from(p._eItems, function(eItem){
+        p._aPaginatedItems.map(function(eItem){
             if(+eItem.dataset.page == +pageNum){
                 p._display(eItem)
             }else if(+eItem.dataset.page != +pageNum){
                 p._hide(eItem);
             }
+            return eItem;
         });
         p.currentPage = +pageNum;
     }
-    p.goToNext = function(){
-        if(p.currentPage < p.numOfPages - 1){
-            p.currentPage++;
-        }else{
-            p.currentPage = 1;
-        }
-        p.goToPage(p.currentPage);
+    p.slide = function(){
+        p._aPaginatedItems.map(function(eItem, index){
+            if(index < p.currentPage*p.numPerPage && 
+                index >= Math.min(
+                    p._eItems.length - p.numPerPage
+                    , (p.currentPage-1)*p.numPerPage )
+                ){
+                p._display(eItem)
+            }else{
+                p._hide(eItem);
+            }
+            return eItem;
+        });
     }
-    p.goToPrevious = function(){
+    p.goToNext = function(fMove){
+        if(p.currentPage < p.numOfPages){
+            p.currentPage++;
+        }
+        if(fMove){
+            fMove();
+        }else{
+            p.goToPage(p.currentPage)
+        }
+    }
+    p.goToPrevious = function(fMove){
         if(p.currentPage > 1){
             p.currentPage--;
-        }else{
-            p.currentPage = p._eItems.length;
         }
-        p.goToPage(p.currentPage);
+        if(fMove){
+            fMove();
+        }else{
+            p.goToPage(p.currentPage)
+        }
+    }
+    p.generatePageLinks = function(container, sBasicRef){
+        for(let i = 1; i <= p.numOfPages; i++){
+            let anchor = document.createElement('a');
+            anchor.href = sBasicRef + i;
+            anchor.innerHTML = i;
+            anchor.className = 'paginate-link';
+            aAnchors.push(anchor)
+        }
+        container.append.apply(container, aAnchors);
     }
 
     p._hide = function(element){

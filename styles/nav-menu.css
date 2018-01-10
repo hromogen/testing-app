@@ -1,3 +1,6 @@
+.nav{
+    width: 100%;
+}
 .nav-menu,
 .nav-menu__submenu{
     list-style-type: none;

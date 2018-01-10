@@ -1,47 +1,52 @@
 function VideoSliderComponent(){
     const v = this;
     Component.apply(v, arguments);
- 
-    v._modifyTemplate = function(template){
-        const avatarArticle = template.querySelector('.video-section__avatars')
-        ,videoAnchorTemplate = avatarArticle.querySelector('.video-section__anchor')
-        ,videoAnchorSet = VIDEO_REGISTER.map(function(videoData, index){
-            let videoAnchorCopy = videoAnchorTemplate.cloneNode(true)
-            ,avatarImg = videoAnchorCopy.querySelector('.slider-article__video-placeholder')
-            ,videoName = videoData.name;
 
-            avatarImg.src = videoData.avatarSrc;
-            avatarImg.alt = 'placeholder' + ('000'+ index).slice(-3);
-            videoAnchorCopy.href += videoName
-            return videoAnchorCopy;
-        });
+    const _parentRenderTemplate = v._renderTemplate;
 
-        avatarArticle.removeChild(videoAnchorTemplate);
-        avatarArticle.append.apply(avatarArticle, videoAnchorSet);
-
-        return template;
+    v._renderTemplate = function(template){        
+        return _parentRenderTemplate(template, { videoData: VIDEO_REGISTER });
     }
+
     v._setEventListeners = function(DOMtree){
-        const slidesArticle =  DOMtree.querySelector('.video-section__avatars')
-        ,slides = DOMtree.querySelectorAll('.video-section__anchor')
+        const slides = DOMtree.querySelectorAll('.video-section__anchor')
         ,moveToPrevButton = DOMtree.querySelector('.videomaterials__arrow-container--to-prev')
         ,moveToNextButton = DOMtree.querySelector('.videomaterials__arrow-container--to-next')
-        ,numPerPage = 3
-        let position = 0;
+        ,closeButton = DOMtree.querySelector('.video-container__close-button')
+        ,sliderPaginator = new PaginateService({
+            eItems: slides
+            ,numPerPage: 3
+        });
 
+        v._videoArticle = DOMtree.querySelector('.video-section__video-container');
+        v._video = v._videoArticle.querySelector('video');
+        v._source = v._videoArticle.querySelector('source');
+        
         moveToPrevButton.addEventListener('click', function(){
-            const flipWidth = v._container.clientWidth;
-            position = Math.min(position + flipWidth, 0);
-            slidesArticle.style.marginLeft = position + 'px';
+            sliderPaginator.goToPrevious(sliderPaginator.slide);
         });
         moveToNextButton.addEventListener('click',function(){
-            const flipWidth = v._container.clientWidth;
-            position = Math.max(position - flipWidth
-                , -(slides.length - numPerPage)*flipWidth/numPerPage);
-            slidesArticle.style.marginLeft = position + 'px';
+            sliderPaginator.goToNext(sliderPaginator.slide);
         });
+        closeButton.addEventListener('click',v.stopWatching);
+
         return DOMtree; 
     }
+
+    v.stopWatching = function(){
+        v._source.src = "";
+        v._video.poster = "";
+        v._videoArticle.classList.remove('video-section__video-container--watching')
+    }
+    v.watch = function(sVideoName){
+        const videoData = VIDEO_REGISTER.find(function(entry){
+            return entry.name == sVideoName;
+        });
+        v._source.src = videoData.videoSrc;
+        //v._video.poster = videoData.posterSrc;
+        v._videoArticle.classList.add('video-section__video-container--watching')
+    }
+
     v.createComponent();
     return v;
 }

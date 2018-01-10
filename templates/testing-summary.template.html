@@ -1,13 +1,18 @@
 <p class="summary__p">Вітання! Ви закінчили це невелике тестування<br>
     Ви відповіли правильно на питання # 
-    <span class="summary__answered-correctly-nums"></span><br>
+    {{anwered_correctly_nums}}<br>
 </p>
+{{#incorrect_answers_detail}}
 <p class="summary__p summary__anwers-details">
-    Ви відповіли неправильно на питання # <span class="summary__answered-incorrectly-num"></span><br>
-    <span class="summary__answered-incorrectly"></span>
-    Правильна відповідь на це питання <span class ="summary__correct-answer"></span><br>
+    Ви відповіли неправильно на питання # {{num}}<br>
+    <span class="summary__answered-incorrectly">{{question}}</span>
+    Правильна відповідь на це питання <span class ="summary__correct-answer">
+        {{correct_answer}}
+    </span><br>
 </p>
+{{/incorrect_answers_detail}}
 <p class="summary__p">
-    Ваш відсоток правильних відповідей складає <span class="summary__score"></span><br>
+    Ваш відсоток правильних відповідей складає 
+    <span class="summary__score">{{score}}%</span><br>
     Дякуємо і хорошого дня!
 </p>

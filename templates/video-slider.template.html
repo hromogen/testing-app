@@ -6,14 +6,18 @@ videomaterials__arrow-container--to-prev">
 videomaterials__arrow-container--to-next">
 ⇨
 </button>
-<article class="video-section__avatars">
-    <a href="#/videomaterials/watch" class='video-section__anchor' data-navigo>
-        <img src="" class="slider-article__video-placeholder" 
-        width="350" height="250" alt="avatar">
+<article class="video-section__posters">
+    {{#videoData}}
+    <a href="#/videomaterials/watch?{{name}}" class='video-section__anchor' data-navigo>
+        <img src="{{posterSrc}}" class="slider-article__video-placeholder" 
+        width="350" height="250" alt="poster">
     </a>
+    {{/videoData}}
 </article>
 <article class="video-section__video-container">
-        <video class="video-section__video" width="480" controls poster="" >
-            <source class="video-section__source" src="" type="">
-        </video>
+    <a href="#/videomaterials" class="video-container__close-button" data-navigo>✖</a>
+        
+    <video class="video-section__video" width="480" controls poster="" >
+        <source class="video-section__source" src="" type="video/mp4">
+    </video>
 </article>

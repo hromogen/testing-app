@@ -32,15 +32,16 @@ function Component(options){                                         // <-- оп
                                                                      //     темплейту, <boolean>
     c._routeToView = '';
     c._active = false;
-}
-Component.prototype = {
-    _getTemplate : function(){                                       // стандартна функція завантаження
-        return this._templateUri ?                                   // темплейту
-        this._http.get(this._templateUri) : '';                      // --> Promise<String>, де міститься 
+    c._template = '';
+    c._handleError = c._session.informService.errorHandler;
+    c._errNames = InformService.STANDARD_ERROR_NAMES; 
+
+    c._getTemplate = function(){                                       // стандартна функція завантаження
+        return c._templateUri ?                                   // темплейту
+        c._http.get(this._templateUri) : '';                      // --> Promise<String>, де міститься 
                                                                      //     інформація про темплейт  
     }
-    ,_getAttachedData : function(){                                  // стандартна функція завантаження
-        const c = this;                                              // додатковий даних
+    c._getAttachedData = function(){                                  // стандартна функція завантаження                                             // додатковий даних
         let result;                                                  // -->  Promise<string[]||Object[]||
         if(c._attachedDataUri){                                      //      null>, де містяться заватнажені  
             result = c._http.get(c._attachedDataUri)                 //      дані                          
@@ -51,62 +52,55 @@ Component.prototype = {
         }
         return result;
     }
-    ,_parseTemplate : function(sTemplate){                          // функція-"заглушка"; за замовчуванням
-        return sTemplate ?                                          // у випадку наявності проводить парсинг                                      
-        this._parser.parseFromString(sTemplate, "text/html") :      // рядку завантаженого темплейту
-        '';                                                         // --> Promise<DOMElement || null> 
-    }
-    ,_modifyTemplate : function(template /*optional*/               // фунція-"заглушка", модифікується у разі  
-        , fetchedData){                                             // необхідності у нащадках класу для  
-        return template;                                            // модифікації темплейту відповідно до 
-                                                                    // завантажених даних
-    }                                                               // --> Promise<DOMElement>
+    c._renderTemplate = function(sTemplate, fetchedData){
+        let result = ''                                               
+        c._template = sTemplate;
+        if(sTemplate && !fetchedData){
+            result = sTemplate;
+        }
+        else if(sTemplate && fetchedData){
+            if(Array.isArray(fetchedData)){
+                result = fetchedData.reduce(function(interim, dataItem){
+                    interim += Mustache.render(sTemplate, dataItem);
+                    return interim
+                },'')
+            }else if(typeof fetchedData === 'object'){
+                result = Mustache.render(sTemplate, fetchedData);
+            }   
+        }
+        return result ? 
+        c._parser.parseFromString(result, "text/html") : '';                                                   
+    }                                                           
     
-    ,_setEventListeners : function(DOMtree){                        // фунція-"заглушка", модифікується у разі 
-        return DOMtree                                              // необхідності у нащадках класу; 
-    }                                                               // додаються обробники подій для взаємодії 
-                                                                    // з користувачем
-                                                                    // --> Promise<DOMElement>
-
-    ,_inject : function(DOMtree){                                   // точка вставки модифікованого темплейту                                  
-        const c = this;
+    c._setEventListeners = function(DOMtree){                  
+        return DOMtree                                          
+    }                                                           
+                                                                                                                                
+    c._inject = function(DOMtree){                                                           
         if(c._clearContainer){
-            c._container.innerHTML = '';                            // у випадку необхідності знищуємо 
-        }                                                           // попередній зміст
+            c._container.innerHTML = '';                            
+        }                                                           
         c._container.append.apply(c._container
             , DOMtree.body.children);
-        return c._container;                                        // --> Promise<DOMElement>
+        return c._container;                                        
     }
-
-    ,createComponent : function (){                                 // функція комбінування стадій створення
-        const c = this;                                             // елементу за замовчуванням;
-        return Promise.all([c._getTemplate()                        // включати у конструктор нащадків 
-            , c._getAttachedData()])                                // класу для того, щоб вони вставлялись 
-        .then(                                                      // у DOM-дерево зразу після створення
-            function(success){                                      // або викликати в момент, коли це 
-                const parsedTmpl = c._parseTemplate(success[0]);    // є доцільним
-                let parsedFetchedData;
-                if(success[1]){
-                    if(Array.isArray(success[1])){
-                        parsedFetchedData = success[1].map(         // Тут відбувається додатковий парсинг
-                            function(dataItem){                     // завантажених даних, якщо вони є 
-                            let result;                             // <string> чи <string[]> 
-                            if(typeof dataItem === 'string'){
-                                result = JSON.parse(dataItem);
-                            }else{
-                                result = dataItem
-                            }
-                            return result;
-                        });
-                    }else if(typeof success[1] === 'string'){
-                        parsedFetchedData = JSON.parse(success[1])
-                    }else if(typeof success[1] === 'object'){
-                        parsedFetchedData = success[1]
-                    }
-                }
-            return c._modifyTemplate(parsedTmpl
-                , parsedFetchedData);
-            }).then(
+    c.createComponent = function (){                                                                        
+        return Promise.all(
+            [c._getTemplate()
+                .catch(function(error){
+                    error.name = c._errNames.templateDownloadProbllem
+                    c._handleError(error);                    
+                }), c._getAttachedData()
+                .catch(function(error){
+                    error.name = c._errNames.dataDownloadProblem
+                    c._handleError(error);
+            })
+        ])                                
+        .then(                                                      
+            function(success){
+                return c._renderTemplate(success[0], success[1]) 
+            }                                      
+        ).then(
                 function(success){
                     return c._setEventListeners(success);
             }).then(
@@ -118,7 +112,10 @@ Component.prototype = {
                     return success;                                 // --> <void>
             });
     }
-    ,getContainer : function(){                                     // --> Доступ до контейнерного елементу,
+    return c;
+}
+Component.prototype = {
+    getContainer : function(){                                     // --> Доступ до контейнерного елементу,
         return this._container;                                     //     <DOMElement>  
     }
 
@@ -131,11 +128,15 @@ Component.prototype = {
         this._container.classList.remove('view--active');           // видимості до контейнерних елементів
     }                                                               // представників нащадків цього класу
                                                                     // // --> <void>
-    ,modifyAfterParsing : function(attachedData){
-        this._modifyTemplate(this._container, attachedData)
+    ,modifyInline : function(attachedData){
+        const elChangedContent = this._renderTemplate(this._template, attachedData)
+        ,elContentWithListeners = this._setEventListeners(elChangedContent)
+        this._container.innerHTML = '';
+        this._container.append.apply(this._container
+            , Array.from(elContentWithListeners.body.children));
     }
     ,setRouteToView : function(sRoute){
-        c._routeToView = sRoute;
+        this._routeToView = sRoute;
     }
     ,getRouteToView : function(){
         return c._routeToView
@@ -148,5 +149,8 @@ Component.prototype = {
     }
     ,isActive : function(){
         return this._active;
+    }
+    ,getTemplate : function(){
+        return this._template;
     }
 }                                                                   

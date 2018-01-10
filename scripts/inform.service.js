@@ -1,11 +1,15 @@
-function InformService(opts){
+function InformService(){
     const i = this;
-    i._correctAnswerBox   = opts && opts.correctAnswerBox || null;
-    i._wrongAnswerBox     = opts && opts.wrongAnswerBox   || null;
-    i._questionBox        = opts && opts.questionBox      || null;
-    i._finalLogBox        = opts && opts.finalLogBox      || null;
-    i._currentlyDisplayed = [];
 
+    i._currentlyDisplayed = [];
+    i._testingResult = {};
+
+    i.initCorrectAnswerMessages = function(opts){
+        i._correctAnswerBox   = opts && opts.correctAnswerBox || null;
+        i._wrongAnswerBox     = opts && opts.wrongAnswerBox   || null;
+        i._questionBox        = opts && opts.questionBox      || null;
+        i._finalLogBox        = opts && opts.finalLogBox      || null;
+    }
 
     i.informAboutAnswer = function(givenAnswer, referenceAnswer){
         if(givenAnswer == referenceAnswer){
@@ -37,12 +41,34 @@ function InformService(opts){
         i._currentlyDisplayed = []
     }
 
-    i.displayTestingResults = function(finalLog){
-        const boxForAnsweredCorrectlyNums = i._finalLogBox
-        .querySelector('.summary__answered-correctly-nums')
-        ,boxForScore = i._finalLogBox
-        .querySelector('.summary__score')
-        ,boxForDetails = i._finalLogBox
-        .querySelector('.summary__anwers-details');
+    i.catchTestingResult = function(finalLog){
+        i._testingResult = finalLog;
     }
+    i.getTestingResult = function(){
+        return i._testingResult;
+    }
+    i.initErrorHandler = function(router){
+        i._router = router;
+    }
+    i.errorHandler = function(error, sGoOnLink){
+        const container = document.querySelector('.error-section')
+        ,goOnButton = container.querySelector('.error-section__go-on-button')
+        ,showDetailButton = container.querySelector('.error-section____detail-button')
+        ,detailList = container.querySelector('.error-section__error-detail')
+        ,sSavedHTML = container.innerHTML
+        ,message = Mustache.render(sSavedHTML, error);
+        showDetailButton.onclick = function(){
+            detailList.classList.toggle('error-section__error-detail--open')
+        }
+        goOnButton.onclick = function(){
+            i._router.navigate(/*path=*/ sGoOnLink || '/rules/general', /*absolute=*/false);
+            container.classList.remove('view--active');
+        }
+        container.classList.add('view--active');
+    }
+}
+InformService.STANDARD_ERROR_NAMES = {
+    templateDownloadProblem: 'Виникла проблема при завантаженні темплейту. Можливо, спробуйте ще раз з головної сторінки?'
+    ,dataDownloadProblem: 'Виникла проблема при завантаженні даних. Можливо, сервер зараз не доступний. Спробуйте пізніше'
+    ,uploadFormNotValid: 'Перевірте, будь ласка, чи Ви не пропустили якесь поле при створенні тестування'
 }

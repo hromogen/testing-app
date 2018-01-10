@@ -1,30 +1,51 @@
+.cards{
+    flex-wrap: wrap;
+}
 .cards__quiz,
 .cards__erudith{
     flex-basis: auto;
-    background-color: rgb(238, 221, 144);
+    background-color: rgb(181, 202, 204);
+    margin: 10px 0px;
     padding: 20px;
     flex-wrap: wrap;
-    height: 90%;
-    overflow: hidden;
+    width: 70%;
+    height: 80%;
 }
 .cards-article__card{
     border: 1px double  rgb(72, 119, 103);
-    background-color:  rgb(30, 235, 166);
+    background-color:  rgb(169, 192, 170);
     width: 300px;
     height: 100px;
     border-radius: 5px;
-    margin: 30px;
-    background-color: rgb(182, 224, 134);
+    margin: 30px;    
 }
 .card-info{
     display: inline-block;
-    border: 1px solid white;
+    border: 1px solid rgb(82, 90, 79);
     border-radius: 3px;
-    background-color: rgb(134, 224, 209);
+    background-color: rgb(112, 163, 154);
     margin: 2px 4px;
 }
-
+.cards__links{
+    margin: 0px 2px;
+    flex-basis: 95%;
+    background-color: rgb(186, 230, 236);
+    justify-content: center;
+}
 .cards-article__card--filtered,
 .on-other-page{
     display: none;
+}
+.cards__controllers{
+    flex-basis: auto;
+    width: 300px;
+    margin: 10px 5px;
+    border: 1px solid rgb(185, 218, 209);
+    background-color: rgb(101, 112, 145);
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.controller-form{
+    margin: 5px 5px 10px 5px;
 }

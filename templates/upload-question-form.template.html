@@ -1,26 +1,29 @@
 <form class="upload-form">
-    <formfield class="upload-form__formfield">
+    <fieldset class="upload-form__fieldset">
         <legend class="upload-form__legend"> 
             Введіть, будь ласка, питання
         </legend>
         <input type="text" name="option" class="upload-form__question"
-         placeholder="Текст питання" required>
+         placeholder="Текст питання">
         <legend class="upload-form__legend"> 
             Варіанти відповіді
         </legend>
         <input type="text" name="upload-form__option" class="upload-form__option" 
-        placeholder="Опція 1" required>
+        placeholder="Опція 1">
         <input type="text" name="upload-form__option" class="upload-form__option"
-        placeholder="Опція 2" required>
+        placeholder="Опція 2">
         <input type="text" name="upload-form__option" class="upload-form__option"
-        placeholder="Опція 3" required>
+        placeholder="Опція 3">
         <input type="text" name="upload-form__option" class="testing-form__option"
-        placeholder="Опція 4" required>
+        placeholder="Опція 4">
         <legend class="upload-form__legend"> 
             Номер правильної відповіді
         </legend>
         <input type="number" name="correct-answer-num" class="upload-form__correct-answer"
-        min="1" max="4" required>
-    </formfield>   
-    <input type="submit" class="upload-form__submit" value="Submit">
+        min="1" max="4">
+        <button class="upload-form__lock-button">Запам'ятати</button>
+        <button class="upload-form__unlock-button" disabled>Редагувати</button>
+    </fieldset>  
+    <input type="submit" class="upload-form__submit" value="Відправити">
+    <div class="upload-form__pagination-box"></div>
 </form>

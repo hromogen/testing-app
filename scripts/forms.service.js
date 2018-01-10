@@ -78,16 +78,8 @@ function FormsService(form, clearInputs){
         return sortingParam
     }
     f.processTestingOptionsForm = function(){
-        const testingParams = f._evalCheckedInputs();
-        let basicTimeout = +testingParams.timingDifficulty*1000;
-        if(testingParams.timingCountdown == 'all'){
-            testingParams.timeout = basicTimeout*testQuizUris.length;
-            testingParams.numOfCoundowns = 1;
-        }else{
-            testingParams.timeout = basicTimeout;
-            testingParams.numOfCoundowns = testQuizUris.length;
-        } 
-        return testingParams;
+        return f._evalCheckedInputs();
+        
     }
     f.processTestingForm = function(){
         return +Object.values(f._evalCheckedInputs())[0];
@@ -102,7 +94,7 @@ function FormsService(form, clearInputs){
         return Object.assign(oTestingName, oCheckedInputs, oSelectVals)
     }
     f.processUploadForm = function(fieldNum){
-        const currFormField = f.form.querySelector('[data-page=' + fieldNum + ']')
+        const currFormField = f.form.querySelector('[data-page="' + fieldNum + '"]')
         result = [];
         return  {
             question:""

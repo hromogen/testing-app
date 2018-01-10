@@ -65,26 +65,7 @@ function CardsDisplayService(){
         return sortedCards;
     }
 
-    c.setCardFields = function(card, cardInfo){
-        const eDifficulty = document.createElement('span')
-        ,eTopics = document.createElement('span')
-        ,eQuestionsNum = document.createElement('span');
-
-        eQuestionsNum.innerHTML = cardInfo.questions_uris.length;
-        eTopics.innerHTML = cardInfo.topics.map(
-            function(val){
-                return CardsDisplayService._TOPICNAMES[val];
-            });
-        eDifficulty.innerHTML = cardInfo.difficulty;
-        eDifficulty.classList.add('sorting-parameter');
-        eTopics.classList.add('sorting-parameter');
-        eQuestionsNum.classList.add('sorting-parameter');
-
-        card.querySelector('.card-difficulty-info').appendChild(eDifficulty);
-        card.querySelector('.card-size-info').appendChild(eQuestionsNum);
-        card.querySelector('.card-topics-info').appendChild(eTopics);
-      }
-      
+     
     c.setCardDataset = function(card, cardInfo){
         card.dataset.id = cardInfo.id;
         card.dataset.difficulty = cardInfo.difficulty || '';

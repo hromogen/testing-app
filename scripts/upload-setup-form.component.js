@@ -8,7 +8,7 @@ function UploadSetupFormComponent(){
             event.preventDefault();
             const uploadFormOptions = formService.processUploadSetupForm()
             ,sUploadMode = u._session.getCurrentMode()
-            u._session._uploadForm.modifyAfterParsing(uploadFormOptions);
+            u._session._uploadForm.modifyInline(uploadFormOptions);
             u._session._uploadForm.activate();
             u._router.navigate(/*path=*/'/upload/'+ sUploadMode + '?question#=1', /*absolute=*/false)
         })

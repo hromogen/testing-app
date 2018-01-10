@@ -1,17 +1,24 @@
 "use strict";
-function TestingService(options, session, formsService, timerService, informService){
+function TestingService(options
+    , questionary
+    , formsService
+    , timerService
+    , informService
+    , router
+    , fResultCatcher
+){
     const ts = this
     ts._formsService  = formsService;
     ts._timerService  = timerService;
     ts._informService = informService;
-    ts._questionary   = session.getCurrentQuestionary();
+    ts._router        = router;
+    ts._resultCatcher = fResultCatcher
+    ts._questionary   = questionary
     ts._options       = options;
     ts._questionsSet  = ts._formsService.form.querySelectorAll('.testing-form__formfield');
     ts._finalLog      = {
                     answers                      : []
-                    ,correct_answers_u_dont_know : []
-                    ,anwered_incorrectly_nums    : []
-                    ,anwered_incorrectly         : []
+                    ,incorrect_answers_detail    : []
                     ,anwered_correctly_nums      : []
                     ,score                       : 0
                     ,date                        : null
@@ -51,10 +58,10 @@ function TestingService(options, session, formsService, timerService, informServ
             ts._timerService.clearTimeout();
         }
         if(ts._options.informAboutAnswer == 'true'){
-            informService.informAboutAnswer(ts._log[i]
+            ts._informService.informAboutAnswer(ts._log[i]
                 ,ts._aCorrectAnswers[i]);
             setTimeout(function(){
-                informService.hideMessages();
+                ts._informService.hideMessages();
                 fFinalCallBack();
             }, 1000);
         }else{
@@ -79,17 +86,18 @@ function TestingService(options, session, formsService, timerService, informServ
             if (correctAnswerNum == ts._log[index]){
                 fLog.answered_correctly_nums.push(index)
             }else{
-                fLog.anwered_incorrectly_nums.push(index)
+                fLog.incorrect_answers_detail.push({num: index})
             }
         });
-        fLog.anwered_incorrectly_nums.map(function(value){
-            let oTargQuestion = ts._questionary[value]
+        fLog.incorrect_answers_detail.map(function(value){
+            let oTargQuestion = ts._questionary[value.num]
             ,correctAnswer = oTargQuestion.options[oTargQuestion.correct]
-            fLog.anwered_incorrectly_nums.push(oTargQuestion.question);
-            fLog.correct_answers_u_dont_know.push(correctAnswer)
+            value.question = oTargQuestion.question;
+            value.correct_answer = correctAnswer
         });
         ts._finalLog.score = (100*fLog.anwered_correctly_nums.length/ts._questionary.length)
         .toPrecision(4);
-        ts._messageService.displayTestingResults(ts._finalLog)
+        ts._resultCatcher(ts._finalLog);
+        ts._router.navigate(/*path=*/'/testing_result', /*absolute=*/false)
     }
 }
