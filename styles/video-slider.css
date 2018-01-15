@@ -6,7 +6,7 @@
     margin: 10% 0;
     border: 1px double rgb(92, 73, 117);
     border-radius: 10px;
-    background-color: rgb(221, 208, 243);
+    background-color: rgb(224, 231, 233);
 }
 .video-section__posters{
     display: flex;
@@ -28,7 +28,6 @@
     height: 40px;
     font-size: 30px;
     color:  rgb(129, 87, 207);
-    background-color:rgb(117, 117, 155); 
     border: 1px solid rgb(63, 17, 148);
     top: 40%;
     z-index: 2;

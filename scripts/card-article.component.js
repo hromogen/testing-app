@@ -44,12 +44,13 @@ function CardArticleComponent(){
     c._setEventListeners = function(DOMElement){
         const aElCards = Array.from(DOMElement.querySelectorAll('.cards-article__card'))
         , referenceCardSet = c._session.getLoadedCardsData(c._modeName);
+
         aElCards.map(function(elCard){
             elCard.addEventListener('click', function(){ 
                 let cardQuestionsData = referenceCardSet.find(function(cardData){
                     return cardData.id == elCard.dataset.id;
                 })
-                c._session._testingArticleComponent.modifyInline([
+                Promise.all([
                     ' ./assets/mock-server/questions/test-q-01.json'
                     ,'./assets/mock-server/questions/test-q-02.json'
                     ,'./assets/mock-server/questions/test-q-03.json'
@@ -60,10 +61,20 @@ function CardArticleComponent(){
                     ,'./assets/mock-server/questions/test-q-08.json'
                     ,'./assets/mock-server/questions/test-q-09.json'
                     ,'./assets/mock-server/questions/test-q-10.json'
-                ]);
-            })   
+                ].map(function(uri){
+                    return c._http.get(uri)
+                })
+                ).then(function(aQuestionaryData){
+                    let parsedQuestionary = aQuestionaryData.map(function(sQuestionaryItem){
+                        return JSON.parse(sQuestionaryItem)
+                    });
+                    c._session.setCurrentQuestionary(parsedQuestionary)
+                    return parsedQuestionary;
+                }) 
+            })
+        return elCard;     
         })
-        return DOMElement; 
+    return DOMElement;
     }
     c.createComponent();
     return c;

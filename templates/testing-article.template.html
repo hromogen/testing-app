@@ -4,20 +4,21 @@
 	<div class="testing-section__message testing-section__message--correct">Так, правильна відповідь!</div>
     <form class="testing-form">
         {{#questionary}}
-        <formfield class="testing-form__formfield">
-            <legend class="testing-form__question">{{question}}</legend><br>
-            {{#options}}
-            <input type="radio" name="option" class="testing-form__option" id="option{{qNum}}0" >
-            <label class="testing-form__label" for="option{{qNum}}0">{{.}}</label><br>
-            <input type="radio" name="option" class="testing-form__option" id="option{{qNum}}1">
-            <label class="testing-form__label" for="option{{qNum}}1">{{.}}</label><br>
-            <input type="radio" name="option" class="testing-form__option" id="option{{qNum}}2">
-            <label class="testing-form__label" for="option{{qNum}}2">{{.}}</label><br>
-            <input type="radio" name="option" class="testing-form__option" id="option{{qNum}}3">
-            <label class="testing-form__label" for="option{{qNum}}3">{{.}}</label><br>
-            {{/options}}
-        </formfield>
-        {{#questionary}}
+        <fieldset class="testing-form__fieldset">
+        <legend class="testing-form__question">
+            {{question}}
+        </legend>
+        <br>
+        {{#options}}
+        <input type="radio" name="option" class="testing-form__option" 
+        id="option{{qNum}}{{optNum}}" value={{optNum}}>
+        <label class="testing-form__label" for="option{{qNum}}{{optNum}}">
+            {{optText}}
+        </label>
+        <br>
+        {{/options}}
+        </fieldset>
+        {{/questionary}}
         <input type="submit" class="testing-form__submit" value="Submit">
     </form>
     <div class="testing-section__timer"></div>

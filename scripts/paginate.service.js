@@ -86,6 +86,9 @@ function PaginateService(options){
             p.goToPage(p.currentPage)
         }
     }
+    p.hideCurrent = function(){
+        p._hide(p._eItems[p.currentPage-1])
+    }
     p.generatePageLinks = function(container, sBasicRef){
         const aAnchors = [];
         for(let i = 1; i <= p.numOfPages; i++){
@@ -99,15 +102,15 @@ function PaginateService(options){
     }
 
     p._hide = function(element){
-        if(p._hidingClassName){
-            element.classList.add(p._hidingClassName)
+        if(p._displayingClassName){
+            element.classList.remove(p._displayingClassName)
         }else{
             element.style.display = "none"
         }
     }
     p._display = function(element){
-        if(p._hidingClassName){
-            element.classList.remove(p._hidingClassName)
+        if(p._displayingClassName){
+            element.classList.add(p._displayingClassName)
         }else{
             element.style.display = ""
         }

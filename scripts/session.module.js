@@ -24,12 +24,13 @@ function SessionModule(){
         quiz: s.cacheService.loadJSONElementsArray('loadedCardsData.quiz') || []
         ,erudith: s.cacheService.loadJSONElementsArray('loadedCardsData.erudith') || []
     };
+    s._currentQuestionary = s.cacheService.loadJSONElementsArray('currentQuestionary') || [];
+
     s._reg = COMPONENTS_REGISTER;
     s._routerModule = new Navigo(null, true);
     s._currentMode = '';
     s._currentUploadParam = ''
     s._testingArticle = null;
-    s._currentQuestionary = null;
     s._currentlyViewed = [];
     s._uploadedQuestions = [];
     s._currentlyUploadedInfo = {};
@@ -151,6 +152,30 @@ function SessionModule(){
         ,'/cards/:modeName/set_testing': function(){
             s.viewComponents(s._testingOptionsForm);
         }
+        ,'/testingON': function(){
+            if(!s._testingArticle.isActive()){
+                s._routerModule.navigate(/*path=*/ '/cards/'    + 
+                s._currentMode                                  + 
+                '/set_testing'
+                , /*absolute=*/false)
+                
+            }else{
+                s.viewComponents(s._testingArticle)
+            }
+        }
+        ,'/testing_result' : function(options, query){
+           let testingResult 
+           if(!query && s._testingArticle.isActive()){
+               s.userService.testingResults.getLast();
+               !s._testingArticle.deactivate();
+           }else if(query && !s._testingArticle.isActive()){
+
+           }else{
+               s._routerModule.navigate(/*path=*/ '/rules/general', /*absolute=*/false)
+           }
+            s._testingSummary.modifyInline(testingResult);
+            s.viewComponents(s._testingSummary);
+        }
         ,'/register_user' : function (){
             s.viewComponents(s._registrationForm);
         }
@@ -159,19 +184,7 @@ function SessionModule(){
                 s._currentUser.nickname == options.currUserNickname &&
                 s._personalCabinet.isActive()                       ){
                     s.viewComponents(s._personalCabinet);
-
             }
-        }
-        ,'/testingON': function(){
-            s.viewComponents(s._testingArticle);
-        }
-        ,'/testing_result' : function(){
-            const testingResult = s.userService.testingResult.getLast()
-            ,template = s._testingArticle.getTemplate()
-            ,container = s._testingArticle.getContainer();
-            container.innerHTML = Mustache.render(testingResult, template);
-            s.viewComponents(s._testingArticle);
-
         }
         ,'/search_result': function(options, query){
             if(query){
@@ -211,10 +224,12 @@ SessionModule.prototype = {
         return this._testingArticle;
     }
     ,setCurrentQuestionary : function(aQuestionary){
+        this.cacheService.saveJSONElementsArray('currentQuestionary'
+        , aQuestionary);
         this._currentQuestionary = aQuestionary;
     }
     ,getCurrentQuestionary : function(){
-        return this._currentQustionary;
+        return this._currentQuestionary;
     }
     ,setUploadedQuestions : function(timeStamp, questionSet){
         const s = this;

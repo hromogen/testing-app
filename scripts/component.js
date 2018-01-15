@@ -134,6 +134,7 @@ Component.prototype = {
         this._container.innerHTML = '';
         this._container.append.apply(this._container
             , Array.from(elContentWithListeners.body.children));
+        return this._container;
     }
     ,setRouteToView : function(sRoute){
         this._routeToView = sRoute;

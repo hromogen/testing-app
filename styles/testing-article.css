@@ -12,7 +12,7 @@
 	z-index:-1;
 	position: relative;
 }
-.testing-form__formfield{
+.testing-form__fieldset{
 	background-color: inherit;
 	border: none;
     padding: 5px;
@@ -60,14 +60,9 @@
 	font-family: Trebuchet, Verdana, Helvetica, sans-serif;
 	font-size: 13px;
 }
-.testing-section__summary,
-.summary__anwers-details{
-	display: none;
-}
 
 .testing-section__message--displayed,
 .testing-section__summary--displayed,
-.summary__anwers-details--displayed
-.testing-form__formfield--current{
+.testing-form__fieldset--current{
 	display: block;
 }
