@@ -1,0 +1,26 @@
+.rules{
+    align-content: flex-start;
+    height: 100%;
+}
+.rules__article{
+    flex-direction: column;
+    padding: 10px;
+}
+.article__h1
+.article__h2
+.article__p{
+    width: 100%;
+}
+.article__h1,
+.article__h2{
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+}
+.article__h2{
+    font-size: 20px;
+}
+.article__p{
+    text-align: justify;
+    margin: 5px;
+}

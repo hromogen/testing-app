@@ -1,13 +1,19 @@
 .upload{
-    align-self: center;
+    align-content: center;
+    height: 100%;
 }
 .upload-setup-form{
     display: flex;
+    position: relative;
+    width: 100%;
     flex-direction: column;
-    margin: 10% 10%;
+    margin: 5% 0% 0% 30%;
+    padding: 5px;
     justify-content: space-around; 
-    height: 500px;
-    border: 1px solid rgb(138, 138, 138)
+    height: 400px;
+    border: 1px solid rgb(138, 138, 138);
+    border-radius: 5px;
+    background-color: rgb(193, 216, 210);
 }
 .upload-setup-form__legend{
     font-size: 24px;

@@ -4,7 +4,6 @@ function SessionModule(){
     s.sliderPaginator = new PaginateService();
     s.uploadFormPaginator = new PaginateService();
     s.cacheService = new CacheService()
-    
     s.cardsDisplayService = new CardsDisplayService();
     s.searchService = new SearchService();
     s.userService = new UserService(s.getCurrentUser.bind(s)
@@ -72,6 +71,7 @@ function SessionModule(){
     s._personalCabinet = new PersonalCabinetComponent (s._reg.personalCabinet);
     s._testingSummary = new BasicSectionComponent(s._reg.testingSummary);
     s._feedbackForm = new FeedbackFormComponent(s._reg.feedbackForm);
+    s._info = new InfoComponent(s._reg.info);
 
     function _processCardsArticle(mode, query, targetPage){
         if(targetPage == 1){
@@ -189,8 +189,11 @@ function SessionModule(){
         }
         ,'/search_result': function(options, query){
             if(query){
-                vewComponents(s._testingArticle);
+                s.viewComponents(s._testingArticle);
             }
+        }
+        ,'/info': function(){
+            s.viewComponents(s._info);
         }
     }).resolve();
 }

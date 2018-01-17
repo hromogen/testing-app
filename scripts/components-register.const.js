@@ -84,5 +84,9 @@ const COMPONENTS_REGISTER = {
         sSelector: '.feedback'
         ,templateUri: './templates/feedback.template.html'
     }
+    ,info: {
+        sSelector: '.info'
+        ,templateUri: './templates/info.template.html'
+    }
 }
 
