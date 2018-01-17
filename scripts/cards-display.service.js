@@ -34,6 +34,12 @@ function CardsDisplayService(){
         });
         return aFilteredCards;
     }
+    c.resetFilters = function(aCards){
+        aCards.map(function(card){
+            card.classList.remove('cards-article__card--filtered');
+            return card;
+        })
+    }
 
     c.sort = function(cards, sParameterName){
         const aCardsAndSortingTargs = cards.map(function(card) {
@@ -63,14 +69,6 @@ function CardsDisplayService(){
             });
 
         return sortedCards;
-    }
-
-     
-    c.setCardDataset = function(card, cardInfo){
-        card.dataset.id = cardInfo.id;
-        card.dataset.difficulty = cardInfo.difficulty || '';
-        card.dataset.topics = cardInfo.topics;
-        card.dataset.size = cardInfo.questions_uris.length;
     }
 }
 

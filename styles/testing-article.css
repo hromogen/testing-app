@@ -2,8 +2,8 @@
 	display:block;
     position:relative;
 	width: 60%;
-	background-color: #f1f1f1;
-	border: 1px solid #aaa;
+	background-color: rgb(206, 206, 206);
+	border: 1px solid rgb(172, 172, 172);
 	border-radius:5px;
     padding:10px;
 }
@@ -52,12 +52,10 @@
 	border-color: forestgreen;
 }
 .testing-form__question{
-	font-family: Trebuchet, Verdana, Helvetica, sans-serif;
 	font-size: 14px;
 }
 .testing-form__label,
 .testing-section__summary{
-	font-family: Trebuchet, Verdana, Helvetica, sans-serif;
 	font-size: 13px;
 }
 

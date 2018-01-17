@@ -6,7 +6,7 @@ videomaterials__arrow-container--to-prev">
 videomaterials__arrow-container--to-next">
 ⇨
 </button>
-<article class="video-section__posters">
+<article class="videomaterials__posters">
     {{#videoData}}
     <a href="#/videomaterials/watch?{{name}}" class='video-section__anchor' data-navigo>
         <img src="{{posterSrc}}" class="slider-article__video-placeholder" 
@@ -16,8 +16,13 @@ videomaterials__arrow-container--to-next">
 </article>
 <article class="video-section__video-container">
     <a href="#/videomaterials" class="video-container__close-button" data-navigo>✖</a>
-        
-    <video class="video-section__video" width="480" controls poster="" >
-        <source class="video-section__source" src="" type="video/mp4">
+    <video class="video-section__video"  
+    width="720" height="540" 
+    controls="controls" autoplay="autoplay">
+        <source class="video-section__source" src="" type="video/webm"/>
+        <source class="video-section__source" src="" type="video/mp4"/>
+            Вибачте, Ваш браузер не підтримує формати відео, представлені на сайті.
+            Ви можете скачати відео за <a href="" class="video-container__no-support-anchor">посиланням 
+            </a>
     </video>
 </article>

@@ -41,12 +41,6 @@ function InformService(){
         i._currentlyDisplayed = []
     }
 
-    i.catchTestingResult = function(finalLog){
-        i._testingResult = finalLog;
-    }
-    i.getTestingResult = function(){
-        return i._testingResult;
-    }
     i.initErrorHandler = function(router){
         i._router = router;
     }

@@ -32,9 +32,11 @@ function Component(options){                                         // <-- оп
                                                                      //     темплейту, <boolean>
     c._routeToView = '';
     c._active = false;
-    c._template = '';
+    c._rawTemplate = '';
+    c._parsedTemplate = '';
     c._handleError = c._session.informService.errorHandler;
-    c._errNames = InformService.STANDARD_ERROR_NAMES; 
+    c._errNames = InformService.STANDARD_ERROR_NAMES;
+    c.paginator = null;
 
     c._getTemplate = function(){                                       // стандартна функція завантаження
         return c._templateUri ?                                   // темплейту
@@ -53,8 +55,8 @@ function Component(options){                                         // <-- оп
         return result;
     }
     c._renderTemplate = function(sTemplate, fetchedData){
-        let result = ''                                               
-        c._template = sTemplate;
+        let result = ''; 
+        c._rawTemplate = c._rawTemplate || sTemplate;                                             
         if(sTemplate && !fetchedData){
             result = sTemplate;
         }
@@ -68,6 +70,7 @@ function Component(options){                                         // <-- оп
                 result = Mustache.render(sTemplate, fetchedData);
             }   
         }
+        c._renderedTemplate = result;
         return result ? 
         c._parser.parseFromString(result, "text/html") : '';                                                   
     }                                                           
@@ -129,11 +132,12 @@ Component.prototype = {
     }                                                               // представників нащадків цього класу
                                                                     // // --> <void>
     ,modifyInline : function(attachedData){
-        const elChangedContent = this._renderTemplate(this._template, attachedData)
+        const elChangedContent = this._renderTemplate(this._rawTemplate
+            ,attachedData)
         ,elContentWithListeners = this._setEventListeners(elChangedContent)
         this._container.innerHTML = '';
         this._container.append.apply(this._container
-            , Array.from(elContentWithListeners.body.children));
+            ,Array.from(elContentWithListeners.body.children));
         return this._container;
     }
     ,setRouteToView : function(sRoute){
@@ -151,7 +155,19 @@ Component.prototype = {
     ,isActive : function(){
         return this._active;
     }
+    ,hideChildren : function(sSelector, element){
+        const parent = element || this._container 
+        ,currentlyActual = Array.from(parent.querySelectorAll('.nonactual-field')
+        ,function(child){
+            child.classList.remove('nonactual-field');
+        })
+        ,currentlyHidden = Array.from(parent.querySelectorAll(sSelector)
+        ,function(child){
+            child.classList.add('nonactual-field');
+        });
+        return currentlyHidden;
+    }
     ,getTemplate : function(){
-        return this._template;
+        return this._renderedTemplate;
     }
 }                                                                   

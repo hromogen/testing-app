@@ -1,9 +1,8 @@
 <article class="personal-cabinet__article">
     <p class="personal-cabinet__main-info">
-        <img class="main-infor__avatar" width="100" height="150" alt="avatar">
-        <span class="main-info__nickname"></span>
-        <span class="main-info__name"></span>
-        <span class="main-info__surname"></span>
+        <span class="main-info__span">{{nickname}}</span>
+        <span class="main-info__span">{{name}}</span>
+        <span class="main-info__span">{{surname}}</span>
     </p>
     <p class="personal-cabinet__testing-info">
         <table class="personal-cabinet__passed-testings">
@@ -17,12 +16,20 @@
                     <th class="passed_testings__th">Набраний бал</th>
                     <th class="passed_testings__th">Деталі</th>
                 </tr>
+                {{#testings_log}}
                 <tr class="passed_testings__tr">
-                    <td class="passed_testings__td--date"></td>
-                    <td class="passed_testings__td--type"></td>
-                    <td class="passed_testings__td--score"></td>
-                    <td class="passed_testings__td--detail"></td>
+                    <td class="passed_testings__td">{{timeStamp}}</td>
+                    <td class="passed_testings__td">{{type}}</td>
+                    <td class="passed_testings__td">{{score}}</td>
+                    <td class="passed_testings__td--hidden">
+                        <button class="passed_testings__show-detail"></button>
+                        <section class="passed_testings__detail-section">
+                            <button class="passed_testings__hide-detail">✖</button>
+                            {{summary}}
+                        </section>
+                    </td>
                 </tr>
+                {{/testings_log}}
             </tbody>
         </table>
         <span "personal-cabinet__total-score"></span>

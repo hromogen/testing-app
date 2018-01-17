@@ -2,7 +2,8 @@ function CardArticleComponent(){
     const c = this;
     Component.apply(c, arguments);
     const _parentRenerer = c._renderTemplate;
-    c._cardService = new CardsDisplayService(c._session); 
+
+    c._cardService = new CardsDisplayService(c._session);
 
     c._getAttachedData = function(){
         const pCardsInfo = c._http.get(c._attachedDataUri)
@@ -22,10 +23,14 @@ function CardArticleComponent(){
         });
         return pCardsData;
     }
-    
+
     c._renderTemplate = function(template, fetchedData){
-        const renderedTemplate = _parentRenerer(template, fetchedData)
-        ,eCardCollection = renderedTemplate.querySelectorAll('.cards-article__card')
+        const dataForRendering = fetchedData.map(function(cardData){
+            cardData.size = cardData.questions_uris.length;
+            return cardData;
+        })
+        ,parsedTemplate = _parentRenerer(template, dataForRendering)
+        ,eCardCollection = parsedTemplate.querySelectorAll('.cards-article__card')
         ,aElCards = Array.from(eCardCollection, function(eCard, index){
             eCard.href = '/cards/' + c._modeName + '/set_testing';
             eTopics = eCard.querySelector('.card-topics-info .sorting-parameter');
@@ -33,12 +38,20 @@ function CardArticleComponent(){
                 function(val){
                     return CardsDisplayService._TOPICNAMES[val];
                 });
+                c.hideChildren('.hide-if-' + c._modeName, eCard);
             return eCard;
+        })
+        ,sPaginateLink = '#/cards/' + c._modeName + 'page#=';
+        c.paginator = new PaginateService({
+            eItems: aElCards
+            ,displayingClassName: 'cards-article__card--on-this-page'
+            ,numPerPage: 9
         });
+        c.paginator.generatePaginateLinks(parsedTemplate.body, 'cards__links', sPaginateLink);
 
         c._session.setParsedCards(aElCards, c._modeName);
         c._session.setLoadedCardsData(fetchedData, c._modeName); 
-        return renderedTemplate;
+        return parsedTemplate;
     }
     
     c._setEventListeners = function(DOMElement){
@@ -75,6 +88,27 @@ function CardArticleComponent(){
         return elCard;     
         })
     return DOMElement;
+    }
+
+    c.modifyInline = function(query){
+        const s             = c._session
+        ,aCards             = s.getParsedCards(c._modeName)
+        ,sSortingParamDirty = query.split('sorted_by=')[1]
+        ,sFilterParamsDirty = query.split('filtered_by=')[1]
+        ,sSortingParamClean = sSortingParamDirty && sSortingParamDirty.split('&')[0] || ''
+        ,sFilterParamsClean = sFilterParamsDirty && sFilterParamsDirty.split('&')[0] || ''
+        ,oFilterParams      = sFilterParamsClean && JSON.parse(sFilterParamsClean)
+        ,sPaginateBasicRef  = '#/cards/' + c._modeName + '?' + query.slice(0,-1)
+        
+        if(sSortingParamClean){
+            s.cardsDisplayService.sort(aCards, sSortingParamClean)
+        }
+        if(oFilterParams){
+            s.cardsDisplayService.filter(aCards, oFilterParams)
+        }else{
+            s.cardsDisplayService.resetFilters(aCards);
+        }
+        c.paginator.generatePaginateLinks(c._container, 'cards__links', sPaginateBasicRef);
     }
     c.createComponent();
     return c;

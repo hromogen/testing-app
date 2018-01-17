@@ -1,6 +1,10 @@
 function VideoSliderComponent(){
     const v = this;
     Component.apply(v, arguments);
+    v._videoArticle     = null;
+    v._aSources         = null;
+    v._noSupportAnchor  = null;
+    v._videoTag         = null;
 
     const _parentRenderTemplate = v._renderTemplate;
 
@@ -17,10 +21,10 @@ function VideoSliderComponent(){
             eItems: slides
             ,numPerPage: 3
         });
-
-        v._videoArticle = DOMtree.querySelector('.video-section__video-container');
-        v._video = v._videoArticle.querySelector('video');
-        v._source = v._videoArticle.querySelector('source');
+        v._videoArticle    = DOMtree.querySelector('.video-section__video-container');
+        v._videoTag        = v._videoArticle.querySelector('video');
+        v._aSources        = Array.from(v._videoTag.querySelectorAll('source'));
+        v._noSupportAnchor = v._videoTag.querySelector('.video-container__no-support-anchor');
         
         moveToPrevButton.addEventListener('click', function(){
             sliderPaginator.goToPrevious(sliderPaginator.slide);
@@ -34,17 +38,21 @@ function VideoSliderComponent(){
     }
 
     v.stopWatching = function(){
-        v._source.src = "";
-        v._video.poster = "";
+        v._videoTag.pause();
         v._videoArticle.classList.remove('video-section__video-container--watching')
     }
+
     v.watch = function(sVideoName){
         const videoData = VIDEO_REGISTER.find(function(entry){
             return entry.name == sVideoName;
         });
-        v._source.src = videoData.videoSrc;
-        //v._video.poster = videoData.posterSrc;
-        v._videoArticle.classList.add('video-section__video-container--watching')
+        videoData.videoSrcs.map(function(sSrc, index){
+            v._aSources[index].src = sSrc;
+        });
+        v._noSupportAnchor.href = videoData.videoSrcs[1];
+        v._videoArticle.classList.add('video-section__video-container--watching');
+        v._videoTag.load();
+        v._videoTag.play();
     }
 
     v.createComponent();

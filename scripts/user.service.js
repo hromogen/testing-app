@@ -5,19 +5,24 @@ function UserService(fUserGetter, fUserSetter){
     u._userReg = null;
     u._http = new HttpService();
     u._logined = false;
-    u._testingLog = [];
+    u.testingLog = [];
     u.testingResults = {
         catch : function(oTestingResult){
-            u._testingLog.push({timeStamp: new Date()
-                , testingResult: oTestingResult
-            });
+            u.testingLog.push(oTestingResult);
+        }
+        ,get : function(num){
+            const savedResult = u.testingLog[num];
+           return Object.assign({}, savedResult);
         }
         ,getLast : function(){
-            const len = u._testingLog.length;
-            return u._testingLog[len-1].testingResult;
+            return this.get(u.testingLog.length - 1);
+        }
+        ,modifyLast : function(sPropName, value){
+            const updatedResult = this.getLast();
+            updatedResult[sPropName] = value;
         }
         ,getAll : function(){
-            return u._testingLog;
+            return u.testingLog;
         }
     }
 
@@ -53,7 +58,7 @@ UserService.prototype = {
         return response; 
     }
     ,logout : function(){
-        this._user = null;
+        this._userSetter(null);
     }
     ,registerUser : function(userData){
         this._userSetter(Object.assign({}, userData));
@@ -67,9 +72,11 @@ UserService.prototype = {
     ,isLogined : function(){
         return this._logined;
     }
-    ,updateTestingLog : function(oLog){
-        const user = this._userGetter()
-        user.testings_log.push(oLog)
-        this._userSetter(user)
+    ,updateTestingLog : function(){
+        const user = this._userGetter();
+        if(user){
+            user.testings_log = this.testingLog;
+            this._userSetter(user)
+        }
     }
 }

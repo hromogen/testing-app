@@ -3,10 +3,6 @@ function SessionModule(){
 
     s.sliderPaginator = new PaginateService();
     s.uploadFormPaginator = new PaginateService();
-    s.cardsPaginators = {
-        erudith: null
-        ,quiz: null
-    };
     s.cacheService = new CacheService()
     
     s.cardsDisplayService = new CardsDisplayService();
@@ -17,14 +13,19 @@ function SessionModule(){
 
 
     s._parsedCards = {
-        quiz: s.cacheService.loadDOMElementsArray('parsedCards.quiz') || []
-        ,erudith:s.cacheService.loadDOMElementsArray('parsedCards.erudith') || []
+        quiz     : s.cacheService.loadDOMElementsArray('parsedCards.quiz')    || 
+        []
+        ,erudith : s.cacheService.loadDOMElementsArray('parsedCards.erudith') || 
+        []
     };
     s._loadedCardsData = {
-        quiz: s.cacheService.loadJSONElementsArray('loadedCardsData.quiz') || []
-        ,erudith: s.cacheService.loadJSONElementsArray('loadedCardsData.erudith') || []
+        quiz     : s.cacheService.loadJSONElementsArray('loadedCardsData.quiz')    || 
+        []
+        ,erudith : s.cacheService.loadJSONElementsArray('loadedCardsData.erudith') || 
+        []
     };
-    s._currentQuestionary = s.cacheService.loadJSONElementsArray('currentQuestionary') || [];
+    s._currentQuestionary = s.cacheService.loadJSONElementsArray('currentQuestionary') || 
+    [];
 
     s._reg = COMPONENTS_REGISTER;
     s._routerModule = new Navigo(null, true);
@@ -69,9 +70,28 @@ function SessionModule(){
     s._searchResults = new BasicSectionComponent(s._reg.searchResult);
     s._registrationForm = new RegistrationFormComponent(s._reg.registrationForm);
     s._personalCabinet = new PersonalCabinetComponent (s._reg.personalCabinet);
-    s._testingSummary = new BasicSectionComponent(s._reg.testingSummary)
-    
+    s._testingSummary = new BasicSectionComponent(s._reg.testingSummary);
+    s._feedbackForm = new FeedbackFormComponent(s._reg.feedbackForm);
 
+    function _processCardsArticle(mode, query, targetPage){
+        if(targetPage == 1){
+            s._cardsArticles[mode].modifyInline(query)
+        }
+        if(targetPage > s._cardsArticles[mode].paginator.numOfPages){
+            const lastPageNum = s.cardsPaginators[mode].numOfPages
+            ,sRoute = '/cards/' + mode + '?' + query.slice(-1) + lastPageNum;
+            s._routerModule.navigate(/*path=*/ sRoute, /*absolute=*/false)
+        }else{
+            s._cardsArticles[mode].paginator.goToPage(targetPage);
+        }
+        s._filterForm.hideChildren('.hide-if-' + mode);
+        s._sorterForm.hideChildren('.hide-if-' + mode);
+        s.viewComponents(s._filterForm
+            ,s._sorterForm
+            ,s._cardsArticles[mode]);
+        s.searchService.addToViews('/cards/'+ mode, s._cardsArticles[mode]);
+    }
+    
     s._routerModule.on({
         '*': function(){
         s._routerModule.navigate(/*path=*/ '/rules/general', /*absolute=*/false)
@@ -82,54 +102,27 @@ function SessionModule(){
             s.viewComponents(s._rulesArticles[options.articleName]);
         }
         ,'/cards/:modeName': function(params, query){
-            const mode = params.modeName;
+            const mode     = params.modeName
+            ,targetPage    = +query.split('page#=')[1];
             s.setCurrentMode(mode);
+
             if( !query                      || 
-                !/sorted_by=/.test(query)   && 
+                !/sorted_by=/  .test(query) && 
                 !/filtered_by=/.test(query) &&
-                !/page#=/.test(query)       ){
+                !/page#=/      .test(query) ){
                     s._routerModule.navigate(/*path=*/ '/cards/'+ mode + '?page#=1'
                     , /*absolute=*/false);
                     return;
-            }
-            const targetPage    = +query.split('page#=')[1] || 1
-            ,sSortingParamDirty = query.split('sorted_by=')[1]
-            ,sFilterParamsDirty = query.split('filtered_by=')[1]
-            ,sSortingParamClean = sSortingParamDirty && sSortingParamDirty.split('&')[0] || ''
-            ,sFilterParamsClean = sFilterParamsDirty && sFilterParamsDirty.split('&')[0] || ''
-            
-            
-            if(targetPage == 1 || !s.cardsPaginators[mode]){
+            }else if(!s._cardsArticles[mode].paginator || !targetPage){
                 s._cardsArticles[mode].createComponent().then(function(){
-                    const aCards = s._parsedCards[mode]
-                    ,oFilterParams = sFilterParamsClean && 
-                        JSON.parse(sFilterParamsClean)
-                    ,currPaginateBox = s._cardsArticles[mode].getContainer()
-                        .closest('.cards').querySelector('.cards__links--' + mode);
-                    let currPaginator;
-                    if(sSortingParamClean){
-                        s.cardsDisplayService.sort(aCards, sSortingParamClean)
-                    }
-                    if(oFilterParams){
-                        s.cardsDisplayService.filter(aCards, oFilterParams)
-                    }
-                    currPaginator = new PaginateService({
-                        eItems: aCards
-                        ,hidingClassName: 'on-other-page'
-                        ,numPerPage: 6
-                    });
-                    currPaginator.paginate();
-                    s.searchService.addToViews('/cards/'+ mode, s._cardsArticles[mode]);
-                    currPaginator.generatePageLinks(currPaginateBox,'#/cards/'+ mode + '?' + query.slice(0,-1));
-                    s.viewComponents(s._filterForm, s._sorterForm, s._cardsArticles[mode]);
-                    currPaginator.goToPage(targetPage);
-                    s.cardsPaginators[mode] = currPaginator;
+                    const sRoute = '/cards/' + mode + '?' + query.slice(-1) + '1';
+                    _processCardsArticle(mode, query, 1);
+                    s._routerModule.navigate(/*path=*/ sRoute, /*absolute=*/false);
                 })
-            }else{
-                s.cardsPaginators[mode].goToPage(targetPage);
+            }else {
+                _processCardsArticle(mode, query, targetPage);
             }
         }
-        
         ,'/setup-upload/:parameter': function(uploadOpts){
             s.setCurrentMode(uploadOpts.parameter);
             s.viewComponents(s._uploadSetupForm);   
@@ -164,25 +157,33 @@ function SessionModule(){
             }
         }
         ,'/testing_result' : function(options, query){
-           let testingResult 
-           if(!query && s._testingArticle.isActive()){
-               s.userService.testingResults.getLast();
-               !s._testingArticle.deactivate();
-           }else if(query && !s._testingArticle.isActive()){
-
-           }else{
-               s._routerModule.navigate(/*path=*/ '/rules/general', /*absolute=*/false)
-           }
-            s._testingSummary.modifyInline(testingResult);
+            let parsedTestingResult; 
+            if(!query && s._testingArticle.isActive()){
+                parsedTestingResult = s.userService.testingResults.getLast();
+                s._testingArticle.deactivate();
+            }else if(query && !s._testingArticle.isActive()){
+                return
+            }else{
+                s._routerModule.navigate(/*path=*/ '/rules/general', /*absolute=*/false)
+            }
+            s._testingSummary.modifyInline(parsedTestingResult);
+            s.userService.testingResults.modifyLast("summary"
+                ,s._testingSummary.getTemplate()
+            );
+            s.userService.updateTestingLog();
             s.viewComponents(s._testingSummary);
         }
         ,'/register_user' : function (){
             s.viewComponents(s._registrationForm);
         }
+        ,'/feedback' : function(){
+            s.viewComponents(s._feedbackForm);
+        }
         ,'/personal_cabinet/:currUserNickname' : function(options){
             if( s._currentUser                                      && 
                 s._currentUser.nickname == options.currUserNickname &&
                 s._personalCabinet.isActive()                       ){
+                    s._personalCabinet.modifyInline(s._currentUser);
                     s.viewComponents(s._personalCabinet);
             }
         }
@@ -214,7 +215,7 @@ SessionModule.prototype = {
     ,setCurrentMode : function(sModeName){
         this._currentMode = sModeName;
     }
-    ,getCurrentMode : function(sModeName){
+    ,getCurrentMode : function(){
         return this._currentMode;
     }
     ,setTestingArticle : function(elArticle){

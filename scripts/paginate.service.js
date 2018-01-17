@@ -5,7 +5,7 @@ function PaginateService(options){
         p._eItems = opts && opts.eItems || null;
         p._hidingClassName = opts && opts.hidingClassName || '';
         p._displayingClassName = opts && opts.displayingClassName || '';
-        p.numPerPage = opts && opts.numPerPage || null;
+        p.numPerPage = opts && opts.numPerPage || 1;
         p.autoPaginate = opts && opts.autoPaginate || false;
         p.numOfPages = (p.numPerPage) ? Math.ceil(p._eItems.length/p.numPerPage) : null;
         p.currentPage = 1;
@@ -18,28 +18,18 @@ function PaginateService(options){
     }
 
     p.paginate = function(){
-        let n = 0
-        ,pageNum = 1
-        ,aPaginatedItems;
-
-        aPaginatedItems = p._aPaginatedItems.filter(function(item){
-            return !/filtered/.test(item.className)
+        const aPaginatedItems = p._aPaginatedItems.filter(function(item){
+            return !(/filtered/.test(item.className))
         });
         aPaginatedItemsSorted = aPaginatedItems.sort(function(itemA, itemB){
             return (+itemA.style.order || 0) - (+itemB.style.order || 1)
         });
+        p.numOfPages = Math.ceil(aPaginatedItems.length/p.numPerPage);
 
-        while(p._firstPageCriterium(n)){
-            aPaginatedItemsSorted[n].dataset.page = 1;
-            n++;
+        for(let i = 0, pageNum = 0; i < aPaginatedItems.length; i++){
+            pageNum += !(i%p.numPerPage);
+            aPaginatedItemsSorted[i].dataset.page = pageNum;
         }
-        p.numPerPage = n;
-        p.numOfPages = Math.ceil(p._eItems.length/p.numPerPage);
-
-        for(let i = p.numPerPage; i < aPaginatedItems.length; i++){
-                pageNum += !(i%p.numPerPage);
-                aPaginatedItems[i].dataset.page = pageNum;
-            }
     }
     p.goToPage = function(pageNum){
         p._aPaginatedItems.map(function(eItem){
@@ -89,8 +79,13 @@ function PaginateService(options){
     p.hideCurrent = function(){
         p._hide(p._eItems[p.currentPage-1])
     }
-    p.generatePageLinks = function(container, sBasicRef){
-        const aAnchors = [];
+    p.generatePaginateLinks = function(container, sBoxClassName, sBasicRef){
+        const aAnchors = []
+        ,existingPaginateBox = container.querySelector('.'+ sBoxClassName)
+        ,currPaginateBox = existingPaginateBox || document.createElement('p');
+
+        p.paginate();
+
         for(let i = 1; i <= p.numOfPages; i++){
             let anchor = document.createElement('a');
             anchor.href = sBasicRef + i;
@@ -98,7 +93,14 @@ function PaginateService(options){
             anchor.className = 'paginate-link';
             aAnchors.push(anchor)
         }
-        container.append.apply(container, aAnchors);
+        currPaginateBox.innerHTML = '';
+        currPaginateBox.classList.add(sBoxClassName)
+        currPaginateBox.append.apply(currPaginateBox, aAnchors);
+        if(existingPaginateBox){
+            container.removeChild(existingPaginateBox);
+        }
+        container.appendChild(currPaginateBox)
+        return container;
     }
 
     p._hide = function(element){
@@ -114,20 +116,6 @@ function PaginateService(options){
         }else{
             element.style.display = ""
         }
-    }
-    p._firstPageCriterium = function(n){
-        let bResult;
-        if(p.numPerPage && !p.autoPaginate){
-            bResult = (n < p.numPerPage)
-        }else if(!p.numPerPage && p.autoPaginate){
-            bResult = p._isOnScreen(p._eItems[n])
-        }else if(!p.numPerPage && !p.autoPaginate){
-            bResult = n < 1;
-        }
-        return bResult;
-    }
-    p._isOnScreen = function(item){
-        return ((item.getBoundingClientRect().bottom + 50) < document.documentElement.clientHeight);
     }
 if(options){
     p.init(options);

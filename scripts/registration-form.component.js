@@ -8,6 +8,7 @@ function RegistrationFormComponent(){
             const formService = new FormsService(form)
             ,registerData = formService.processRegistrationForm();
             r._session.userService.registerUser(registerData);
+            r._session._cabinetEntry.setLoginView();
             r._session._personalCabinet.activate()
             r._router.navigate(/*path=*/'/personal_cabinet/' + registerData.nickname
             , /*absolute=*/false)

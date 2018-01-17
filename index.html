@@ -3,13 +3,16 @@
     <head>
         <title>Testing application</title>
         <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="height=device-height, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="styles/reset.css">
-        <link rel="stylesheet" type="text/css" href="styles/main.css">
         <link rel="stylesheet" type="text/css" href="styles/nav-menu.css">
-        <link rel="stylesheet" type="text/css" href="styles/controller-article.css">
+        <link rel="stylesheet" type="text/css" href="styles/upload-section.css">
         <link rel="stylesheet" type="text/css" href="styles/cards-article.css">
         <link rel="stylesheet" type="text/css" href="styles/testing-article.css">
         <link rel="stylesheet" type="text/css" href="styles/video-slider.css">
+        <link rel="stylesheet" type="text/css" href="styles/main.css">
     </head>
     <body class="body flexbox">
         <header class="header flexbox">
@@ -28,11 +31,7 @@
                 <article class="view cards__controllers"></article>
                 <article class="view cards__quiz">
                 </article>
-                <article class="cards__links--quiz view cards__links">
-                </article>
        			<article class="view cards__erudith">
-                </article>
-                <article class="cards__links--erudith view cards__links">
                 </article>
 			</section>
       		<section class="section upload">
@@ -67,51 +66,54 @@
                     <li><strong>Стек:</strong>
                         <br>{{error.stack}}
                     </li>
-                    <li><strong>Номер рядка::</strong>
+                    <li><strong>Номер рядка:</strong>
                         <br>{{error.lineNumber}}
                     </li>
                 </ul>
                 <button class="error-section__go-on-button">OK</button>
             </section>
         </main>
-        <script type="text/javascript" src="./scripts/video-register.const.js">          </script>
-        <script type="text/javascript" src="./scripts/components-register.const.js">     </script>
-        <script type="text/javascript" src="./scripts/mustache.js">                  </script>
-        <script type="text/javascript" src="./polyfills/append.js">				         </script>
-        <script type="text/javascript" src="./polyfills/array-from.js">			         </script>
-        <script type="text/javascript" src="./polyfills/closest.js">			         </script>
-        <script type="text/javascript" src="./polyfills/object-values.js">			     </script>
-        <script type="text/javascript" src="./polyfills/object-assign.js">			     </script>
-        <script type="text/javascript" src="./polyfills/promise.js">			         </script>
-        <script type="text/javascript" src="./scripts/cache.service.js">			     </script>
-        <script type="text/javascript" src="./scripts/paginate.service.js">			     </script>
-        <script type="text/javascript" src="./scripts/inform.service.js">			     </script>
-        <script type="text/javascript" src="./scripts/http.service.js">			         </script>
-        <script type="text/javascript" src="./scripts/cards-display.service.js">         </script>
-        <script type="text/javascript" src="./scripts/forms.service.js">			     </script>
-        <script type="text/javascript" src="./scripts/timer.service.js">		         </script>
-        <script type="text/javascript" src="./scripts/testing.service.js">		 	     </script>
-        <script type="text/javascript" src="./scripts/search.service.js">	    	 	 </script>
-        <script type="text/javascript" src="./scripts/user.service.js">	    	 	     </script>
-        <script type="text/javascript" src="./scripts/component.js">			  	     </script>
-        <script type="text/javascript" src="./scripts/cabinet-entry.component.js">	     </script>
-        <script type="text/javascript" src="./scripts/nav-menu.component.js">	         </script>
-        <script type="text/javascript" src="./scripts/search-form.component.js">	     </script>
-        <script type="text/javascript" src="./scripts/basic-section.component.js">       </script>
-        <script type="text/javascript" src="./scripts/filter-form.component.js">         </script>
-        <script type="text/javascript" src="./scripts/sorter-form.component.js">         </script>
-        <script type="text/javascript" src="./scripts/card-article.component.js">        </script>
-        <script type="text/javascript" src="./scripts/testing-article.component.js">     </script>
-        <script type="text/javascript" src="./scripts/testing-options-form.component.js"></script>
-        <script type="text/javascript" src="./scripts/video-slider.component.js">        </script>
-        <script type="text/javascript" src="./scripts/upload-form-component.js">         </script>
-        <script type="text/javascript" src="./scripts/upload-setup-form.component.js">   </script>
-        <script type="text/javascript" src="./scripts/card-article.component.js">        </script>
-        <script type="text/javascript" src="./scripts/personal-cabinet.component.js">    </script>
-        <script type="text/javascript" src="./scripts/registration-form.component.js">   </script>
-        <script type="text/javascript" src="./scripts/router.module.IE11.js">		  	 </script>
-        <script type="text/javascript" src="./scripts/session.module.js">		  	     </script>       
-    <script>
+   <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?callback=myMap"></script>-->
+    <script type="text/javascript" src="./scripts/video-register.const.js">                     </script>
+    <script type="text/javascript" src="./scripts/components-register.const.js">                </script>
+    <script type="text/javascript" src="./scripts/mustache.js">                                 </script>
+    <script type="text/javascript" src="./polyfills/append.js">				                    </script>
+    <script type="text/javascript" src="./polyfills/array-from.js">			                    </script>
+    <script type="text/javascript" src="./polyfills/closest.js">			                    </script>
+    <script type="text/javascript" src="./polyfills/object-values.js">			                </script>
+    <script type="text/javascript" src="./polyfills/object-assign.js">			                </script>
+    <script type="text/javascript" src="./polyfills/promise.js">			                    </script>
+    <script type="text/javascript" src="./scripts/cache.service.js">			                </script>
+    <script type="text/javascript" src="./scripts/paginate.service.js">			                </script>
+    <script type="text/javascript" src="./scripts/inform.service.js">			                </script>
+    <script type="text/javascript" src="./scripts/http.service.js">			                    </script>
+    <script type="text/javascript" src="./scripts/cards-display.service.js">                    </script>
+    <script type="text/javascript" src="./scripts/forms.service.js">			                </script>
+    <script type="text/javascript" src="./scripts/timer.service.js">		                    </script>
+    <script type="text/javascript" src="./scripts/testing.service.js">		 	                </script>
+    <script type="text/javascript" src="./scripts/search.service.js">	    	 	            </script>
+    <script type="text/javascript" src="./scripts/user.service.js">	    	 	                </script>
+    <script type="text/javascript" src="./scripts/component.js">			  	                </script>
+    <script type="text/javascript" src="./scripts/cabinet-entry.component.js">	                </script>
+    <script type="text/javascript" src="./scripts/nav-menu.component.js">	                    </script>
+    <script type="text/javascript" src="./scripts/search-form.component.js">	                </script>
+    <script type="text/javascript" src="./scripts/basic-section.component.js">                  </script>
+    <script type="text/javascript" src="./scripts/filter-form.component.js">                    </script>
+    <script type="text/javascript" src="./scripts/sorter-form.component.js">                    </script>
+    <script type="text/javascript" src="./scripts/card-article.component.js">                   </script>
+    <script type="text/javascript" src="./scripts/testing-article.component.js">                </script>
+    <script type="text/javascript" src="./scripts/testing-options-form.component.js">           </script>
+    <script type="text/javascript" src="./scripts/video-slider.component.js">                   </script>
+    <script type="text/javascript" src="./scripts/upload-form-component.js">                    </script>
+    <script type="text/javascript" src="./scripts/upload-setup-form.component.js">              </script>
+    <script type="text/javascript" src="./scripts/card-article.component.js">                   </script>
+    <script type="text/javascript" src="./scripts/testing-summary.component.js">                </script>
+    <script type="text/javascript" src="./scripts/personal-cabinet.component.js">               </script>
+    <script type="text/javascript" src="./scripts/registration-form.component.js">              </script>
+    <script type="text/javascript" src="./scripts/feedback-form.component.js">                  </script>
+    <script type="text/javascript" src="./scripts/router.module.IE11.js">		  	            </script>
+    <script type="text/javascript" src="./scripts/session.module.js">		  	                </script>       
+    <script type="text/javascript">
             s = new SessionModule();
     </script>
     </body>

@@ -35,6 +35,7 @@ function TestingOptionsFormComponent(){
                 oTestingParams.timeout = basicTimeout;
                 oTestingParams.numOfCoundowns = qLen;
             }
+            oTestingParams.type = t._session.getCurrentMode()
             testingPaginator.paginate();
 
             t._session.informService.initCorrectAnswerMessages({

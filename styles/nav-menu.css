@@ -1,5 +1,10 @@
 .nav{
     width: 100%;
+    justify-content: space-between;
+    background-color: rgb(176, 193, 204);
+    border: 1px solid rgb(122, 128, 133); 
+    padding: 0px 2px;
+
 }
 .nav-menu,
 .nav-menu__submenu{
@@ -9,44 +14,41 @@
 .nav-menu__item{
     border-left: 1px solid black;
     border-right: 1px solid black;
+    padding: 2px;
     z-index: 2;
-    padding: 0px;
+    display: inline-block;
     position: relative;
 }
 .menu__button{
     color: white;
-    width: 100%;
-    padding: 2px 10px;
-    background-color: rgb(108, 107, 133);
-    border-top: 1px solid rgb(69, 66, 146);
-    border-bottom: 1px solid rgb(69, 66, 146);
+    margin: 1px;
+    padding: 6px 5px;
+    background-color: rgb(137, 153, 185);
     display: inline-block;
     position: relative;
-    text-decoration: none;
-    user-select: none;
-}
-.submenu__link{
-    color: white;
-    width: 100%;
-    padding: 2px 10px;
-    background-color: rgb(189, 202, 221);
-    border-top: 1px solid rgb(69, 66, 146);
-    border-bottom: 1px solid rgb(69, 66, 146);
-    display: inline-block;
-    position: relative;
-    text-decoration: none;
     user-select: none;
 }
 .nav-menu__submenu{
     position: absolute;
     padding: 0px;
-    top: 30px;
-    width:100%;
+    top: 2em;
+    width: 92%;
     z-index: 1;
-    list-style-type: none;
-    background-color: azure;
     display: none;
 }
+.submenu__link{
+    color: white;
+    padding: 2px 5px;
+    text-align: center;
+    background-color: rgb(189, 202, 221);
+    border-top: 1px solid rgb(69, 66, 146);
+    border-bottom: 1px solid rgb(69, 66, 146);
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    user-select: none;
+}
+
 .nav-menu__submenu--open{
     display: block;
 }

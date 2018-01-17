@@ -1,10 +1,19 @@
 <artcile class="header__cabinet-entry-point">
-    <form action="" class="header__cabinet-entry-form">
-        <input name="username" type="text" class="entry-form__username" required>
-        <input name="password" type="password" class="entry-form__password" required>
-        <input name="submit" type="submit" class="entry-form__submit" value="Зайти до кабінету">
+    <form action="" class="header__cabinet-entry-form hide-if-logged-in">
+        <input name="username" type="text" 
+        class="entry-form__username" required>
+        <input name="password" type="password" 
+        class="entry-form__password" required>
+        <input name="submit" type="submit"
+        class="entry-form__submit" value="Зайти до кабінету">
     </form>
-    <button class="entry-point__button register-button">Зареєструватись</button>
-    <button class="entry-point__button logout-button" disabled>Вийти з кабінету</button>
-    <button class="entry-point__button enter-button" disabled>Персональний кабінет</button>
+    <button class="entry-point__button register-button hide-if-logged-in">
+        Зареєструватись
+    </button>
+    <button class="entry-point__button logout-button hide-if-logged-out" disabled>
+        Вийти з кабінету
+    </button>
+    <button class="entry-point__button enter-button hide-if-logged-out" disabled>
+        Персональний кабінет
+    </button>
 </article>

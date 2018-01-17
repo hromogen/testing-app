@@ -18,11 +18,11 @@ function TestingService(options
         ts._options       = options;
         ts._questionsSet  = ts._formsService.form.querySelectorAll('.testing-form__formfield');
         ts._finalLog      = {
-                        answers                      : []
-                        ,incorrect_answers_detail    : []
-                        ,answered_correctly_nums     : []
-                        ,score                       : 0
-                        ,date                        : null
+                        answers                   : []
+                        ,incorrect_answers_detail : []
+                        ,answered_correctly_nums  : ''
+                        ,score                    : 0
+                        ,type                     : ts._options.type
                     };
         ts._log = [];
         ts._aCorrectAnswers  = ts._questionary.map(function(field){
@@ -69,26 +69,30 @@ function TestingService(options
         }
 
         ts._finishTesting = function(){
-            const fLog = ts._finalLog;
+            const fLog = ts._finalLog
+            ,aAnsweredCorrectlyNums = [];
             let finalQuestion = ts._questionsSet[ts._currQuestionNum];
             ts._paginator.hideCurrent();
             ts._timerService.stop();
             fLog.answers = ts._log;
             ts._aCorrectAnswers.map(function(correctAnswerNum, index){
                 if (correctAnswerNum == ts._log[index]){
-                    fLog.answered_correctly_nums.push(index)
+                    aAnsweredCorrectlyNums.push(index + 1)
                 }else{
-                    fLog.incorrect_answers_detail.push({num: index})
+                    fLog.incorrect_answers_detail.push({num: index + 1})
                 }
             });
+            fLog.answered_correctly_nums = aAnsweredCorrectlyNums.join(', ')
             fLog.incorrect_answers_detail.map(function(value){
-                let oTargQuestion = ts._questionary[value.num]
-                ,correctAnswer = oTargQuestion.options[oTargQuestion.correct]
+                let oTargQuestion = ts._questionary[value.num - 1]
+                ,correctAnswer = oTargQuestion.options[oTargQuestion.correct].optText;
+                
                 value.question = oTargQuestion.question;
                 value.correct_answer = correctAnswer
             });
-            ts._finalLog.score = (100*fLog.answered_correctly_nums.length/ts._questionary.length)
+            ts._finalLog.score = (100*aAnsweredCorrectlyNums.length/ts._questionary.length)
             .toPrecision(4);
+            ts._finalLog.timeStamp = new Date();
             ts._resultCatcher(ts._finalLog);
             ts._router.navigate(/*path=*/'/testing_result', /*absolute=*/false)
         }
