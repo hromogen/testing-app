@@ -17,33 +17,36 @@ function Component(options){                                         // <-- оп
     c._attachedDataUri = options && options.attachedDataUri || ''  ; // <-- *опціональна* адреса, звідки  
                                                                      //      завантажуються додаткові дані,
                                                                      //     <string>
-    c._attachedData    = options && options.attachedData    || ''  ; // <-- *опціонально* додаткові дані,  
-                                                                     //     <JSON || object>
     c._modeName        = options && options.modeName        || ''  ; // <-- *опціонально* назва поточного 
                                                                      //     режиму (quiz чи erudith, <string>) 
     c._router          = options && options.router          || null; // <-- екземпляр роутера, створений у 
                                                                      //     файлі _session.js_, <routerModule>
     c._session         = options && options.session         || null; // <-- екземпляр поточної сесії, 
                                                                      //     <sessionModule>
-    c._http            = new HttpService();                          // <-- екземпляр http-сервіса, <httpService>
-    c._parser          = new DOMParser();                            // <-- екземпляр DOM-парсера, <DOMParse>
     c._clearContainer  = true;                                       // <-- вказує на те, чи слід очищати 
                                                                      //     container перед вставкою 
                                                                      //     темплейту, <boolean>
-    c._routeToView = '';
-    c._active = false;
-    c._rawTemplate = '';
-    c._parsedTemplate = '';
-    c._handleError = c._session.informService.errorHandler;
-    c._errNames = InformService.STANDARD_ERROR_NAMES;
-    c.paginator = null;
+    c._handleError = c._session.informService.errorHandler;          //     поля, необхідні для обробки
+    c._errNames = InformService.STANDARD_ERROR_NAMES;                //     помилок <function>, <object[]>
+/* власні сервіси */
+    c._http            = new HttpService();                          // <-- екземпляр http-сервіса, <httpService>
+    c._parser          = new DOMParser();                            // <-- екземпляр DOM-парсера, <DOMParse>
+    c.paginator = null;                                              //  - власний елемент, що здійснюватиме пагінацію,
+                                                                     //  - <paginateServise>
+/* інші поля, які заповнюються в процесі створення */
+    c._routeToView = '';                                             //  -  дані, необхідні для пошуку <string>  
+    c._active = false;                                               //  -  поле вказує, чи активовано компонент <boolean>   
+    c._rawTemplate = '';                                             //  -  необроблений темплейт, <string>
+    c._parsedTemplate = '';                                          //  -  темплейт після обробки,  <string>
 
-    c._getTemplate = function(){                                       // стандартна функція завантаження
-        return c._templateUri ?                                   // темплейту
-        c._http.get(this._templateUri) : '';                      // --> Promise<String>, де міститься 
+
+
+    c._getTemplate = function(){                                     // стандартна функція завантаження
+        return c._templateUri ?                                      // темплейту
+        c._http.get(this._templateUri) : '';                         // --> Promise<String>, де міститься 
                                                                      //     інформація про темплейт  
     }
-    c._getAttachedData = function(){                                  // стандартна функція завантаження                                             // додатковий даних
+    c._getAttachedData = function(){                                 // стандартна функція завантаження                                             // додатковий даних
         let result;                                                  // -->  Promise<string[]||Object[]||
         if(c._attachedDataUri){                                      //      null>, де містяться заватнажені  
             result = c._http.get(c._attachedDataUri)                 //      дані                          
@@ -54,15 +57,19 @@ function Component(options){                                         // <-- оп
         }
         return result;
     }
-    c._renderTemplate = function(sTemplate, fetchedData){
-        let result = ''; 
+    c._renderTemplate = function(                                   // функція обробки темплейту
+        sTemplate,                                                  // <-- стандартний темплейт для обробки
+                                                                    // фреймворком `Mustache`, <string>
+        fetchedData){                                               // <-- дані для рендерингу за допомогою феймворку                                                          
+        let result = '';                                            // `Mustache` <object || object[]>
         c._rawTemplate = c._rawTemplate || sTemplate;                                             
         if(sTemplate && !fetchedData){
             result = sTemplate;
         }
         else if(sTemplate && fetchedData){
             if(Array.isArray(fetchedData)){
-                result = fetchedData.reduce(function(interim, dataItem){
+                result = fetchedData
+                .reduce(function(interim, dataItem){
                     interim += Mustache.render(sTemplate, dataItem);
                     return interim
                 },'')
@@ -72,26 +79,28 @@ function Component(options){                                         // <-- оп
         }
         c._renderedTemplate = result;
         return result ? 
-        c._parser.parseFromString(result, "text/html") : '';                                                   
+        c._parser.parseFromString(result, "text/html") : '';                                                        
     }                                                           
     
-    c._setEventListeners = function(DOMtree){                  
-        return DOMtree                                          
-    }                                                           
-                                                                                                                                
-    c._inject = function(DOMtree){                                                           
-        if(c._clearContainer){
-            c._container.innerHTML = '';                            
+    c._setEventListeners = function(DOMtree){                       //  функція, що встановлює на 
+                                                                    //  пропарсений темплейт обробники подій, 
+                                                                    //  <-- пропарсений темплейт <document>,                                                                                                         
+        return DOMtree                                              //  --> пропарсений темплейт із обробниками подій, 
+    }                                                               //      <document>                                         
+                                                                                                                                                                                      
+    c._inject = function(DOMtree){                                  //  відбувається вставка пропарсеного темплейту                                                          
+        if(c._clearContainer){                                      //  у `_container`, <-- пропарсений темплейт <document> 
+            c._container.innerHTML = '';                            //  із обробниками подій                           
         }                                                           
         c._container.append.apply(c._container
             , DOMtree.body.children);
-        return c._container;                                        
-    }
+        return c._container;                                        // --> контейнерний елемент із вставленим фрагментом,                                       
+    }                                                               //     <dOMElement>
     c.createComponent = function (){                                                                        
         return Promise.all(
             [c._getTemplate()
                 .catch(function(error){
-                    error.name = c._errNames.templateDownloadProbllem
+                    error.name = c._errNames.templateDownloadProblem
                     c._handleError(error);                    
                 }), c._getAttachedData()
                 .catch(function(error){
@@ -119,7 +128,7 @@ function Component(options){                                         // <-- оп
 }
 Component.prototype = {
     getContainer : function(){                                     // --> Доступ до контейнерного елементу,
-        return this._container;                                     //     <DOMElement>  
+        return this._container;                                     //     <HTMLElement>  
     }
 
     ,display : function(){                                          // Функція для додавання css-класу
