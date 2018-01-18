@@ -1,44 +1,58 @@
 .nav{
     width: 100%;
+    height: 4%;
+    flex-wrap: wrap;
     justify-content: space-between;
     background-color: rgb(176, 193, 204);
     border: 1px solid rgb(122, 128, 133); 
     padding: 0px 2px;
-
+    flex-shrink: 2;
 }
 .nav-menu,
 .nav-menu__submenu{
+    flex-wrap: wrap;
     list-style-type: none;
+    font-size: 14px;
 }
-
+.nav-menu{
+    justify-content: flex-end;
+}
 .nav-menu__item{
     border-left: 1px solid black;
     border-right: 1px solid black;
-    padding: 2px;
     z-index: 2;
-    display: inline-block;
+    padding: 0px;
+    margin: 0px;
+    width: 140px;
+    display: flex;
+    flex-basis: auto;
+    flex-direction: column;
     position: relative;
 }
 .menu__button{
     color: white;
-    margin: 1px;
-    padding: 6px 5px;
+    display: flex;
+    flex-basis: auto;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    height: 30px;
+    padding: 2px;
     background-color: rgb(137, 153, 185);
-    display: inline-block;
     position: relative;
-    user-select: none;
 }
 .nav-menu__submenu{
     position: absolute;
     padding: 0px;
+    margin: 0px;
+    width: 95%;
     top: 2em;
-    width: 92%;
     z-index: 1;
     display: none;
 }
 .submenu__link{
     color: white;
-    padding: 2px 5px;
+    padding: 5px;
     text-align: center;
     background-color: rgb(189, 202, 221);
     border-top: 1px solid rgb(69, 66, 146);
@@ -46,7 +60,6 @@
     display: inline-block;
     width: 100%;
     position: relative;
-    user-select: none;
 }
 
 .nav-menu__submenu--open{

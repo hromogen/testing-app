@@ -14,14 +14,17 @@ const COMPONENTS_REGISTER = {
     , generalRulesArticle: {
         sSelector: '.rules__article--general'     
         ,templateUri: './templates/rules-section--general.template.html'
+        ,routeToView: '#/rules/general'
     } 
     , quizRulesArticle: {
         sSelector: '.rules__article--quiz'     
-        ,templateUri: './templates/rules-section--quiz.template.html' 
+        ,templateUri: './templates/rules-section--quiz.template.html'
+        ,routeToView: '#/rules/quiz"'
     }
     ,erudithRulesArticle: {
         sSelector: '.rules__article--erudith'    
         ,templateUri: './templates/rules-section--erudith.template.html'
+        ,routeToView: '#/rules/erudith'
     }
     ,filterForm: {
         sSelector: '.cards__controllers'   
@@ -36,12 +39,14 @@ const COMPONENTS_REGISTER = {
         ,templateUri: './templates/testing-card.template.html' 
         ,attachedDataUri:'./assets/mock-server/quiz-cards-register.json'
         ,modeName:'quiz'
+        ,routeToView: '#/cards/quiz'
     }
     ,erudithCardsArticle:{
         sSelector: '.cards__erudith'   
         ,templateUri: './templates/testing-card.template.html' 
         ,attachedDataUri:'./assets/mock-server/erudith-cards-register.json'
         ,modeName:'erudith'
+        ,routeToView: '#/cards/erudith'
     }
     ,testingOptionsForm: {
         sSelector: '.testing-options-form'   
@@ -87,6 +92,7 @@ const COMPONENTS_REGISTER = {
     ,info: {
         sSelector: '.info'
         ,templateUri: './templates/info.template.html'
+        ,routeToView: '#/info'
     }
 }
 

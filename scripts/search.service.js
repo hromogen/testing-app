@@ -1,54 +1,37 @@
-function recursiveSearch(regExp, element){
-    const result = []
-    ,helperSerch = function(text, element){
-        if(element.children.length){
-            for(let i = 0; i < element.children.length; i++){
-                helperSerch(text, element)
-            }
-        } else if( element.innerText.indexOf(text) != -1 ){
-            result.push(element);
-            return;
-        } else{
-            return;
-        }
-    }
-    return result;
-}
-function takeSnapShot(text, element){
-    const textPosition  = element.innerText.indexOf(text)
-    ,snapShotLeftStart  = textPosition - 6
-    ,snapShotLeftEnd    = textPosition - 1
-    ,snapShotRightStart = textPosition + text.length + 1
-    ,snapShotRightEnd   = textPosition + text.length + 5;
-    return element.innerText.slice(snapShotLeftStart, snapShotLeftEnd)
-           + '<strong>' + text + '</strong>' + 
-           element.innerText.slice(snapShotRightStart, snapShotRightEnd)
-}
-
 function SearchService(){
-    this._indexedViews = {};
-}
-SearchService.prototype = {
-    addToViews : function(sRoute, oComponent){
-        this._indexedViews[sRoute] = oComponent;
-    }
-    ,search : function(sTarget){
-        const result = []
-        let aResultedMatches;
-        for(let sRoute in this._indexedViews){
-            let currElt = this._indexedViews[Route].getContainer()
-            if( currElt.innerText.indexOf(sTarget) != -1 ){
-                aResultedMatches = recursiveSearch(regexpTarg, currElt);
-                aResultedMatches.map(function(eMatched){
-                    let matchInfo = {}
-                    matchInfo.route = sRoute;
-                    matchInfo.linkHtml = takeSnapShot(text, eMatched);
-                    matchInfo.page = eMatched.dataset.page || '';
-                    matchInfo.needsResolving = /filtered/.match(eMatched.className);
-                    result.push(matchInfo);
-                })
-            }   
+    const s = this
+    s._searchResult = [];
+    s._takeSnapShot = function (text, element){
+        const searchText = element.innerText
+        ,textPosition  = searchText.indexOf(text);
+        let snapShotRightStart = textPosition + text.length
+        ,snapShotLeftEnd = textPosition - 1
+        ,snapShotLeftStart 
+        ,snapShotRightEnd 
+        for(let i = textPosition, gapCounter = 0; i > 0 || gapCounter >= 3; i--){
+            gapCounter += /\b/.test(searchText[i])
+            snapShotLeftStart = i;
         }
-        return result;
+        for(let i = snapShotRightStart, gapCounter = 0; i < searchText.length || gapCounter >= 3; i++){
+            gapCounter += /\b/.test(searchText[i])
+            snapShotRightEnd = i;
+        }
+        return element.innerText.slice(snapShotLeftStart, snapShotLeftEnd)
+               + '<strong>' + text + '</strong>' + 
+               element.innerText.slice(snapShotRightStart, snapShotRightEnd)
+    }
+    s.search = function(sTarget){
+        const aElTaragets = Array.from(document.querySelectorAll('[data-route]'))
+        ,aMatchedEls = aElTaragets.filter(function(element){
+            return element.innerText.indexOf(sTarget) !== -1;
+        })
+        ,aMatchedInfo = aMatchedEls.map(function(view){
+            let result = {}
+            result.route = view.dataset.route;
+            result.snapshot = s._takeSnapShot(sTarget, view)
+            return result;
+        })
+        s._searchResult = aMatchedInfo;
+        return aMatchedInfo;
     }
 }

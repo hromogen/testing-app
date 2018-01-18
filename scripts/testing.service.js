@@ -29,12 +29,20 @@ function TestingService(options
             return field.correct;
         });
 
+        function _informAboutAnswer(valA, valB){
+            if (valA === valB){
+                ts._informService.correctMessage.display()
+            }else if(valA != valB){
+                ts._informService.wrongMessage.display()
+            }
+        }
+
         ts.startTesting = function(){
             ts._paginator.goToPage(1);
             ts._timerService.start(ts._options.timeout
                 ,ts._options.numOfCoundowns
                 ,function(){ 
-                    ts._callBacksSet(ts._askNextQuestion)
+                    ts._callBacksSet(ts._paginator.goToNext)
                 }
                 ,function(){ 
                     ts._callBacksSet(ts._finishTesting)
@@ -42,7 +50,9 @@ function TestingService(options
         }
 
         ts.proceedTesting = function(event){
-            event.preventDefault();
+            if(event){
+                event.preventDefault();
+            }
             if(ts._paginator.currentPage < ts._questionary.length){
                 ts._callBacksSet(ts._paginator.goToNext);  
             }else{
@@ -50,21 +60,20 @@ function TestingService(options
             }
         }
 
-        ts._callBacksSet = function(fFinalCallBack){
+        ts._callBacksSet = function(fCallBack){
             let i = ts._paginator.currentPage - 1;
             ts._log[i] = ts._formsService.processTestingForm();
             if(ts._options.timingCountdown == 'each'){
                 ts._timerService.clearTimeout();
             }
             if(ts._options.informAboutAnswer == 'true'){
-                ts._informService.informAboutAnswer(ts._log[i]
-                    ,ts._aCorrectAnswers[i]);
+                _informAboutAnswer(ts._log[i], ts._aCorrectAnswers[i]);
                 setTimeout(function(){
-                    ts._informService.hideMessages();
-                    fFinalCallBack();
+                    ts._informService.hideAll();
+                    fCallBack();
                 }, 1000);
             }else{
-                fFinalCallBack();
+                fCallBack();
             }
         }
 

@@ -26,7 +26,6 @@ function FormsService(form, clearInputs){
         }, nameSet);
         return testingParams;
     }
-
     f._evalReadableInputs = function(opts){
         const iterableInputs = (opts && opts.inputsName) ? 
         f.form.querySelectorAll('[name='+opts.inputsName+']') : 
@@ -78,11 +77,11 @@ function FormsService(form, clearInputs){
         return sortingParam
     }
     f.processTestingOptionsForm = function(){
-        return f._evalCheckedInputs();
-        
+        return f._evalCheckedInputs();   
     }
     f.processTestingForm = function(){
-        return +Object.values(f._evalCheckedInputs())[0];
+        const checkedValue = Object.values(f._evalCheckedInputs())[0]
+        return (checkedValue === undefined) ? checkedValue : +checkedValue;
     }
     f.processUploadSetupForm = function(){
         const oCheckedInputs = f._evalCheckedInputs()

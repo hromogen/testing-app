@@ -1,12 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 html,
-.main,
-.body{
+.body,
+.section{
     height: 100%;
+    width: 100%
 }
 
 .body{
-    height: 100%;
     flex-wrap: wrap;
     padding: 2px;
     overflow-x: hidden;
@@ -18,9 +18,8 @@ html,
     margin: 2px;
 }
 .main{
-    height: 86%;
+    height: 80%;
     width: 100%;
-    background-color: rgb(215, 236, 235);
     justify-content: flex-start;
     align-items: center;
     flex-shrink: 2.5;
@@ -30,6 +29,10 @@ html,
     display: flex;
     flex-basis: auto;
 }
+.section{
+    justify-content: center;
+    align-items: center;
+}
 
 .view{
     display: none
@@ -37,11 +40,6 @@ html,
 .view--active{
     display: flex;
     flex-basis: auto;
-}
-.header{
-    width: 100%;
-    height: 60px;
-    background-color: rgb(200,200,200);
 }
 .paginate-link{
     width: 20px;

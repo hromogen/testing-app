@@ -1,10 +1,7 @@
-.rules{
-    align-content: flex-start;
-    height: 100%;
-}
 .rules__article{
     flex-direction: column;
     padding: 10px;
+    height: 100%;
 }
 .article__h1
 .article__h2

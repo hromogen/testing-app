@@ -8,8 +8,6 @@ function SessionModule(){
     s.searchService = new SearchService();
     s.userService = new UserService(s.getCurrentUser.bind(s)
                                    ,s.setCurrentUser.bind(s));
-    s.informService = new InformService();
-
 
     s._parsedCards = {
         quiz     : s.cacheService.loadDOMElementsArray('parsedCards.quiz')    || 
@@ -36,8 +34,7 @@ function SessionModule(){
     s._currentlyUploadedInfo = {};
     s._currentUser = null;
 
-    s.informService.initErrorHandler(s._routerModule);
-
+    s.errorService = new ErrorService(s._routerModule);
 
     for(componentName in s._reg){
         s._reg[componentName].session = s;
@@ -97,8 +94,6 @@ function SessionModule(){
         s._routerModule.navigate(/*path=*/ '/rules/general', /*absolute=*/false)
        }
         ,'/rules/:articleName': function(options){
-            s.searchService.addToViews('/rules/'+ options.articleName
-            , s._rulesArticles[options.articleName]);
             s.viewComponents(s._rulesArticles[options.articleName]);
         }
         ,'/cards/:modeName': function(params, query){

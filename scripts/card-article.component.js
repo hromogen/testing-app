@@ -48,7 +48,7 @@ function CardArticleComponent(){
             ,numPerPage: 9
         });
         c.paginator.generatePaginateLinks(parsedTemplate.body, 'cards__links', sPaginateLink);
-
+        c.updateSearchRoute.apply(c, aElCards);
         c._session.setParsedCards(aElCards, c._modeName);
         c._session.setLoadedCardsData(fetchedData, c._modeName); 
         return parsedTemplate;
@@ -102,6 +102,7 @@ function CardArticleComponent(){
         
         if(sSortingParamClean){
             s.cardsDisplayService.sort(aCards, sSortingParamClean)
+            c.updateSearchRoute.apply(c, aCards);
         }
         if(oFilterParams){
             s.cardsDisplayService.filter(aCards, oFilterParams)

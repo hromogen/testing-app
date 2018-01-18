@@ -4,7 +4,10 @@ function TestingArticleComponent(){
     const _parentRenderTemplate = t._renderTemplate
 
     t._renderTemplate = function(template, aDataSet){
+        const sDisplayingMessageClass = 'testing-section__message--displayed'
         let renderedTemplate = template
+        ,correctMessageBox
+        ,wrongMessageBox
         ,aModifiedDataSet;
 
         if(aDataSet){
@@ -19,6 +22,18 @@ function TestingArticleComponent(){
             });
         }
         renderedTemplate = _parentRenderTemplate(template, {questionary: aModifiedDataSet });
+        wrongMessageBox = renderedTemplate.querySelector('.testing-section__message--wrong');
+        correctMessageBox = renderedTemplate.querySelector('.testing-section__message--correct');
+        t.informService = new InformService({
+            correctMessage: { 
+                container: correctMessageBox
+                ,displayingClass: sDisplayingMessageClass
+            }
+            ,wrongMessage: {
+                container: wrongMessageBox
+                ,displayingClass: sDisplayingMessageClass
+            }
+        });
         return renderedTemplate;
     }
     t.createComponent();

@@ -23,18 +23,18 @@ function Component(options){                                         // <-- оп
                                                                      //     файлі _session.js_, <routerModule>
     c._session         = options && options.session         || null; // <-- екземпляр поточної сесії, 
                                                                      //     <sessionModule>
+    c._routeToView     = options && options.routeToView     || ''; //  -  дані, необхідні для пошуку <string>
     c._clearContainer  = true;                                       // <-- вказує на те, чи слід очищати 
                                                                      //     container перед вставкою 
                                                                      //     темплейту, <boolean>
-    c._handleError = c._session.informService.errorHandler;          //     поля, необхідні для обробки
-    c._errNames = InformService.STANDARD_ERROR_NAMES;                //     помилок <function>, <object[]>
+    c._errorService    = c._session.errorService;                    //     поля, необхідні для обробки
+    c._errNames        = ErrorService.STANDARD_ERROR_NAMES;          //     помилок <function>, <object[]>
 /* власні сервіси */
     c._http            = new HttpService();                          // <-- екземпляр http-сервіса, <httpService>
     c._parser          = new DOMParser();                            // <-- екземпляр DOM-парсера, <DOMParse>
     c.paginator = null;                                              //  - власний елемент, що здійснюватиме пагінацію,
                                                                      //  - <paginateServise>
-/* інші поля, які заповнюються в процесі створення */
-    c._routeToView = '';                                             //  -  дані, необхідні для пошуку <string>  
+/* інші поля, які заповнюються в процесі створення */  
     c._active = false;                                               //  -  поле вказує, чи активовано компонент <boolean>   
     c._rawTemplate = '';                                             //  -  необроблений темплейт, <string>
     c._parsedTemplate = '';                                          //  -  темплейт після обробки,  <string>
@@ -94,6 +94,7 @@ function Component(options){                                         // <-- оп
         }                                                           
         c._container.append.apply(c._container
             , DOMtree.body.children);
+        c.updateSearchRoute(c._container);
         return c._container;                                        // --> контейнерний елемент із вставленим фрагментом,                                       
     }                                                               //     <dOMElement>
     c.createComponent = function (){                                                                        
@@ -101,11 +102,11 @@ function Component(options){                                         // <-- оп
             [c._getTemplate()
                 .catch(function(error){
                     error.name = c._errNames.templateDownloadProblem
-                    c._handleError(error);                    
+                    c._errorService.showError(error);                    
                 }), c._getAttachedData()
                 .catch(function(error){
                     error.name = c._errNames.dataDownloadProblem
-                    c._handleError(error);
+                    c._errorService.showError(error);
             })
         ])                                
         .then(                                                      
@@ -128,18 +129,27 @@ function Component(options){                                         // <-- оп
 }
 Component.prototype = {
     getContainer : function(){                                     // --> Доступ до контейнерного елементу,
-        return this._container;                                     //     <HTMLElement>  
+        return this._container;                                     //     <hTMLElement>  
     }
 
     ,display : function(){                                          // Функція для додавання css-класу
-        this._container.classList.add('view--active');              // видимості до контейнерних елементів
-    }                                                               // представників нащадків цього класу
-                                                                    // --> <void>
+        const view = this._container                                // видимості до контейнерних елементів
+        ,parentView = view.parentNode.closest('.view');             // представників нащадків цього класу                                                           
+        view. classList.add('view--active');                        // та їх батьківських елементів                       
+        if(parentView){
+            parentView.classList.add('view--active');
+        }                                                             
+    }                                                               // --> <void>
 
-    ,hide : function(){                                             // Функція для додавання css-класу
-        this._container.classList.remove('view--active');           // видимості до контейнерних елементів
-    }                                                               // представників нащадків цього класу
-                                                                    // // --> <void>
+    ,hide : function(){                                             // Функція для вилучення css-класу
+        const view = this._container                                // видимості до контейнерних елементів
+        ,parentView = view.parentNode.closest('.view--active');     // представників нащадків цього класу     
+        view.classList.remove('view--active');                      // та їх батьківських елементів                     
+        if(parentView){
+            parentView.classList.remove('view--active'); 
+        }
+    }                                                               // // --> <void>                                                              
+                                                                    
     ,modifyInline : function(attachedData){
         const elChangedContent = this._renderTemplate(this._rawTemplate
             ,attachedData)
@@ -149,12 +159,6 @@ Component.prototype = {
             ,Array.from(elContentWithListeners.body.children));
         return this._container;
     }
-    ,setRouteToView : function(sRoute){
-        this._routeToView = sRoute;
-    }
-    ,getRouteToView : function(){
-        return c._routeToView
-    }
     ,activate : function(){
         this._active = true;
     }
@@ -163,6 +167,16 @@ Component.prototype = {
     }
     ,isActive : function(){
         return this._active;
+    }
+    ,updateSearchRoute : function(eViewItem){
+        if(this._routeToView){
+            let sRoute = this._routeToView;
+            if(eViewItem.dataset.page){
+                sRoute += '?page#=' + eViewItem.dataset.page;
+            }
+            eViewItem.dataset.route = sRoute;
+        }
+        return eViewItem;
     }
     ,hideChildren : function(sSelector, element){
         const parent = element || this._container 

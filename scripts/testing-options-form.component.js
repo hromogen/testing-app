@@ -38,19 +38,12 @@ function TestingOptionsFormComponent(){
             oTestingParams.type = t._session.getCurrentMode()
             testingPaginator.paginate();
 
-            t._session.informService.initCorrectAnswerMessages({
-                questionBox: elTestingForm
-                ,correctAnswerBox: testingSection.querySelector('.testing-section__message--correct')
-                ,wrongAnswerBox: testingSection.querySelector('.testing-section__message--wrong')
-                ,finalLogBox: testingSection.querySelector('.testing-section__summary')
-            });
-
             t._testingService = new TestingService(oTestingParams
                 ,currQuestionary
                 ,testingPaginator
                 ,testingFormService
                 ,timerService
-                ,t._session.informService
+                ,t._session._testingArticle.informService
                 ,t._router
                 ,t._session.userService.testingResults.catch);
                 

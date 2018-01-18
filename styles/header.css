@@ -1,0 +1,9 @@
+.header{
+    justify-content: flex-end;
+    width: 100%;
+    height: 70px;
+    background-color: rgb(200,200,200);
+}
+.header__cabinet-entry-form{
+
+}
