@@ -182,9 +182,13 @@ function SessionModule(){
                     s.viewComponents(s._personalCabinet);
             }
         }
-        ,'/search_result': function(options, query){
+        ,'/search': function(options, query){
             if(query){
-                s.viewComponents(s._testingArticle);
+                const sSearchTarget = decodeURIComponent(query)
+                ,oSearchTemplateModData = {};
+                oSearchTemplateModData.searchResult = s.searchService.search(sSearchTarget);
+                s._searchResults.modifyInline(oSearchTemplateModData)
+                s.viewComponents(s._searchResults);
             }
         }
         ,'/info': function(){

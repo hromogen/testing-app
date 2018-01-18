@@ -1,2 +1,6 @@
 <h2>Результати Вашого пошуку наступні</h2>
-<a href="" class="search-result__anchor"></a>
+{{#searchResult}}
+<a href="{{route}}" class="search-result__anchor">
+    {{{snapshot}}}
+</a>
+{{/searchResult}}

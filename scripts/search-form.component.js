@@ -7,8 +7,8 @@ function SearchFormComponent(){
         form.addEventListener('submit', function(event){
             event.preventDefault();
             const searchedText = form[0].value;
-            s._session.searchService.search(searchedText);
-            s._router.navigate()
+            s._router.navigate(/*path=*/'/search?'+ searchedText
+        ,/*absolute=*/ false)
         });
     return DOMtree;
     }

@@ -32,7 +32,7 @@ function Component(options){                                         // <-- оп
 /* власні сервіси */
     c._http            = new HttpService();                          // <-- екземпляр http-сервіса, <httpService>
     c._parser          = new DOMParser();                            // <-- екземпляр DOM-парсера, <DOMParse>
-    c.paginator = null;                                              //  - власний елемент, що здійснюватиме пагінацію,
+    c.paginator        = null;                                       //  - власний елемент, що здійснюватиме пагінацію,
                                                                      //  - <paginateServise>
 /* інші поля, які заповнюються в процесі створення */  
     c._active = false;                                               //  -  поле вказує, чи активовано компонент <boolean>   
@@ -150,9 +150,9 @@ Component.prototype = {
         }
     }                                                               // // --> <void>                                                              
                                                                     
-    ,modifyInline : function(attachedData){
+    ,modifyInline : function(attachedData, additionalData){
         const elChangedContent = this._renderTemplate(this._rawTemplate
-            ,attachedData)
+            ,attachedData, additionalData)
         ,elContentWithListeners = this._setEventListeners(elChangedContent)
         this._container.innerHTML = '';
         this._container.append.apply(this._container
