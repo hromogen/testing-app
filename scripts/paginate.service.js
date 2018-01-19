@@ -18,12 +18,15 @@ function PaginateService(options){
     }
 
     p.paginate = function(){
-        const aPaginatedItems = p._aPaginatedItems.filter(function(item){
+        const aPaginatedItems = (p._aPaginatedItems) ? p._aPaginatedItems.filter(function(item){
             return !(/filtered/.test(item.className))
-        });
-        aPaginatedItemsSorted = aPaginatedItems.sort(function(itemA, itemB){
-            return (+itemA.style.order || 0) - (+itemB.style.order || 1)
-        });
+        }) : []
+        ,bNeedsSorting = aPaginatedItems.every(function(item){
+            return item.style.order;
+        })
+        ,aPaginatedItemsSorted = (bNeedsSorting) ? aPaginatedItems.sort(function(itemA, itemB){
+            return +itemA.style.order - (+itemB.style.order);
+        }) : aPaginatedItems;
         p.numOfPages = Math.ceil(aPaginatedItems.length/p.numPerPage);
 
         for(let i = 0, pageNum = 0; i < aPaginatedItems.length; i++){

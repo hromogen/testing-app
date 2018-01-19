@@ -3,7 +3,7 @@ function SearchFormComponent(){
     Component.apply(s, arguments);
     s._clearContainer = false;
     s._setEventListeners = function(DOMtree){
-        const form = DOMtree.querySelector('.header__search-form');
+        const form = DOMtree.querySelector('.nav__search-form');
         form.addEventListener('submit', function(event){
             event.preventDefault();
             const searchedText = form[0].value;

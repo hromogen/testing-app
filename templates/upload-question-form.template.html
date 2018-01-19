@@ -1,29 +1,31 @@
 <form class="upload-form">
+    {{#uploadOpts}}
     <fieldset class="upload-form__fieldset">
         <legend class="upload-form__legend"> 
-            Введіть, будь ласка, питання
+            Введіть, будь ласка, питання #{{index}} складністю {{difficulty}}
         </legend>
-        <input type="text" name="option" class="upload-form__question"
-         placeholder="Текст питання">
+        <input type="text" name="question{{index}}"
+        class="upload-form__question" placeholder="Текст питання">
         <legend class="upload-form__legend"> 
             Варіанти відповіді
         </legend>
-        <input type="text" name="upload-form__option" class="upload-form__option" 
-        placeholder="Опція 1">
-        <input type="text" name="upload-form__option" class="upload-form__option"
-        placeholder="Опція 2">
-        <input type="text" name="upload-form__option" class="upload-form__option"
-        placeholder="Опція 3">
-        <input type="text" name="upload-form__option" class="testing-form__option"
-        placeholder="Опція 4">
+        <input type="text" name="option{{index}}"
+        class="upload-form__option" placeholder="Опція 1">
+        <input type="text" name="option{{index}}" 
+        class="upload-form__option" placeholder="Опція 2">
+        <input type="text" name="option{{index}}" 
+        class="upload-form__option" placeholder="Опція 3">
+        <input type="text" name="option{{index}}" 
+        class="upload-form__option" placeholder="Опція 4">
         <legend class="upload-form__legend"> 
             Номер правильної відповіді
         </legend>
-        <input type="number" name="correct-answer-num" class="upload-form__correct-answer"
-        min="1" max="4">
+        <input type="number" name="correct-answer-num{{index}}" 
+        class="upload-form__correct-answer" min="1" max="4">
         <button class="upload-form__lock-button">Запам'ятати</button>
         <button class="upload-form__unlock-button" disabled>Редагувати</button>
-    </fieldset>  
+    </fieldset>
+    {{/uploadOpts}} 
     <input type="submit" class="upload-form__submit" value="Відправити">
     <div class="upload-form__pagination-box"></div>
 </form>

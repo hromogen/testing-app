@@ -49,7 +49,10 @@ html,
     padding: 2px;
     color: rgb(255, 255, 255);
     border: 1px solid rgb(21, 19, 88);
-    font-size: 16px
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .nonactual-field{
     display: none;

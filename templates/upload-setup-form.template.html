@@ -53,9 +53,11 @@
             Хімія
         </label>
     </fieldset>
-    <fieldset class="upload-setup-form__fieldset">
+    <fieldset class="upload-setup-form__fieldset hide-if-question">
         <legend>Кількість питань</legend>
         <select name="size" id="upload-setup-form__size">
+            <option class="upload-setup-form__option hide-if-erudith hide-if-quiz" value="1">
+            </option>
             <option class="upload-setup-form__option hide-if-quiz" value="5">
                 5
             </option>

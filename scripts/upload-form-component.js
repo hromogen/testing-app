@@ -1,44 +1,43 @@
 function UploadFormComponent(){
     const u = this;
     Component.apply(u, arguments);
+    const _parentRender = u._renderTemplate
+    function _calcDifficulty(index){
+        return index - 5*Math.floor( (index - 1)/5 ) 
+    }
 
     u._renderTemplate = function(sTemplate, fetchedData){
-        const parsedTemlate = u._parser.parseFromString(sTemplate, 'text/html') 
-        ,form = parsedTemlate.querySelector('.upload-form')
-        ,templateFieldsets = form.querySelectorAll('.upload-form__fieldset')
-        ,submitInput = form.querySelector('.upload-form__submit')
-        ,templateFieldset = templateFieldsets[0];
+        const templateRenderOpts = {}
+        ,aUploadOpts = []
+        ,mode = u._session.getCurrentMode()
+        ,len = fetchedData && +fetchedData.size || 1;             
+        let difficulty = fetchedData && +fetchedData.difficulty || 1
+        ,elParsedTemplate
+        ,elFieldsets
+        ,elPaginateBox;
 
-        u._template = sTemplate;
-
-        if(templateFieldsets.length > 1){
-            for(let i = 1; i < templateFieldsets.length; i++){
-                form.removeChild(templateFieldsets[i])
-            }
+        for(let i = 1; i <= len; i++){
+            let uploadOption = {}
+            difficulty = (mode == 'erudith') ? _calcDifficulty(i) : difficulty;
+            uploadOption.index = ('00'+ i).slice(-2);
+            uploadOption.difficulty = difficulty;
+            aUploadOpts.push(uploadOption);
         }
-        if(u._session.getCurrentMode() != 'question' && fetchedData){
-            for(let i = +fetchedData.size; i > 0;  i--){
-                let fieldsetCopy = templateFieldset.cloneNode(true)
-                ,uploadQuestion = fieldsetCopy.querySelector('.upload-form__question')
-                ,uploadOptions = fieldsetCopy.querySelectorAll('.upload-form__option')
-                ,correctAnswer =  fieldsetCopy.querySelector('.upload-form__correct-answer')
-                ,aInserteFormfields = [];
+        templateRenderOpts.uploadOpts = aUploadOpts;
+        elParsedTemplate = _parentRender(sTemplate, templateRenderOpts);
+        elFieldsets = elParsedTemplate.querySelectorAll('.upload-form__fieldset');
+        elPaginateBox = elParsedTemplate.querySelector('.upload-form__pagination-box');
 
-                uploadQuestion.name += ('00'+ i).slice(-2);
-                correctAnswer.name += ('00'+ i).slice(-2);
-                Array.from(uploadOptions).map(function(option){
-                    option.name += ('00'+ i).slice(-2);
-                });
-                form.insertBefore(fieldsetCopy,templateFieldset);
-            }
-            form.removeChild(templateFieldset);
-        }
-        u._session.uploadFormPaginator.init({
-            eItems: form.querySelectorAll('.upload-form__fieldset')
+        u.paginator = new PaginateService({
+            eItems: elFieldsets
             ,numPerPage: 1
         });
-        u._session.uploadFormPaginator.paginate();
-        return parsedTemlate;
+        u.paginator.generatePaginateLinks(
+            elPaginateBox
+            ,'upload-form__pagination-link'
+            ,'#/upload/' + mode + '?question#='
+        );
+        return elParsedTemplate;
     }
 
     u._setEventListeners = function(DOMtree){

@@ -86,7 +86,6 @@ function SessionModule(){
         s.viewComponents(s._filterForm
             ,s._sorterForm
             ,s._cardsArticles[mode]);
-        s.searchService.addToViews('/cards/'+ mode, s._cardsArticles[mode]);
     }
     
     s._routerModule.on({
@@ -128,7 +127,7 @@ function SessionModule(){
                 uploadOpts.parameter, /*absolute=*/false)
             }
                 let questionNum = +(query.split('question#=')[1] || 1); 
-                s.uploadFormPaginator.goToPage(questionNum);
+                s._uploadForm.paginator.goToPage(questionNum);
                 s.viewComponents(s._uploadForm);
         }  
         ,'/videomaterials' : function(options){

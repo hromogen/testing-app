@@ -1,0 +1,13 @@
+.nav__search-form{
+    width: 20%;
+    margin: 0 0 0 1%;
+    overflow: hidden;
+}
+.search-form__input-field{
+    width: 60%;
+}
+.search-form__submit{
+    width: 60px;
+    margin: 2px 0;
+
+}

@@ -63,18 +63,18 @@ function Component(options){                                         // <-- оп
         fetchedData){                                               // <-- дані для рендерингу за допомогою феймворку                                                          
         let result = '';                                            // `Mustache` <object || object[]>
         c._rawTemplate = c._rawTemplate || sTemplate;                                             
-        if(sTemplate && !fetchedData){
-            result = sTemplate;
+        if(c._rawTemplate && !fetchedData){
+            result = c._rawTemplate;
         }
-        else if(sTemplate && fetchedData){
+        else if(c._rawTemplate && fetchedData){
             if(Array.isArray(fetchedData)){
                 result = fetchedData
                 .reduce(function(interim, dataItem){
-                    interim += Mustache.render(sTemplate, dataItem);
+                    interim += Mustache.render(c._rawTemplate, dataItem);
                     return interim
                 },'')
             }else if(typeof fetchedData === 'object'){
-                result = Mustache.render(sTemplate, fetchedData);
+                result = Mustache.render(c._rawTemplate, fetchedData);
             }   
         }
         c._renderedTemplate = result;

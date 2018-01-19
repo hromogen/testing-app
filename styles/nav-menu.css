@@ -1,7 +1,6 @@
 .nav{
     width: 100%;
     height: 4%;
-    flex-wrap: wrap;
     justify-content: space-between;
     background-color: rgb(176, 193, 204);
     border: 1px solid rgb(122, 128, 133); 
@@ -10,12 +9,12 @@
 }
 .nav-menu,
 .nav-menu__submenu{
-    flex-wrap: wrap;
     list-style-type: none;
     font-size: 14px;
 }
 .nav-menu{
     justify-content: flex-end;
+    width: 82%;
 }
 .nav-menu__item{
     border-left: 1px solid black;
@@ -23,7 +22,7 @@
     z-index: 2;
     padding: 0px;
     margin: 0px;
-    width: 140px;
+    width: 16.4%;
     display: flex;
     flex-basis: auto;
     flex-direction: column;
@@ -35,7 +34,7 @@
     flex-basis: auto;
     align-items: center;
     justify-content: center;
-    width: 140px;
+    width: 100%;
     height: 30px;
     padding: 2px;
     background-color: rgb(137, 153, 185);
@@ -61,7 +60,6 @@
     width: 100%;
     position: relative;
 }
-
 .nav-menu__submenu--open{
     display: block;
 }
