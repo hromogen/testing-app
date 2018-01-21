@@ -1,7 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
 html,
-.body,
-.section{
+.body{
     height: 100%;
     width: 100%
 }
@@ -30,16 +28,22 @@ html,
     flex-basis: auto;
 }
 .section{
+    width: 100%;
+    height: 100%;
     justify-content: center;
     align-items: center;
+    margin: 5px 0px;
+    background-color: rgb(215, 236, 235);
 }
-
+.section--cards{
+    background-color:  rgb(255, 255, 255);
+}
 .view{
+    flex-basis: auto;
     display: none
 }
 .view--active{
     display: flex;
-    flex-basis: auto;
 }
 .paginate-link{
     width: 20px;

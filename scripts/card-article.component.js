@@ -48,6 +48,7 @@ function CardArticleComponent(){
             ,numPerPage: 9
         });
         c.paginator.generatePaginateLinks(parsedTemplate.body, 'cards__links', sPaginateLink);
+        c.activate();
         c.updateSearchRoute.apply(c, aElCards);
         c._session.setParsedCards(aElCards, c._modeName);
         c._session.setLoadedCardsData(fetchedData, c._modeName); 
@@ -110,6 +111,7 @@ function CardArticleComponent(){
             s.cardsDisplayService.resetFilters(aCards);
         }
         c.paginator.generatePaginateLinks(c._container, 'cards__links', sPaginateBasicRef);
+        c.activate();
     }
     c.createComponent();
     return c;

@@ -10,7 +10,7 @@
         </legend>
         <br>
         {{#options}}
-        <input type="radio" name="option" class="testing-form__option" 
+        <input type="radio" name="option{{qNum}}" class="testing-form__option" 
         id="option{{qNum}}{{optNum}}" value={{optNum}}>
         <label class="testing-form__label" for="option{{qNum}}{{optNum}}">
             {{optText}}
@@ -19,9 +19,10 @@
         {{/options}}
         </fieldset>
         {{/questionary}}
-        <input type="submit" class="testing-form__submit" value="Submit">
+        <button type="submit" class="testing-form__answer-question">Відповісти на питання</button>
+        <button class="testing-form__end-testing">Закінчити тестування</button>
     </form>
     <div class="testing-section__timer"></div>
-    <div class="testing-section__summary">        
+    <div class="testing-section__paginate-box">        
     </div>
 </article>

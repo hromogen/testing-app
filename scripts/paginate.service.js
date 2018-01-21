@@ -83,25 +83,28 @@ function PaginateService(options){
         p._hide(p._eItems[p.currentPage-1])
     }
     p.generatePaginateLinks = function(container, sBoxClassName, sBasicRef){
-        const aAnchors = []
-        ,existingPaginateBox = container.querySelector('.'+ sBoxClassName)
-        ,currPaginateBox = existingPaginateBox || document.createElement('p');
-
+        const existingPaginateBox = container.getElementsByClassName(sBoxClassName)[0]
+        ,currPaginateBox = existingPaginateBox || document.createElement('p')
+        ,aPaginateItems = []
         p.paginate();
-
         for(let i = 1; i <= p.numOfPages; i++){
-            let anchor = document.createElement('a');
-            anchor.href = sBasicRef + i;
-            anchor.innerHTML = i;
-            anchor.className = 'paginate-link';
-            aAnchors.push(anchor)
+            let paginateElement
+            if(sBasicRef){
+                paginateElement = document.createElement('a');
+                paginateElement.href = sBasicRef + i;
+            }else{
+                paginateElement = document.createElement('button');
+                paginateElement.addEventListener('click', function(){
+                    p.goToPage(i)
+                })
+            }
+            paginateElement.innerHTML = i;
+            paginateElement.className = 'paginate-link';
+            aPaginateItems.push(paginateElement)
         }
         currPaginateBox.innerHTML = '';
         currPaginateBox.classList.add(sBoxClassName)
-        currPaginateBox.append.apply(currPaginateBox, aAnchors);
-        if(existingPaginateBox){
-            container.removeChild(existingPaginateBox);
-        }
+        currPaginateBox.append.apply(currPaginateBox, aPaginateItems);
         container.appendChild(currPaginateBox)
         return container;
     }

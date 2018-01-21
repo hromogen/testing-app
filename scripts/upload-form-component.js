@@ -10,7 +10,8 @@ function UploadFormComponent(){
         const templateRenderOpts = {}
         ,aUploadOpts = []
         ,mode = u._session.getCurrentMode()
-        ,len = fetchedData && +fetchedData.size || 1;             
+        ,minSize = (mode == 'quiz') ? 10 : (mode == 'erudith') ? 5 : 1
+        ,len = fetchedData && +fetchedData.size || minSize;             
         let difficulty = fetchedData && +fetchedData.difficulty || 1
         ,elParsedTemplate
         ,elFieldsets
@@ -42,7 +43,7 @@ function UploadFormComponent(){
 
     u._setEventListeners = function(DOMtree){
         const form = DOMtree.querySelector('.upload-form')
-        ,submitButton = form.querySelectorAll('input[type=submit]')
+        ,submitButton = form.querySelector('.upload-form__submit')
         ,aLockButtons = Array.from(form.querySelectorAll('.upload-form__lock-button'))
         ,aUnlockButtons = Array.from(form.querySelectorAll('.upload-form__unlock-button'))
         ,fieldsets = DOMtree.querySelectorAll('.upload-form__fieldset')
@@ -55,17 +56,16 @@ function UploadFormComponent(){
             button.addEventListener('click', function(){
                 questionSet[index] = formService.processUploadForm(index);
                 u.lockFieldset(fieldsets[index])
+                aUnlockButtons[index].disabled = false;
+                button.disabled = true;
                 setTimeout(function(){
                     if(form.querySelectorAll('input').length == 1){
-                        u.deactivate();
-                        submitButton.classList.add('upload-form__submit--activated')
                         submitButton.disabled = false;
-
                     }else{
                         u._router.navigate(/*path=*/ '/upload/' + 
                         u._session.getCurrentMode()             + 
                         '?question#='                           +
-                        (index + 2)
+                        Math.min(index + 2, fieldsets.length)
                         , /*absolute=*/false);
                     }
                 },2000)
@@ -73,7 +73,8 @@ function UploadFormComponent(){
         });
         aUnlockButtons.map(function(button, index){
             button.addEventListener('click', function(){
-                u.unlockFieldset(fieldsets[index])
+                u.unlockFieldset(fieldsets[index]);
+                aLockButtons[index].disabled = false;
             });
         });
         form.addEventListener('submit', function(event){
@@ -81,8 +82,6 @@ function UploadFormComponent(){
             let timeStamp = new Date();
             if(form.querySelectorAll('input').length == 1){
                 u._session.setUploadedQuestions(timeStamp, questionSet);
-                submitButton.classList.add('upload-form__submit--activated')
-                submitButton.disabled = false;
                 u.deactivate();
                 u._router.navigate('rules/general', false)
             }
@@ -113,12 +112,13 @@ Object.assign(UploadFormComponent.prototype, {
 
     }
     ,unlockFieldset : function(fieldset){
-        const unlockedInputs = Array.from(fieldset.querySelectorAll('input')
+        const unlockedInputs = Array.from(fieldset.querySelectorAll('p[class*="--locked"]')
         ,function(p){
             let input = document.createElement('input');
             input.type = p.dataset.type;
             input.className = p.className.split('--')[0];
             input.value = p.innerHTML;
+            fieldset.replaceChild(input, p);
         })
     }
 });

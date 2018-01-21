@@ -1,0 +1,16 @@
+.testing-options{
+    flex-direction: column;
+}
+.testing-options__form{
+    width: 50%;
+    height: 60%;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 5px;
+    background-color: rgb(224, 231, 233);
+    border: 1px solid rgb(184, 188, 190);
+    border-radius: 5px;
+}
+.testing-options__fieldset{
+    margin: 10px 5px;
+}

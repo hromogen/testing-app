@@ -18,8 +18,9 @@ function UserService(fUserGetter, fUserSetter){
             return this.get(u.testingLog.length - 1);
         }
         ,modifyLast : function(sPropName, value){
-            const updatedResult = this.getLast();
-            updatedResult[sPropName] = value;
+            const lastNum = u.testingLog.length - 1 
+            ,lastInLog = u.testingLog[lastNum];
+            lastInLog[sPropName] = value;
         }
         ,getAll : function(){
             return u.testingLog;

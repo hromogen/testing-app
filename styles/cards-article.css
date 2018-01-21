@@ -3,11 +3,10 @@
     flex-basis: auto;
     align-items: flex-start;
     justify-content: flex-start;
-    margin: 10px 0px;
     padding: 20px;
     flex-wrap: wrap;
     width: 73%;
-    height: 90%;
+    height: 92%;
     background-color: rgb(215, 236, 235);
 }
 .cards-article__card{

@@ -9,28 +9,30 @@ function VideoSliderComponent(){
     const _parentRenderTemplate = v._renderTemplate;
 
     v._renderTemplate = function(template){        
-        return _parentRenderTemplate(template, { videoData: VIDEO_REGISTER });
-    }
-
-    v._setEventListeners = function(DOMtree){
-        const slides = DOMtree.querySelectorAll('.video-section__anchor')
-        ,moveToPrevButton = DOMtree.querySelector('.videomaterials__arrow-container--to-prev')
-        ,moveToNextButton = DOMtree.querySelector('.videomaterials__arrow-container--to-next')
-        ,closeButton = DOMtree.querySelector('.video-container__close-button')
-        ,sliderPaginator = new PaginateService({
+        const renderedTemplate = _parentRenderTemplate(template, { videoData: VIDEO_REGISTER })
+        ,slides = renderedTemplate.querySelectorAll('.video-section__anchor');
+        v.paginator = new PaginateService({
             eItems: slides
             ,numPerPage: 3
         });
-        v._videoArticle    = DOMtree.querySelector('.video-section__video-container');
+        v._videoArticle    = renderedTemplate.querySelector('.video-section__video-container');
         v._videoTag        = v._videoArticle.querySelector('video');
         v._aSources        = Array.from(v._videoTag.querySelectorAll('source'));
         v._noSupportAnchor = v._videoTag.querySelector('.video-container__no-support-anchor');
-        
+
+        return renderedTemplate;
+    }
+
+    v._setEventListeners = function(DOMtree){
+        const moveToPrevButton = DOMtree.querySelector('.videomaterials__arrow-container--to-prev')
+        ,moveToNextButton = DOMtree.querySelector('.videomaterials__arrow-container--to-next')
+        ,closeButton = DOMtree.querySelector('.video-container__close-button')
+       
         moveToPrevButton.addEventListener('click', function(){
-            sliderPaginator.goToPrevious(sliderPaginator.slide);
+            v.paginator.goToPrevious(v.paginator.slide);
         });
         moveToNextButton.addEventListener('click',function(){
-            sliderPaginator.goToNext(sliderPaginator.slide);
+            v.paginator.goToNext(v.paginator.slide);
         });
         closeButton.addEventListener('click',v.stopWatching);
 
@@ -38,8 +40,13 @@ function VideoSliderComponent(){
     }
 
     v.stopWatching = function(){
-        v._videoTag.pause();
-        v._videoArticle.classList.remove('video-section__video-container--watching')
+        if(v._videoTag){
+            v._videoTag.pause();
+            v._videoArticle.classList.remove('video-section__video-container--watching');
+            window.removeEventListener('hashchange', v.stopWatching);
+            window.removeEventListener('popstate', v.stopWatching);
+            
+        }
     }
 
     v.watch = function(sVideoName){
@@ -53,6 +60,8 @@ function VideoSliderComponent(){
         v._videoArticle.classList.add('video-section__video-container--watching');
         v._videoTag.load();
         v._videoTag.play();
+        window.addEventListener('hashchange', v.stopWatching);
+        window.addEventListener('popstate', v.stopWatching);
     }
 
     v.createComponent();

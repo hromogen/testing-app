@@ -49,7 +49,7 @@ const COMPONENTS_REGISTER = {
         ,routeToView: '#/cards/erudith'
     }
     ,testingOptionsForm: {
-        sSelector: '.testing-options-form'   
+        sSelector: '.testing-options'   
         ,templateUri: './templates/testing-options-form.template.html'
     }
     ,testingArticle: {

@@ -8,8 +8,9 @@ function FormsService(form, clearInputs){
                 return (index == 0) ? word : ( word[0].toUpperCase() + word.slice(1) )
             }).join("");
     }
-    f._evalCheckedInputs = function(){
-        const aCheckedInputs = Array.from(f.form.querySelectorAll('input:checked'))
+    f._evalCheckedInputs = function(container){
+        const elContainer = container || f.form
+        ,aCheckedInputs = Array.from(elContainer.querySelectorAll('input:checked'))
         ,nameSet = aCheckedInputs.reduce(function(interimResult, checkedInput){
             let zeroVal = (checkedInput.type == 'checkbox') ? [] : "";
             interimResult[f._camelizeString(checkedInput.name)] = zeroVal;
@@ -21,7 +22,7 @@ function FormsService(form, clearInputs){
             }else{
                 interimResult[f._camelizeString(checkedInput.name)] = checkedInput.value;
             }
-            checkedInput.checked = f._clearInputs;
+            checkedInput.checked = !f._clearInputs;
             return interimResult;
         }, nameSet);
         return testingParams;
@@ -79,8 +80,9 @@ function FormsService(form, clearInputs){
     f.processTestingOptionsForm = function(){
         return f._evalCheckedInputs();   
     }
-    f.processTestingForm = function(){
-        const checkedValue = Object.values(f._evalCheckedInputs())[0]
+    f.processTestingForm = function(index){
+        const currentFieldset = f.form.querySelectorAll('fieldset')[index]
+        ,checkedValue = Object.values(f._evalCheckedInputs(currentFieldset))[0];
         return (checkedValue === undefined) ? checkedValue : +checkedValue;
     }
     f.processUploadSetupForm = function(){

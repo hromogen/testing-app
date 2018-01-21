@@ -45,7 +45,7 @@ function TestingService(options
                     ts._callBacksSet(ts._paginator.goToNext)
                 }
                 ,function(){ 
-                    ts._callBacksSet(ts._finishTesting)
+                    ts._callBacksSet(ts.finishTesting)
                 })
         }
 
@@ -53,16 +53,14 @@ function TestingService(options
             if(event){
                 event.preventDefault();
             }
-            if(ts._paginator.currentPage < ts._questionary.length){
+            if(ts._paginator.currentPage - 1 < ts._questionary.length){
                 ts._callBacksSet(ts._paginator.goToNext);  
-            }else{
-                ts._callBacksSet(ts._finishTesting);
             }
         }
 
         ts._callBacksSet = function(fCallBack){
             let i = ts._paginator.currentPage - 1;
-            ts._log[i] = ts._formsService.processTestingForm();
+            ts._log[i] = ts._formsService.processTestingForm(i);
             if(ts._options.timingCountdown == 'each'){
                 ts._timerService.clearTimeout();
             }
@@ -77,9 +75,17 @@ function TestingService(options
             }
         }
 
-        ts._finishTesting = function(){
+        ts.finishTesting = function(){
             const fLog = ts._finalLog
-            ,aAnsweredCorrectlyNums = [];
+            ,aAnsweredCorrectlyNums = []
+            ,timeStampOpts = {
+                year: 'numeric'
+                ,month: 'long'
+                ,day: 'numeric'
+                ,weekday: 'long'
+                ,hour: 'numeric'
+                ,minute: 'numeric'
+            };
             let finalQuestion = ts._questionsSet[ts._currQuestionNum];
             ts._paginator.hideCurrent();
             ts._timerService.stop();
@@ -101,7 +107,8 @@ function TestingService(options
             });
             ts._finalLog.score = (100*aAnsweredCorrectlyNums.length/ts._questionary.length)
             .toPrecision(4);
-            ts._finalLog.timeStamp = new Date();
+            ts._finalLog.timeStamp = new Date()
+            ts._finalLog.sTestingDate = ts._finalLog.timeStamp.toLocaleString('ua',timeStampOpts);
             ts._resultCatcher(ts._finalLog);
             ts._router.navigate(/*path=*/'/testing_result', /*absolute=*/false)
         }

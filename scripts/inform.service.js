@@ -6,9 +6,7 @@ function InformService(
         *        displayingClass: <string>
         *    }
         * }
-        */
-
-){ 
+        */){ 
     const i = this
     for (let messageName in opts){
         let option = opts[messageName]

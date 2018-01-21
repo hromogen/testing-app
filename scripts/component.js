@@ -97,7 +97,7 @@ function Component(options){                                         // <-- оп
         c.updateSearchRoute(c._container);
         return c._container;                                        // --> контейнерний елемент із вставленим фрагментом,                                       
     }                                                               //     <dOMElement>
-    c.createComponent = function (){                                                                        
+    c.createComponent = function(){                                                                        
         return Promise.all(
             [c._getTemplate()
                 .catch(function(error){
@@ -178,17 +178,25 @@ Component.prototype = {
         }
         return eViewItem;
     }
-    ,hideChildren : function(sSelector, element){
-        const parent = element || this._container 
-        ,currentlyActual = Array.from(parent.querySelectorAll('.nonactual-field')
-        ,function(child){
-            child.classList.remove('nonactual-field');
-        })
-        ,currentlyHidden = Array.from(parent.querySelectorAll(sSelector)
+    ,hideChildren : function(sSelector, element, bDisplayPreviouslyHidden){
+        const parent = element || this._container
+        ,bDisplayHidden = (bDisplayPreviouslyHidden === undefined) ? true : bDisplayPreviouslyHidden;
+        if(bDisplayHidden){
+            this.displayChildren();
+        }
+        let currentlyHidden = Array.from(parent.querySelectorAll(sSelector)
         ,function(child){
             child.classList.add('nonactual-field');
         });
         return currentlyHidden;
+    }
+    ,displayChildren : function(sSelector, element){
+        const selector = sSelector || '.nonactual-field'
+        ,parent = element || this._container
+        return Array.from(parent.querySelectorAll(selector)
+        ,function(child){
+            child.classList.remove('nonactual-field');
+        })
     }
     ,getTemplate : function(){
         return this._renderedTemplate;

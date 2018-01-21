@@ -1,30 +1,38 @@
-<h2 class="h2 quiz-choise-header">Виберіть умови тестуванння</h2>
-<form class="testing-options-form">
-<fieldset class="timing-countdown-settings">
-	<legend class="testing-options__legend invisible-on-erudith">Установки часу: відлік часу
+<h2 class="testing-options__h">Виберіть умови тестуванння</h2>
+<form class="testing-options__form flexbox">
+<fieldset class="testing-options__fieldset hide-if-paginate hide-if-erudith">
+	<legend class="testing-options__legend">Установки часу: відлік часу
 	</legend>
-	<input type="radio" name="timing-countdown" id="question-timing--each" checked=true value="each">
-	<label for="question-timing--each">Час на кожне питання</label>
-	<input type="radio" name="timing-countdown" id="question-timing--all" checked=false value="all">
-	<label for="question-timing--all">Загальний час на тестування</label>
+	<input type="radio" name="timing-countdown" id="question-timing--each" checked value="each">
+	<label for="question-timing--each" class="testing-options__label">Час на кожне питання</label>
+	<input type="radio" name="timing-countdown" id="question-timing--all" value="all">
+	<label for="question-timing--all" class="testing-options__label">Загальний час на тестування</label>
 </fieldset>
-<fieldset class="timing-difficulty-setings">
+<fieldset class="testing-options__fieldset">
 	<legend class="testing-options__legend">Установки часу: рівень складності
 	</legend>
-	<input type="radio" name="timing-difficulty" id="timing-difficulty--easy" checked=false value=45>
-	<label for="each-question-timing">Простий</label>
-	<input type="radio" name="timing-difficulty" id="timing-difficulty--interim" checked=true value=30>
-	<label for="each-question-timing">Середній</label>
-	<input type="radio" name="timing-difficulty" id="timing-difficulty--hard" checked=false value=15>
-	<label for="each-question-timing">Складний</label>
+	<input type="radio" name="timing-difficulty" id="timing-difficulty--easy" value=45>
+	<label for="each-question-timing" class="testing-options__label">Простий</label>
+	<input type="radio" name="timing-difficulty" id="timing-difficulty--interim" checked value=30>
+	<label for="each-question-timing" class="testing-options__label">Середній</label>
+	<input type="radio" name="timing-difficulty" id="timing-difficulty--hard" value=15>
+	<label for="each-question-timing" class="testing-options__label">Складний</label>
 </fieldset>
-<fieldset class="correct-answer-settings">
+<fieldset class="testing-options__fieldset hide-if-paginate">
 	<legend class="testing-options__legend">Повідомляти про правильність чи неправильність відповіді
 	</legend>
-	<input type="radio" name="inform-about-answer" id="inform-about-answer--yes" checked=true value=true>
-	<label for="inform-about-answer--yes">Так</label>
-	<input type="radio" name="inform-about-answer" id="inform-about-answer--no" checked=false value=false>
-	<label for="inform-about-answer--no">Ні</label>
+	<input type="radio" name="inform-about-answer" id="inform-about-answer--yes" value=true>
+	<label for="inform-about-answer--yes" class="testing-options__label">Так</label>
+	<input type="radio" name="inform-about-answer" id="inform-about-answer--no" checked value=false>
+	<label for="inform-about-answer--no" class="testing-options__label">Ні</label>
+</fieldset>
+<fieldset class="testing-options__fieldset hide-if-erudith hide-if-inform hide-if-each-timing">
+	<legend class="testing-options__legend">Можливість переходити від питання до питання
+	</legend>
+	<input type="radio" name="paginate-questions" id="paginate-questions--yes" value=true>
+	<label for="inform-about-answer--yes" class="testing-options__label">Так</label>
+	<input type="radio" name="paginate-questions" id="paginate-questions--no" checked value=false>
+	<label for="paginate-questions--no" class="testing-options__label">Ні</label>
 </fieldset>
 <input  type="submit"  class="submit-button  button" value="Почати тест">
 </form>

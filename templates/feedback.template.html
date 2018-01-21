@@ -1,4 +1,13 @@
-<form class="feedback-form">
-    <textarea class="feedback-form__textarea"></textarea>
-    <input class="feedback-form__submit" value="Надіслати повідомлення">
+<form class="feedback-form flexbox">
+    <legend class="feedback-form__field feedback-form__legend">
+        Залиште, будь ласка Ваше повідомлення
+    </legend>
+    <label for="feedback-form__email" class="feedback-form__field feedback-form__label">
+        Вкажіть Ваш е-мейл, якщо бажаєте отримати персональну відповідь
+    </label>
+    <input type="email" name="email" id="feedback-form__email" 
+    class="feedback-form__field feedback-form__email" placeholder="зразок@мейл.уа">
+    <textarea name="feedback" class="feedback-form__field feedback-form__textarea" 
+    placeholder="Напишіть щось" required></textarea>
+    <button class="feedback-form__field feedback-form__button">Надіслати повідомлення</button>
 </form>

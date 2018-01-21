@@ -374,14 +374,22 @@ Navigo.prototype = {
       this.destroy();
     }
   },
-  lastRouteResolved() {
+  lastRouteResolved: function() {
     return this._lastRouteResolved;
   },
-  getLinkPath(link) {
+  getLinkPath : function(link) {
     return link.getAttribute('href');
   },
-  hooks(hooks) {
+  hooks : function(hooks) {
     this._genericHooks = hooks;
+  },
+  addHook : function(sRoute, oHook){
+    const oTargRouteInfo = this._routes.find(function(oRouteInfo){
+      return oRouteInfo.route === sRoute;
+    });
+    if(oTargRoute){
+      oTargRouteInfo.hooks = oHook;
+    }
   },
   _add: function (route, handler = null, hooks = null) {
     if (typeof route === 'string') {
@@ -438,7 +446,7 @@ Navigo.prototype = {
   _onLocationChange: function () {
     this.resolve();
   },
-  _callLeave() {
+  _callLeave: function() {
     if (this._lastRouteResolved && this._lastRouteResolved.hooks && this._lastRouteResolved.hooks.leave) {
       this._lastRouteResolved.hooks.leave();
     }

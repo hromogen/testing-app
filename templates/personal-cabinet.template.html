@@ -18,14 +18,14 @@
                 </tr>
                 {{#testings_log}}
                 <tr class="passed_testings__tr">
-                    <td class="passed_testings__td">{{timeStamp}}</td>
+                    <td class="passed_testings__td">{{sTestingDate}}</td>
                     <td class="passed_testings__td">{{type}}</td>
                     <td class="passed_testings__td">{{score}}</td>
                     <td class="passed_testings__td--hidden">
                         <button class="passed_testings__show-detail"></button>
                         <section class="passed_testings__detail-section">
                             <button class="passed_testings__hide-detail">✖</button>
-                            {{summary}}
+                            {{{summary}}}
                         </section>
                     </td>
                 </tr>
